@@ -1,4 +1,3 @@
-
 export class GadgetManager {
     constructor(scene) {
         this.scene = scene;
@@ -146,8 +145,7 @@ export class GadgetManager {
                 enemy.takeDamage(gadget.config.damage);
                 gadget.lastHitTime[enemy.container.id] = now;
 
-                // Juice
-                this.scene.juice.spark(enemy.x, enemy.y);
+                // Juice - now handled via enemy-damaged event (via takeDamage)
             }
         }
     }

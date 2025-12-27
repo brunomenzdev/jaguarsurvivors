@@ -2,7 +2,6 @@ export class GameEventHandler {
     constructor(scene) {
         this.scene = scene;
         this.events = scene.events;
-        this.juice = scene.juice;
         this.audio = scene.audio;
         this.bossUI = scene.bossUIManager;
         this.bossFlow = scene.bossFlow;
@@ -33,8 +32,6 @@ export class GameEventHandler {
 
     registerPlayerEvents() {
         this.events.on('player-damaged', (amount) => {
-            this.juice.shake(0.015, 200);
-            this.juice.hitStop(50);
             this.audio.play('hit');
 
             const ind = document.getElementById('damage-indicator');
@@ -60,23 +57,6 @@ export class GameEventHandler {
 
     registerEnemyEvents() {
         this.events.on('enemy-damaged', (enemy, amount, isCritical, attacker) => {
-            this.juice.flash(enemy.sprite, 0xFFFFFF, 100);
-            this.juice.pulse(enemy.container, 1.1, 50);
-
-            if (isCritical) {
-                this.juice.hitStop(30);
-                this.juice.shake(0.005, 30);
-            }
-
-            this.scene.showDamagePopup(
-                enemy.x,
-                enemy.y,
-                Math.floor(amount),
-                isCritical ? '#FF4500' : (enemy.isBoss ? '#FFD700' : '#FFFFFF'),
-                isCritical ? 1.8 : 1.0,
-                isCritical
-            );
-
             if (enemy.isBoss) {
                 this.bossFlow?.onBossDamaged(enemy);
             }
@@ -149,7 +129,6 @@ export class GameEventHandler {
     registerBossEvents() {
         this.events.on('boss-spawned', (boss) => {
             this.bossUI.show(boss);
-            this.scene.cameras.main.flash(500, 100, 0, 0);
         });
 
         this.events.on('boss-died', (x, y) => {

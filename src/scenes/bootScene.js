@@ -1,4 +1,4 @@
-import { AudioManager } from '../managers/audioManager.js';
+import { AudioManager } from '../managers/audio/audioManager.js';
 
 export class BootScene extends Phaser.Scene {
     constructor() { super({ key: 'BootScene' }); }

@@ -355,7 +355,6 @@ export class Enemy {
 
             nearby.forEach(e => {
                 e.applyEffect('poison', 1, 2000);
-                this.scene.juice.spark(e.x, e.y);
             });
         }
 

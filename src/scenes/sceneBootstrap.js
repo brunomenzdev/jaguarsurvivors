@@ -1,6 +1,6 @@
 import { CONFIG, resetConfig } from '../config.js';
-import { AudioManager } from '../managers/audioManager.js';
-import { JuiceManager } from '../managers/juiceManager.js';
+import { AudioManager } from '../managers/audio/audioManager.js';
+import { VFXManager } from '../managers/vfx/vfxManager.js';
 
 import { EnemySpawner } from '../systems/enemySpawner.js';
 import { XPSystem } from '../systems/xpSystem.js';
@@ -158,7 +158,7 @@ export class SceneBootstrap {
         this.scene.gadgetManager = new GadgetManager(this.scene);
         this.scene.procManager = new ProcManager(this.scene);
         this.scene.pickupManager = new PickupManager(this.scene);
-        this.scene.juice = new JuiceManager(this.scene);
+        this.scene.vfxManager = new VFXManager(this.scene);
 
         this.scene.legendaryRewardManager = new LegendaryRewardManager(this.scene);
     }
