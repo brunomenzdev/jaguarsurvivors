@@ -6,6 +6,7 @@ export const weaponsConfig = [
         name: 'Espada',
         type: 'melee',
         image: 'src/assets/images/weapon_sword.png',
+        slotType: 'primary',
 
         baseStats: {
             damage: 25,
@@ -47,6 +48,7 @@ export const weaponsConfig = [
         name: 'Braço',
         type: 'melee',
         image: 'src/assets/images/weapon_arm.png',
+        slotType: 'primary',
 
         baseStats: {
             damage: 50,
@@ -89,6 +91,7 @@ export const weaponsConfig = [
         name: 'Katana',
         type: 'melee',
         image: 'src/assets/images/weapon_katana.png',
+        slotType: 'primary',
 
         baseStats: {
             damage: 20,
@@ -130,6 +133,7 @@ export const weaponsConfig = [
         name: 'Machado Sangrento',
         type: 'melee',
         image: 'src/assets/images/weapon_axe.png',
+        slotType: 'primary',
 
         baseStats: {
             damage: 60,
@@ -172,6 +176,7 @@ export const weaponsConfig = [
         name: 'Martelo Brasileiro',
         type: 'melee',
         image: 'src/assets/images/weapon_hammer.png',
+        slotType: 'primary',
 
         baseStats: {
             damage: 80,
@@ -214,6 +219,7 @@ export const weaponsConfig = [
         name: 'Maça do Impeachment',
         type: 'melee',
         image: 'src/assets/images/weapon_mace.png',
+        slotType: 'primary',
 
         baseStats: {
             damage: 80,
@@ -255,6 +261,7 @@ export const weaponsConfig = [
         name: 'Microfone Gelado',
         type: 'melee',
         image: 'src/assets/images/weapon_magic_staff.png',
+        slotType: 'primary',
 
         baseStats: {
             damage: 10,
@@ -296,6 +303,7 @@ export const weaponsConfig = [
         name: 'Espada de Fogo',
         type: 'melee',
         image: 'src/assets/images/weapon_flame_sword.png',
+        slotType: 'primary',
 
         baseStats: {
             damage: 10,
@@ -338,6 +346,7 @@ export const weaponsConfig = [
         name: 'Arma Laser',
         type: 'ranged',
         image: 'src/assets/images/weapon_laser_gun.png',
+        slotType: 'secondary',
 
         baseStats: {
             damage: 25,
@@ -380,6 +389,7 @@ export const weaponsConfig = [
         name: 'Rifle',
         type: 'ranged',
         image: 'src/assets/images/weapon_rifle.png',
+        slotType: 'secondary',
 
         baseStats: {
             damage: 40,
@@ -424,6 +434,7 @@ export const weaponsConfig = [
         name: 'Mala de Dinheiro',
         type: 'trail',
         image: 'src/assets/images/weapon_handbag.png',
+        slotType: 'secondary',
 
         baseStats: {
             damage: 10,
@@ -472,6 +483,7 @@ export const weaponsConfig = [
         name: 'Rastro de Fogo',
         type: 'trail',
         image: 'src/assets/images/weapon_fire_glass.png',
+        slotType: 'secondary',
 
         baseStats: {
             damage: 6,
@@ -520,6 +532,7 @@ export const weaponsConfig = [
         name: 'Rastro Tóxico',
         type: 'trail',
         image: 'src/assets/images/weapon_poison_glass.png',
+        slotType: 'secondary',
 
         baseStats: {
             damage: 6,
@@ -568,6 +581,7 @@ export const weaponsConfig = [
         name: 'Carteira de Trabalho',
         type: 'trail',
         image: 'src/assets/images/weapon_clt.png',
+        slotType: 'secondary',
 
         baseStats: {
             damage: 20,

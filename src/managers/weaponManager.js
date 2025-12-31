@@ -13,7 +13,17 @@ export class WeaponManager {
     /**
      * Called when EquipmentManager equips a new weapon
      */
-    onWeaponEquipped(weaponKey) {
+    /**
+     * Called when EquipmentManager equips a new weapon
+     * slot info may be provided by some callers
+     */
+    onWeaponEquipped(weaponKey, slot = null) {
+        // Enforce max 2 weapons locally as well
+        if (this.weapons.length >= 2) {
+            console.debug(`[WeaponManager] Rejecting weapon ${weaponKey} - local limit reached`);
+            return;
+        }
+
         const weaponData = new Weapon(
             this.scene,
             this.playerCombat,
@@ -23,8 +33,14 @@ export class WeaponManager {
 
         const weaponSprite = this.createWeaponSprite(weaponData);
 
-        this.weapons.push({ weaponKey: weaponKey, weaponData: weaponData, sprite: weaponSprite });
+        this.weapons.push({
+            weaponKey: weaponKey,
+            weaponData: weaponData,
+            sprite: weaponSprite,
+            slot: slot || (this.weapons.length === 0 ? 'primary' : 'secondary')
+        });
 
+        // Set the first weapon as the primary weapon reference for the player if needed
         if (this.weapons.length === 1) {
             this.scene.player.weapon = weaponData;
         }
@@ -34,10 +50,20 @@ export class WeaponManager {
      * Create visual sprite representation for a weapon
      */
     createWeaponSprite(weapon) {
-        const sprite = this.scene.add.sprite(0, 0, weapon.config.key);
+        const playerX = this.player.x;
+        const playerY = this.player.y;
+        const facingRight = this.player.facingRight ? 1 : -1;
+        const offset = weapon.config.visual.offset;
+
+        const sprite = this.scene.add.sprite(
+            playerX + offset.x * facingRight,
+            playerY + offset.y,
+            weapon.config.key
+        );
         sprite.setScale(weapon.config.visual.scale || 0.6);
-        sprite.setDepth(this.player.y - 1);
+        sprite.setDepth(playerY + offset.y);
         sprite.setAngle(weapon.config.visual.angleOrigin);
+        sprite.setFlipX(facingRight === -1);
         sprite.setData('weaponKey', weapon.config.key);
 
         return sprite;
@@ -55,12 +81,10 @@ export class WeaponManager {
 
         this.weapons.forEach((data) => {
             if (data && data.weaponData && data.weaponData.update) {
-
                 data.weaponData.update(delta);
                 data.sprite.setPosition(playerX + data.weaponData.config.visual.offset.x * facingRight, playerY + data.weaponData.config.visual.offset.y);
                 data.sprite.setFlipX(facingRight === -1);
                 data.sprite.setScale(data.weaponData.config.visual.scale);
-                //data.sprite.setAngle(data.weaponData.config.visual.angleOrigin);
                 data.sprite.setDepth(playerY + data.weaponData.config.visual.offset.y);
             }
         });
@@ -77,8 +101,7 @@ export class WeaponManager {
      * Get weapon instance by key
      */
     getWeapon(weaponKey) {
-        const index = this.scene.equipmentManager.equippedWeapons.indexOf(weaponKey);
-        return this.weapons[index]?.weaponData;
+        return this.weapons.find(w => w.weaponKey === weaponKey)?.weaponData;
     }
 
     /**
@@ -86,7 +109,12 @@ export class WeaponManager {
      */
     destroy() {
         this.weapons.forEach(w => {
-            if (w && w.destroy) w.destroy();
+            if (w.sprite) {
+                w.sprite.destroy();
+            }
+            if (w.weaponData && w.weaponData.destroy) {
+                w.weaponData.destroy();
+            }
         });
         this.weapons = [];
     }

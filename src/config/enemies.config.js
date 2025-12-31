@@ -23,24 +23,26 @@ export const enemiesConfig = [
         shootRange: 0,
         projectileDamage: 0,
         xpValue: 1,
-        bodyScale: 0.6,
-        legsScale: 0.3,
+        bodyScale: 1,
+        legsScale: 0.6,
         bodyWidth: 60,
         bodyHeight: 100,
         bossScale: 0.6,
-        legOffset: { x: -6, y: 10 },
-        legOrigin: { x: 0.5, y: -1 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
+        legOffset: { x: 0, y: 50 },
         projectileColor: 0xFF0000,
         projectileScale: 1.0,
         hitSoundKey: 'hit',
         dropChance: 0.05,
-        lootTable: 'common'
+        lootTable: 'common',
+        ai: {
+            behaviorKey: 'zigzag',
+            behaviorParams: {
+                baseSpeed: 1.0,             // Normal forward speed
+                amplitude: 50,              // 50px lateral movement
+                frequency: 3.0              // Oscillates 3 times per second
+            }
+        },
+        scalingProfile: 'swarm'
     },
     {
         key: 'enemy_bandido',
@@ -65,13 +67,6 @@ export const enemiesConfig = [
         bodyHeight: 100,
         bossScale: 0.6,
         legOffset: { x: -6, y: 16 },
-        legOrigin: { x: 0.5, y: -1 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
         hitSoundKey: 'hit',
         dropChance: 0.08,
         lootTable: 'common'
@@ -99,13 +94,6 @@ export const enemiesConfig = [
         bodyHeight: 100,
         bossScale: 0.6,
         legOffset: { x: -6, y: 10 },
-        legOrigin: { x: 0.5, y: -1.4 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
         hitSoundKey: 'hit',
         dropChance: 0.1,
         lootTable: 'common'
@@ -133,13 +121,6 @@ export const enemiesConfig = [
         bodyHeight: 100,
         bossScale: 0.6,
         legOffset: { x: -6, y: 20 },
-        legOrigin: { x: 0.4, y: -0.7 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
         hitSoundKey: 'hit',
         dropChance: 0.15,
         lootTable: 'ucommon'
@@ -167,13 +148,6 @@ export const enemiesConfig = [
         bodyHeight: 100,
         bossScale: 0.6,
         legOffset: { x: 0, y: 16 },
-        legOrigin: { x: 0.7, y: -1 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
         projectileColor: 0x9966FF,
         projectileScale: 0.8,
         hitSoundKey: 'hit',
@@ -203,13 +177,6 @@ export const enemiesConfig = [
         bodyHeight: 100,
         bossScale: 0.6,
         legOffset: { x: 0, y: 10 },
-        legOrigin: { x: 0.5, y: -1.4 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
         projectileColor: 0x9966FF,
         projectileScale: 0.8,
         hitSoundKey: 'hit',
@@ -239,13 +206,6 @@ export const enemiesConfig = [
         bodyHeight: 100,
         bossScale: 0.6,
         legOffset: { x: -6, y: 16 },
-        legOrigin: { x: 0.5, y: -1 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
         projectileColor: 0x9966FF,
         projectileScale: 0.8,
         hitSoundKey: 'hit',
@@ -275,13 +235,6 @@ export const enemiesConfig = [
         bodyHeight: 100,
         bossScale: 0.6,
         legOffset: { x: 0, y: 16 },
-        legOrigin: { x: 0.5, y: -1.2 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
         projectileColor: 0x9966FF,
         projectileScale: 0.8,
         hitSoundKey: 'hit',
@@ -311,13 +264,6 @@ export const enemiesConfig = [
         bodyHeight: 100,
         bossScale: 0.6,
         legOffset: { x: 0, y: 16 },
-        legOrigin: { x: 0.5, y: -1.3 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
         projectileColor: 0x9966FF,
         projectileScale: 0.8,
         hitSoundKey: 'hit',
@@ -347,13 +293,6 @@ export const enemiesConfig = [
         bodyHeight: 100,
         bossScale: 0.6,
         legOffset: { x: 0, y: 16 },
-        legOrigin: { x: 0.5, y: -1.3 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
         projectileColor: 0x9966FF,
         projectileScale: 0.8,
         hitSoundKey: 'hit',
@@ -383,13 +322,6 @@ export const enemiesConfig = [
         bodyHeight: 100,
         bossScale: 0.6,
         legOffset: { x: 0, y: 16 },
-        legOrigin: { x: 0.6, y: -0.9 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
         projectileColor: 0x9966FF,
         projectileScale: 0.8,
         hitSoundKey: 'hit',
@@ -419,13 +351,6 @@ export const enemiesConfig = [
         bodyHeight: 100,
         bossScale: 0.6,
         legOffset: { x: 0, y: 16 },
-        legOrigin: { x: 0.6, y: -0.9 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
         projectileColor: 0x9966FF,
         projectileScale: 0.8,
         hitSoundKey: 'hit',
@@ -455,13 +380,6 @@ export const enemiesConfig = [
         bodyHeight: 100,
         bossScale: 0.6,
         legOffset: { x: 0, y: 16 },
-        legOrigin: { x: 0.5, y: -1.1 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
         projectileColor: 0x9966FF,
         projectileScale: 0.8,
         hitSoundKey: 'hit',
@@ -491,13 +409,6 @@ export const enemiesConfig = [
         bodyHeight: 100,
         bossScale: 0.6,
         legOffset: { x: -6, y: 32 },
-        legOrigin: { x: 0.5, y: -0.5 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
         projectileColor: 0x9966FF,
         projectileScale: 0.8,
         hitSoundKey: 'hit',
@@ -527,13 +438,6 @@ export const enemiesConfig = [
         bodyHeight: 100,
         bossScale: 0.6,
         legOffset: { x: -6, y: 32 },
-        legOrigin: { x: 0.5, y: -0.5 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
         projectileColor: 0x9966FF,
         projectileScale: 0.8,
         hitSoundKey: 'hit',
@@ -563,13 +467,6 @@ export const enemiesConfig = [
         bodyHeight: 100,
         bossScale: 0.6,
         legOffset: { x: 10, y: 20 },
-        legOrigin: { x: 0.5, y: -1 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
         projectileColor: 0x9966FF,
         projectileScale: 0.8,
         hitSoundKey: 'hit',
@@ -599,13 +496,6 @@ export const enemiesConfig = [
         bodyHeight: 100,
         bossScale: 0.6,
         legOffset: { x: -5, y: 20 },
-        legOrigin: { x: 0.5, y: -1 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
         projectileColor: 0x9966FF,
         projectileScale: 0.8,
         hitSoundKey: 'hit',
@@ -635,13 +525,6 @@ export const enemiesConfig = [
         bodyHeight: 100,
         bossScale: 0.6,
         legOffset: { x: -5, y: 20 },
-        legOrigin: { x: 0.5, y: -1 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
         projectileColor: 0x9966FF,
         projectileScale: 0.8,
         hitSoundKey: 'hit',
@@ -671,13 +554,6 @@ export const enemiesConfig = [
         bodyHeight: 100,
         bossScale: 0.6,
         legOffset: { x: 0, y: 20 },
-        legOrigin: { x: 0.9, y: -1 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
         projectileColor: 0x9966FF,
         projectileScale: 0.8,
         hitSoundKey: 'hit',
@@ -707,13 +583,6 @@ export const enemiesConfig = [
         bodyHeight: 100,
         bossScale: 0.6,
         legOffset: { x: 0, y: 0 },
-        legOrigin: { x: 0.5, y: -1 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
         projectileColor: 0x9966FF,
         projectileScale: 0.8,
         hitSoundKey: 'hit',
@@ -743,13 +612,6 @@ export const enemiesConfig = [
         bodyHeight: 100,
         bossScale: 0.6,
         legOffset: { x: 0, y: 0 },
-        legOrigin: { x: 0.5, y: 0.5 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
         projectileColor: 0x9966FF,
         projectileScale: 0.8,
         hitSoundKey: 'hit',
@@ -779,13 +641,6 @@ export const enemiesConfig = [
         bodyHeight: 100,
         bossScale: 0.6,
         legOffset: { x: 5, y: 0 },
-        legOrigin: { x: 0.7, y: -1 },
-        animation: {
-            walkSwingSpeed: 0.015,
-            walkSwingAmplitude: 0.15,
-            walkBobSpeed: 0.02,
-            walkBobAmplitude: 1
-        },
         projectileColor: 0x9966FF,
         projectileScale: 0.8,
         hitSoundKey: 'hit',

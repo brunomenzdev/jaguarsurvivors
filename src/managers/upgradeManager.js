@@ -24,6 +24,7 @@ export class UpgradeManager {
     getSmartUpgradeOptions(count = 3) {
         const options = [];
         const equipment = this.scene.equipmentManager;
+        const weaponSlotsFull = !equipment.canAddWeapon();
 
         // Priority 1: Check for synergy/evolution upgrades
         const synergy = this.getSynergyUpgrade();
@@ -50,18 +51,34 @@ export class UpgradeManager {
         const weaponLevelUpOptions = this.getWeaponLevelUpOptions(equipment);
         const newItemOptions = this.getNewItemOptions(equipment);
         const itemLevelUpOptions = this.getItemLevelUpOptions(equipment);
-        const passiveOptions = this.getPassiveUpgradeOptions();
+        //const passiveOptions = this.getPassiveUpgradeOptions();
 
-        // Weighted pool: prefer level-ups over new equipment, both over passives
-        const weightedPool = [
-            ...weaponLevelUpOptions,
-            ...weaponLevelUpOptions, // 2x weight
-            ...itemLevelUpOptions,
-            ...itemLevelUpOptions, // 2x weight
-            ...newWeaponOptions,
-            ...newItemOptions,
-            ...passiveOptions
-        ];
+        // Build weighted pool following the strict slot-based rules
+        let weightedPool = [];
+
+        if (weaponSlotsFull) {
+            // Rule: No new weapons allowed, only level upgrades for equipped ones
+            weightedPool = [
+                ...weaponLevelUpOptions,
+                ...weaponLevelUpOptions, // High weight for weapon progression
+                ...itemLevelUpOptions,
+                ...itemLevelUpOptions,
+                ...newItemOptions,
+                //...passiveOptions
+            ];
+            // Note: newWeaponOptions is NOT added here
+        } else {
+            // Normal progression: can suggest new weapons
+            weightedPool = [
+                ...weaponLevelUpOptions,
+                ...weaponLevelUpOptions,
+                ...itemLevelUpOptions,
+                ...itemLevelUpOptions,
+                ...newWeaponOptions,
+                ...newItemOptions,
+                //...passiveOptions
+            ];
+        }
 
         // Shuffle and select unique options
         const shuffled = weightedPool.sort(() => Math.random() - 0.5);
@@ -76,12 +93,12 @@ export class UpgradeManager {
         }
 
         // Fallback: if not enough unique options, fill with passives
-        while (options.length < count && passiveOptions.length > 0) {
-            const fallback = passiveOptions.find(p => !usedIds.has(p.id));
-            if (!fallback) break;
-            options.push(fallback);
-            usedIds.add(fallback.id);
-        }
+        // while (options.length < count && passiveOptions.length > 0) {
+        //     const fallback = passiveOptions.find(p => !usedIds.has(p.id));
+        //     if (!fallback) break;
+        //     options.push(fallback);
+        //     usedIds.add(fallback.id);
+        // }
 
         return options.slice(0, count);
     }
@@ -89,11 +106,11 @@ export class UpgradeManager {
     // ==================== OPTION BUILDERS ====================
 
     getNewWeaponOptions(equipment) {
-        if (!equipment.canAddWeapon()) return [];
-
+        // Filter based on both ownership AND slot availability
         const unowned = CONFIG.weapon.filter(w => !equipment.hasWeapon(w.key));
+        const available = unowned.filter(w => equipment.canAddWeapon(w.slotType || 'primary'));
 
-        return unowned.map(w => ({
+        return available.map(w => ({
             type: 'new_weapon',
             id: w.key,
             name: `${w.name}`,
@@ -192,14 +209,14 @@ export class UpgradeManager {
     // ==================== SYNERGY SYSTEM ====================
 
     getSynergyUpgrade() {
-        const weaponKey = this.scene.playerConfig.weapon;
+        const equipment = this.scene.equipmentManager;
 
         for (const syn of CONFIG.synergies) {
             // Check if already acquired
             if (this.acquiredEvolutions.has(syn.resultId)) continue;
 
-            // Check weapon requirement
-            if (syn.reqWeapon === weaponKey) {
+            // Check if ANY equipped weapon satisfies the synergy requirement
+            if (equipment.hasWeapon(syn.reqWeapon)) {
                 // Check passive requirement
                 const passiveLevel = this.upgradeCounts[syn.reqPassive] || 0;
                 if (passiveLevel >= syn.reqPassiveLevel) {

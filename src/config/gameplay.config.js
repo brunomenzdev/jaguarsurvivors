@@ -116,6 +116,6 @@ export const worldConfig = {
 
 // ==================== EQUIPMENT LIMITS ====================
 export const equipmentLimitsConfig = {
-    maxWeapons: 3,
+    maxWeapons: 2,
     maxItems: 3
 };

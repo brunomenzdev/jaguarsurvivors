@@ -21,7 +21,6 @@
  * - Import from './config.js' as before (unchanged)
  * - Access CONFIG.weapon, CONFIG.enemy, etc. as before
  */
-
 // Import all modular configs
 import { weaponsConfig } from './weapons.config.js';
 import { projectilesConfig } from './projectiles.config.js';
@@ -44,7 +43,8 @@ import {
     worldConfig,
     equipmentLimitsConfig
 } from './gameplay.config.js';
-
+import { difficultyConfig } from './difficulty.config.js';
+import { bossPhaseConfig } from './bossPhases.config.js';
 /**
  * BASE_CONFIG - Immutable base configuration
  * Used for resetting CONFIG to initial state
@@ -52,65 +52,50 @@ import {
 export const BASE_CONFIG = {
     // == PLAYER ==
     player: playersConfig,
-
     // == ENEMY ==
     enemy: enemiesConfig,
-
     // == BOSSES ==
     bosses: bossesConfig,
-
     // == WEAPON ==
     weapon: weaponsConfig,
-
     // == PROJECTILES ==
     projectiles: projectilesConfig,
-
     // == XP ==
     xp: xpConfig,
-
     // == MAPS ==
     maps: mapsConfig,
-
     // == AUDIO ==
     audio: audioConfig,
-
     // == VISUALS ==
     statusEffects: statusEffectsConfig,
-
     // == PICKUPS ==
     pickups: pickupsConfig,
-
     // == UPGRADES ==
     upgrades: upgradesConfig,
-
     // == SYNERGIES ==
     synergies: synergiesConfig,
-
     // == EQUIPABLE ITEMS ==
     equipableItems: equipableItemsConfig,
-
     // == LEGENDARY ==
     legendary: legendaryConfig,
-
     // == META SHOP ==
     metaShop: metaShopConfig,
-
     // == ACHIEVEMENTS ==
     achievements: achievementsConfig,
-
     // == WORLD ==
     world: worldConfig,
-
     // == EQUIPMENT LIMITS ==
-    equipmentLimits: equipmentLimitsConfig
+    equipmentLimits: equipmentLimitsConfig,
+    // == AI DIFFICULTY SCALING ==
+    difficulty: difficultyConfig,
+    // == BOSS PHASE CONFIGURATIONS ==
+    bossPhases: bossPhaseConfig
 };
-
 /**
  * CONFIG - Mutable configuration object
  * Deep cloned from BASE_CONFIG to allow runtime modifications
  */
 export let CONFIG = JSON.parse(JSON.stringify(BASE_CONFIG));
-
 /**
  * Resets CONFIG back to its initial state
  * Useful for game restarts or scene transitions

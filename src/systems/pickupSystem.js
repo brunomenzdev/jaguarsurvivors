@@ -77,4 +77,14 @@ export class PickupSystem {
         console.debug("EVENT_EMITTED", { eventName: 'pickup-collected', payload: pickup.type });
         this.scene.events.emit('pickup-collected', pickup.type);
     }
+
+    /**
+     * Proxy method to spawn pickups via the manager.
+     * Required by EnemyLoot.
+     */
+    spawn(x, y, type) {
+        if (this.pickupManager) {
+            this.pickupManager.spawn(x, y, type);
+        }
+    }
 }

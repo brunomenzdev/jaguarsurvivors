@@ -5,6 +5,8 @@ import { CombatSystem } from '../systems/combatSystem.js';
 import { StageSystem } from '../systems/stageSystem.js';
 import { PickupSystem } from '../systems/pickupSystem.js';
 import { GameEventHandler } from '../systems/gameEventHandler.js';
+import { DifficultyManager } from '../systems/ai/difficultyManager.js';
+import { CONFIG } from '../config/config.js';
 
 
 export class GameScene extends Phaser.Scene {
@@ -19,8 +21,13 @@ export class GameScene extends Phaser.Scene {
         // Player
         this.playerManager = new PlayerManager(this, this.bootstrap.scene.playerConfig);
         this.playerManager.create();
+
         // Enemies + spawner
         this.enemySystem = new EnemySystem(this, this.bootstrap.scene.enemySpawner);
+
+        // Difficulty Manager (AI Scaling)
+        // Uses CONFIG.difficulty which contains global and profile-specific scaling curves
+        this.difficultyManager = new DifficultyManager(this, CONFIG.difficulty);
 
         this.pickupSystem = new PickupSystem(this);
         this.stageSystem = new StageSystem(this, this.bootstrap.scene.mapConfig);
@@ -55,7 +62,11 @@ export class GameScene extends Phaser.Scene {
         this.combatSystem.update(time, delta);
         this.pickupSystem.update(time, delta);
         this.stageSystem.update(delta);
-        this.xpSystem.update(delta, this.player);
+        if (this.xpSystem) this.xpSystem.update(delta, this.player);
+
+        // DifficultyManager is time-based and uses scene.time.now
+        // It does not require a manual update(delta) call in the loop
+        // It tracks time via internal methods getElapsedTime() called by clients
 
         // Sync Hud
         if (this.hud) {

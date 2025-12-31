@@ -7,30 +7,63 @@ export class EnemyMovement {
 
     reset() {
         this.knockbackTimer = 0;
+        this.enemy.view.container.body.setVelocity(0, 0);
     }
 
-    update(player, delta) {
+    /**
+     * Apply movement vector to the enemy.
+     * @param {Object} vector - { x, y, speed } from AI behavior
+     * @param {number} delta - Time delta
+     */
+    move(vector, delta) {
+        // Handle knockback priority
         if (this.knockbackTimer > 0) {
             this.knockbackTimer -= delta;
             return;
         }
 
-        const speed = this.enemy.entity.speed;
-        const angle = Phaser.Math.Angle.Between(
-            this.enemy.x,
-            this.enemy.y,
-            player.x,
-            player.y
-        );
+        // Stop if no vector
+        if (!vector) {
+            this.enemy.view.container.body.setVelocity(0, 0);
+            return;
+        }
+
+        const { x, y, speed } = vector;
+
+        // Get base speed from entity stats
+        const baseSpeed = this.enemy.entity.speed || 100;
+        const finalSpeed = baseSpeed * speed;
 
         this.enemy.view.container.body.setVelocity(
-            Math.cos(angle) * speed,
-            Math.sin(angle) * speed
+            x * finalSpeed,
+            y * finalSpeed
+        );
+
+        // Visual flipping delegate
+        this.updateFacing(x);
+    }
+
+    updateFacing(velocityX) {
+        if (velocityX === 0) return;
+        const facingRight = velocityX > 0;
+
+        // Delegate visual flip to view
+        if (this.enemy.view && this.enemy.view.setFacing) {
+            this.enemy.view.setFacing(facingRight);
+        }
+    }
+
+    applyKnockback(force, duration, angle) {
+        this.knockbackTimer = duration;
+
+        this.enemy.view.container.body.setVelocity(
+            Math.cos(angle) * force,
+            Math.sin(angle) * force
         );
     }
 
-    applyKnockback(force, duration) {
-        this.knockbackTimer = duration;
-        // velocity logic aqui
+    get isMoving() {
+        if (!this.enemy.view || !this.enemy.view.container || !this.enemy.view.container.body) return false;
+        return this.enemy.view.container.body.velocity.lengthSq() > 10;
     }
 }

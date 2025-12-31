@@ -9,14 +9,27 @@ export class EquipmentManager {
     constructor(scene) {
         this.scene = scene;
 
-        // Equipment limits from config (beta: 3/3)
-        this.maxWeapons = CONFIG.equipmentLimits?.maxWeapons || 6;
+        // Equipment limits from config (Now strictly 2 for weapons)
+        this.maxWeapons = CONFIG.equipmentLimits?.maxWeapons || 2;
         this.maxItems = CONFIG.equipmentLimits?.maxItems || 6;
 
-        // Tracking arrays
-        this.equippedWeapons = []; // Array of weapon config keys ['weapon_sword', 'weapon_katana', ...]
+        // Slot-based tracking for weapons
+        this.weaponSlots = {
+            primary: null,
+            secondary: null
+        };
+
+        // Tracking for other equipment
         this.equippedItems = []; // Array of { id, level } objects
         this.weaponLevels = {}; // { weaponKey: level }
+    }
+
+    /**
+     * Getter for backward compatibility and easy iteration
+     * Returns array of equipped weapon keys
+     */
+    get equippedWeapons() {
+        return Object.values(this.weaponSlots).filter(key => key !== null);
     }
 
     /**
@@ -24,14 +37,25 @@ export class EquipmentManager {
      */
     init(startingWeaponKey) {
         if (startingWeaponKey) {
+            // Starting weapon always goes to primary slot
             this.addWeapon(startingWeaponKey);
         }
     }
 
-    // =============== CHECK METHODS ===============
+    isPrimarySlotEmpty() {
+        return this.weaponSlots.primary === null;
+    }
 
-    canAddWeapon() {
-        return this.equippedWeapons.length < this.maxWeapons;
+    isSecondarySlotEmpty() {
+        return this.weaponSlots.secondary === null;
+    }
+
+    canAddWeapon(slotType = null) {
+        if (slotType === 'primary') return this.isPrimarySlotEmpty();
+        if (slotType === 'secondary') return this.isSecondarySlotEmpty();
+
+        // If no slot specified, can we add ANY weapon?
+        return this.isPrimarySlotEmpty() || this.isSecondarySlotEmpty();
     }
 
     canAddItem() {
@@ -39,7 +63,7 @@ export class EquipmentManager {
     }
 
     hasWeapon(key) {
-        return this.equippedWeapons.includes(key);
+        return this.weaponSlots.primary === key || this.weaponSlots.secondary === key;
     }
 
     hasItem(id) {
@@ -57,8 +81,16 @@ export class EquipmentManager {
 
     // =============== ADD METHODS ===============
     addWeapon(key) {
-        if (!this.canAddWeapon()) {
-            console.warn(`[EquipmentManager] Cannot add weapon ${key} - at max limit (${this.maxWeapons})`);
+        const weaponConfig = CONFIG.weapon.find(w => w.key === key);
+        if (!weaponConfig) {
+            console.warn(`[EquipmentManager] Weapon config not found for ${key}`);
+            return false;
+        }
+
+        const slot = weaponConfig.slotType || 'primary'; // Fallback to primary if not specified
+
+        if (this.weaponSlots[slot] !== null) {
+            console.warn(`[EquipmentManager] Cannot add weapon ${key} - slot ${slot} full`);
             return false;
         }
 
@@ -67,11 +99,19 @@ export class EquipmentManager {
             return false;
         }
 
-        this.equippedWeapons.push(key);
+        // Assigned based on config
+        this.weaponSlots[slot] = key;
+        const slotAssigned = slot;
+
         this.weaponLevels[key] = 1;
 
-        console.debug("EVENT_EMITTED", { eventName: 'weapon-equipped', payload: key });
-        this.scene.events.emit('weapon-equipped', key);
+        console.debug("EVENT_EMITTED", {
+            eventName: 'weapon-equipped',
+            payload: { key, slot: slotAssigned }
+        });
+
+        // Emit with key for backward compatibility, but we could also send slot
+        this.scene.events.emit('weapon-equipped', key, slotAssigned);
 
         return true;
     }
@@ -136,6 +176,8 @@ export class EquipmentManager {
         return {
             weapons: this.equippedWeapons.length,
             maxWeapons: this.maxWeapons,
+            primarySlot: this.weaponSlots.primary,
+            secondarySlot: this.weaponSlots.secondary,
             items: this.equippedItems.length,
             maxItems: this.maxItems,
             weaponSlotsFull: !this.canAddWeapon(),
@@ -147,7 +189,10 @@ export class EquipmentManager {
      * Reset all equipment (for new game)
      */
     reset() {
-        this.equippedWeapons = [];
+        this.weaponSlots = {
+            primary: null,
+            secondary: null
+        };
         this.equippedItems = [];
         this.weaponLevels = {};
     }

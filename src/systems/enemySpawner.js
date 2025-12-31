@@ -205,7 +205,7 @@ export class EnemySpawner {
             this.enemyPool.release(e);
         });
         this.enemies = [];
-        this.initWave(0);
+        this.enemyPool.clear();
     }
 
     getGroup() { return this.group; }

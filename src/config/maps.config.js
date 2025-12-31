@@ -16,7 +16,7 @@ export const mapsConfig = [
         },
         music: 'cinematic1',
         waves: [
-            { interval: 2000, enemiesPerWave: 1, enemyTypes: ['enemy_tia_do_zap'], totalEnemies: 10, bossPerWave: 0, spawnDistance: 700, maxOnScreen: 50 },
+            { interval: 2000, enemiesPerWave: 1, enemyTypes: ['enemy_favela_basico'], totalEnemies: 10, bossPerWave: 0, spawnDistance: 700, maxOnScreen: 50 },
             { interval: 1500, enemiesPerWave: 2, enemyTypes: ['enemy_bandido', 'enemy_bandido2'], totalEnemies: 30, bossPerWave: 0, spawnDistance: 700, maxOnScreen: 50 },
             { interval: 1000, enemiesPerWave: 3, enemyTypes: ['enemy_favela'], totalEnemies: 50, bossPerWave: 0, spawnDistance: 700, maxOnScreen: 50 },
             { interval: 500, enemiesPerWave: 4, enemyTypes: ['enemy_favela'], totalEnemies: 100, bossPerWave: 1, spawnDistance: 700, maxOnScreen: 50 }
@@ -25,10 +25,10 @@ export const mapsConfig = [
             interval: 10000,
             buffPercent: 0.10
         },
-        boss: 'boss_tia_do_zap',
+        boss: 'boss_bandido_moto',
         duration: 300,
         events: [
-            { time: 300, type: 'boss_spawn', key: 'boss_tia_do_zap' },
+            { time: 210, type: 'boss_spawn', key: 'boss_bandido_moto' },
             { time: 60, type: 'final_hour' }
         ]
     },

@@ -62,7 +62,7 @@ export class CombatSystem {
         if (!projectileSprite.active) return;
 
         const proj = projectileSprite.getData('parent');
-        this.player.takeDamage(proj?.damage || 10);
+        this.player.takeDamage(Math.ceil(proj?.damage || 10));
         projectileSprite.destroy();
     }
 
@@ -72,7 +72,7 @@ export class CombatSystem {
         // Inversão: Aqui o player encostou no inimigo e toma dano
         const enemy = enemyContainer.getData('parent');
         if (enemy && enemy.damage) {
-            this.player.takeDamage(enemy.damage, enemy);
+            this.player.takeDamage(Math.ceil(enemy.damage), enemy);
         }
     }
 

@@ -93,15 +93,24 @@ export class LoadoutUIManager {
         };
     }
 
-    onWeaponEquipped(key) {
-        const slot = this.weaponSlots.find(s => s.isEmpty);
-        if (!slot) return;
+    onWeaponEquipped(key, slot = null) {
+        let slotToFill;
 
-        slot.img.src = `src/assets/images/${key}.png`;
-        slot.img.style.display = 'block';
-        slot.level.innerText = '1';
-        slot.isEmpty = false;
-        slot.weaponKey = key;
+        if (slot === 'primary') {
+            slotToFill = this.weaponSlots[0];
+        } else if (slot === 'secondary') {
+            slotToFill = this.weaponSlots[1];
+        } else {
+            slotToFill = this.weaponSlots.find(s => s.isEmpty);
+        }
+
+        if (!slotToFill) return;
+
+        slotToFill.img.src = `src/assets/images/${key}.png`;
+        slotToFill.img.style.display = 'block';
+        slotToFill.level.innerText = '1';
+        slotToFill.isEmpty = false;
+        slotToFill.weaponKey = key;
     }
 
     onWeaponLeveled(key, level) {

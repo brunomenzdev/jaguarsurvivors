@@ -38,4 +38,9 @@ export class PickupManager {
             }
         }
     }
+    destroy() {
+        this.activePickups = [];
+        if (this.pool) this.pool.clear();
+        if (this.group) this.group.destroy(true);
+    }
 }

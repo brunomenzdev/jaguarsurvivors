@@ -28,6 +28,7 @@ export class GameEventHandler {
         this.registerSystemEvents();
         this.registerBossEvents();
         this.registerStageEvents();
+        this.registerPickupEvents();
     }
 
     registerPlayerEvents() {
@@ -85,9 +86,9 @@ export class GameEventHandler {
     }
 
     registerEquipmentEvents() {
-        this.events.on('weapon-equipped', (key) => {
-            this.weaponManager?.onWeaponEquipped(key);
-            this.loadoutUI?.onWeaponEquipped(key);
+        this.events.on('weapon-equipped', (key, slot) => {
+            this.weaponManager?.onWeaponEquipped(key, slot);
+            this.loadoutUI?.onWeaponEquipped(key, slot);
         });
 
         this.events.on('weapon-leveled', (key, level) => {
@@ -142,6 +143,31 @@ export class GameEventHandler {
                 this.bossFlow.spawn(event.key);
             } else {
                 this.stageSystem.onStageEvent(event);
+            }
+        });
+    }
+    registerPickupEvents() {
+        this.events.on('pickup-collected', (type) => {
+            switch (type) {
+                case 'health_kit':
+                    this.playerManager.player.heal(this.playerManager.player.stats.maxHealth * 0.2);
+                    break;
+                case 'health_kit_big':
+                    this.playerManager.player.heal(this.playerManager.player.stats.maxHealth * 0.5);
+                    break;
+                case 'map_bomb':
+                    this.scene.enemySystem.killAllVisible();
+                    this.scene.cameras.main.shake(300, 0.01);
+                    break;
+                case 'magnet':
+                    this.playerManager.player.stats.pickupRadiusStat.addMultiplier(2.0);
+                    this.scene.time.delayedCall(5000, () => {
+                        this.playerManager.player.stats.pickupRadiusStat.addMultiplier(-2.0);
+                    });
+                    break;
+                case 'coin':
+                    this.scene.coins = (this.scene.coins || 0) + 1;
+                    break;
             }
         });
     }
