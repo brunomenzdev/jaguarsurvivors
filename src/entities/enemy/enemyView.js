@@ -57,8 +57,9 @@ export class EnemyView {
         this.sprite.setPosition(0, 0);
 
         // Set body size
-        this.bodyWidth = config.bodyWidth || 60;
-        this.bodyHeight = config.bodyHeight || 100;
+        const hitbox = config.hitbox || { width: config.bodyWidth || 60, height: config.bodyHeight || 100 };
+        this.bodyWidth = hitbox.width;
+        this.bodyHeight = hitbox.height;
         this.container.body.setSize(this.bodyWidth, this.bodyHeight);
         this.container.body.setOffset(-this.bodyWidth / 2, -this.bodyHeight / 2);
 

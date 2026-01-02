@@ -30,7 +30,7 @@ export const mapsConfig = [
         boss: 'boss_bandido_moto',
         duration: 300,
         events: [
-            { time: 210, type: 'boss_spawn', key: 'boss_bandido_moto' },
+            { time: 300, type: 'boss_spawn', key: 'boss_bandido_moto' },
             { time: 60, type: 'final_hour' }
         ]
     },

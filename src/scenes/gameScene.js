@@ -81,6 +81,10 @@ export class GameScene extends Phaser.Scene {
         if (this.structureSystem) this.structureSystem.update(time, delta);
         if (this.xpSystem) this.xpSystem.update(delta, this.player);
 
+        // Legendary systems
+        if (this.gadgetManager) this.gadgetManager.update(delta);
+        if (this.companionManager) this.companionManager.update(delta);
+
         // DifficultyManager is time-based and uses scene.time.now
         // It does not require a manual update(delta) call in the loop
         // It tracks time via internal methods getElapsedTime() called by clients
@@ -140,6 +144,12 @@ export class GameScene extends Phaser.Scene {
         if (this.pickupManager) this.pickupManager.destroy();
         if (this.telegraphManager) this.telegraphManager.destroy();
         if (this.equipmentManager) this.equipmentManager.reset();
+
+        // Legendary systems cleanup
+        if (this.legendaryRewardManager) this.legendaryRewardManager.reset();
+        if (this.gadgetManager) this.gadgetManager.destroy();
+        if (this.procManager) this.procManager.destroy();
+        if (this.companionManager) this.companionManager.destroy();
 
         if (this.playerManager) {
             try {

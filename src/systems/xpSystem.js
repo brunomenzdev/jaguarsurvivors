@@ -30,13 +30,15 @@ export class XPSystem {
 
     addXP(amount) {
         this.currentXP += amount;
-        if (this.scene.hud) {
-            this.scene.hud.updateXP(this.currentXP, this.xpToNextLevel, this.currentLevel);
-        }
 
-        if (this.currentXP >= this.xpToNextLevel) {
+        // Loop to handle multiple level-ups if amount is large
+        while (this.currentXP >= this.xpToNextLevel) {
             this.scene.audio.play('levelup');
             this.levelUp();
+        }
+
+        if (this.scene.hud) {
+            this.scene.hud.updateXP(this.currentXP, this.xpToNextLevel, this.currentLevel);
         }
     }
 

@@ -6,38 +6,46 @@ export class UIFlowController {
         this.upgradeUI = scene.upgradeUIManager;
         this.legendaryUI = scene.legendaryUIManager;
         this.gameOverUI = scene.gameOverUIManager;
+
+        // Centralized pause state management
+        this.activeScreens = new Set();
     }
 
     onLevelUp() {
-        this.scene.scene.pause();
+        this.openScreen('upgrade');
         this.upgradeUI.show();
     }
 
     onLegendaryDrop(item) {
-        this.scene.scene.pause();
+        this.openScreen('legendary');
         this.legendaryUI.show(item);
     }
 
     onPlayerDied() {
-        this.scene.scene.pause();
+        this.openScreen('game-over');
         this.gameOverUI.show();
     }
 
-    togglePause() {
-        // Prevent pausing/unpausing if critical UI is open
-        if (document.getElementById('upgrade-screen').classList.contains('active') ||
-            document.getElementById('game-over').classList.contains('active') ||
-            (document.getElementById('legendary-selection') && document.getElementById('legendary-selection').style.display === 'flex')) {
-            return;
+    openScreen(screenId) {
+        this.activeScreens.add(screenId);
+        this.scene.scene.pause();
+    }
+
+    closeScreen(screenId) {
+        this.activeScreens.delete(screenId);
+        if (this.activeScreens.size === 0) {
+            this.scene.scene.resume();
         }
+    }
+
+    togglePause() {
+        // Only allow manual pause if NO critical UI is open
+        if (this.activeScreens.size > 0) return;
 
         const pauseScreen = document.getElementById('pause-screen');
         if (this.scene.scene.isPaused('GameScene')) {
-            // Only resume if pause screen was the reason
-            if (pauseScreen.classList.contains('active')) {
-                this.scene.scene.resume();
-                pauseScreen.classList.remove('active');
-            }
+            // Only resume if pause screen was the only one active
+            this.resume();
         } else {
             this.scene.scene.pause();
             pauseScreen.classList.add('active');
@@ -45,7 +53,10 @@ export class UIFlowController {
     }
 
     resume() {
-        this.scene.scene.resume();
-        document.getElementById('pause-screen').classList.remove('active');
+        const pauseScreen = document.getElementById('pause-screen');
+        if (this.activeScreens.size === 0) {
+            this.scene.scene.resume();
+        }
+        if (pauseScreen) pauseScreen.classList.remove('active');
     }
 }

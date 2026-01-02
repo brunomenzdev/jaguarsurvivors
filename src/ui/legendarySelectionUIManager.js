@@ -105,8 +105,13 @@ export class LegendarySelectionUIManager {
     }
 
     selectReward(reward) {
-        this.scene.legendaryRewardManager.applyReward(reward.id);
+        this.scene.legendaryRewardManager.activateLegendary(reward.id);
         this.hide();
-        this.scene.scene.resume(); // Correct Phaser API
+
+        if (this.scene.bootstrap && this.scene.bootstrap.uiFlow) {
+            this.scene.bootstrap.uiFlow.closeScreen('legendary');
+        } else {
+            this.scene.scene.resume();
+        }
     }
 }

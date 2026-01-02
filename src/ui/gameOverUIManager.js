@@ -21,7 +21,12 @@ export class GameOverUIManager {
         }
 
         this.screen.classList.add('active');
-        this.scene.scene.pause();
+
+        if (this.scene.bootstrap && this.scene.bootstrap.uiFlow) {
+            this.scene.bootstrap.uiFlow.openScreen('game-over');
+        } else {
+            this.scene.scene.pause();
+        }
 
         // Save logic? Usually handled in SceneBootstrap or SaveManager
         if (this.scene.saveManager) {

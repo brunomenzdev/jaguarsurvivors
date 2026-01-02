@@ -78,10 +78,12 @@ export class GameEventHandler {
 
         this.events.on('weapon-attack', (key) => {
             playShoot();
+            this.events.emit('player-attacked');
         });
 
         this.events.on('weapon-shoot', (key) => {
             playShoot();
+            this.events.emit('player-attacked');
             this.combatSystem?.onWeaponShoot(key);
         });
     }

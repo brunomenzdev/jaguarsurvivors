@@ -10,6 +10,7 @@ import { WeaponManager } from '../managers/weaponManager.js';
 import { LegendaryRewardManager } from '../managers/legendaryRewardManager.js';
 import { GadgetManager } from '../managers/gadgetManager.js';
 import { ProcManager } from '../managers/procManager.js';
+import { CompanionManager } from '../managers/companionManager.js';
 import { PickupManager } from '../managers/pickupManager.js';
 
 import { DamageTextPool } from '../ui/damagePopup.js';
@@ -158,6 +159,7 @@ export class SceneBootstrap {
 
         this.scene.gadgetManager = new GadgetManager(this.scene);
         this.scene.procManager = new ProcManager(this.scene);
+        this.scene.companionManager = new CompanionManager(this.scene);
         this.scene.pickupManager = new PickupManager(this.scene);
         this.scene.vfxManager = new VFXManager(this.scene);
 

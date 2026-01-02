@@ -29,17 +29,16 @@ import { playersConfig } from './players.config.js';
 import { mapsConfig } from './maps.config.js';
 import {
     upgradesConfig,
-    synergiesConfig,
     equipableItemsConfig,
     legendaryConfig,
     metaShopConfig,
     achievementsConfig
 } from './upgrades.config.js';
 import { audioConfig } from './audio.config.js';
+import { pickupsConfig } from './pickups.config.js';
 import {
     xpConfig,
     statusEffectsConfig,
-    pickupsConfig,
     worldConfig,
     equipmentLimitsConfig,
     telegraphConfig
@@ -75,7 +74,7 @@ export const BASE_CONFIG = {
     // == UPGRADES ==
     upgrades: upgradesConfig,
     // == SYNERGIES ==
-    synergies: synergiesConfig,
+    synergies: [],
     // == EQUIPABLE ITEMS ==
     equipableItems: equipableItemsConfig,
     // == LEGENDARY ==

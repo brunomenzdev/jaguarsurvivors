@@ -61,7 +61,7 @@ export class HUDManager {
     }
 
     updateXP(current, nextLevelXP, level) {
-        const percent = Math.max(0, (current / nextLevelXP) * 100);
+        const percent = Math.min(100, Math.max(0, (current / nextLevelXP) * 100));
         if (this.elements.xpFill) {
             this.elements.xpFill.style.width = `${percent}%`;
         }

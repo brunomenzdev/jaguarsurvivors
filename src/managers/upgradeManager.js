@@ -209,6 +209,8 @@ export class UpgradeManager {
     // ==================== SYNERGY SYSTEM ====================
 
     getSynergyUpgrade() {
+        if (!CONFIG.synergies || !Array.isArray(CONFIG.synergies)) return null;
+
         const equipment = this.scene.equipmentManager;
 
         for (const syn of CONFIG.synergies) {

@@ -95,6 +95,10 @@ export class UpgradeUIManager {
             this.root = null;
         }
 
-        this.scene.scene.resume();
+        if (this.scene.bootstrap && this.scene.bootstrap.uiFlow) {
+            this.scene.bootstrap.uiFlow.closeScreen('upgrade');
+        } else {
+            this.scene.scene.resume();
+        }
     }
 }

@@ -27,18 +27,25 @@ export class PreloadScene extends Phaser.Scene {
             if (xp.image) this.load.image(xp.key, xp.image);
         }
 
-        // Load pickup sprites for sprite-based icons
-        const pickupSprites = ['pickup_bomb', 'pickup_cure', 'pickup_shield', 'pickup_speedboots'];
-        pickupSprites.forEach(key => {
-            this.load.image(key, `src/assets/images/${key}.png`);
-        });
-
-        // Load item sprites for equipable items
-        const itemSprites = ['item_bomb', 'item_boots', 'item_cape', 'item_chain',
-            'item_chain_justice', 'item_crown', 'item_glasses', 'item_gloves'];
-        itemSprites.forEach(key => {
-            this.load.image(key, `src/assets/images/${key}.png`);
-        });
+        // Load Pickups from config
+        if (BASE_CONFIG.pickups) {
+            // Load types
+            if (BASE_CONFIG.pickups.types) {
+                Object.values(BASE_CONFIG.pickups.types).forEach(pickup => {
+                    if (pickup.spriteKey && pickup.image) {
+                        this.load.image(pickup.spriteKey, pickup.image);
+                    }
+                });
+            }
+            // Load extra item assets
+            if (BASE_CONFIG.pickups.items) {
+                BASE_CONFIG.pickups.items.forEach(item => {
+                    if (item.key && item.image) {
+                        this.load.image(item.key, item.image);
+                    }
+                });
+            }
+        }
 
         // Load Projectile Sprites
         if (BASE_CONFIG.projectiles) {

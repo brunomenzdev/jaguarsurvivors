@@ -110,6 +110,13 @@ export class Projectile {
         this.visual.setScale(scale);
         this.visual.setTint(tint);
 
+        // Center hitbox on sprite
+        // We use the texture dimensions if available, otherwise fallback to reasonable default
+        const width = this.visual.width || 32;
+        const height = this.visual.height || 32;
+        this.body.setSize(width, height);
+        this.body.setOffset(0, 0); // Sprite origin is 0.5,0.5 by default, so 0,0 offset is centered
+
         // ANIMATIONS
         this.scene.tweens.killTweensOf(this.visual);
 

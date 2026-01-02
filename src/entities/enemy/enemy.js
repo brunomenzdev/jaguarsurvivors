@@ -169,6 +169,7 @@ export class Enemy {
 
         this.view.destroy();
         this.scene.events.emit('enemy-died', this);
+        this.scene.events.emit('enemy-killed', this);
 
         if (this.isBoss) {
             this.scene.events.emit('boss-died', this.x, this.y);

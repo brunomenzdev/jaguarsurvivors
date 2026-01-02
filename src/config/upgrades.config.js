@@ -163,38 +163,7 @@ export const upgradesConfig = [
     }
 ];
 
-// ==================== SYNERGIES (Weapon + Passive = Legendary) ====================
-export const synergiesConfig = [
-    {
-        resultId: 'evo_ghost_blade',
-        name: 'GHOST BLADE',
-        spriteKey: 'weapon_katana',
-        icon: '👻',
-        desc: 'LEGENDARY: Ignora Armor + Dano Crítico Massivo',
-        reqWeapon: 'weapon_katana',
-        reqPassive: 'crit',
-        reqPassiveLevel: 1,
-        effects: [
-            { stat: 'damageStat', operation: 'addMultiplier', value: 1.0 },
-            { stat: 'critChanceStat', operation: 'addFlat', value: 0.2 },
-            { stat: 'criticalDamageStat', operation: 'addFlat', value: 1.0 }
-        ]
-    },
-    {
-        resultId: 'evo_holy_smite',
-        name: 'JULGAMENTO DIVINO',
-        spriteKey: 'weapon_sword',
-        icon: '✨',
-        desc: 'LEGENDARY: Ataques explodem em área',
-        reqWeapon: 'weapon_sword',
-        reqPassive: 'rng',
-        reqPassiveLevel: 1,
-        effects: [
-            { stat: 'areaStat', operation: 'addMultiplier', value: 0.5 },
-            { stat: 'damageStat', operation: 'addMultiplier', value: 0.5 }
-        ]
-    }
-];
+// Synergies removed for MVP as per request
 
 // ==================== EQUIPABLE ITEMS ====================
 export const equipableItemsConfig = [
@@ -279,67 +248,197 @@ export const equipableItemsConfig = [
 
 // ==================== LEGENDARY REWARDS ====================
 export const legendaryConfig = [
-    // Gadgets: Autonomous systems
+    // ========== GADGETS ==========
     {
         id: 'orbital_blade',
         name: 'Lâmina Orbital',
         type: 'gadget',
+        category: 'Gadget',
         description: 'Uma lâmina de energia orbita você, cortando inimigos próximos.',
         icon: '🔄',
         rarity: 'legendary',
-        config: {
-            radius: 100,
-            speed: 2,
-            damage: 50,
-            scale: 1.0,
-            sprite: 'weapon_katana'
-        }
+        sprite: 'weapon_katana',
+        radius: 100,
+        speed: 2,
+        damage: 50,
+        scale: 1.0
     },
     {
         id: 'auto_turret',
         name: 'Torreta Automática',
         type: 'gadget',
+        category: 'Gadget',
         description: 'Um drone que atira automaticamente no inimigo mais próximo.',
         icon: '🤖',
         rarity: 'legendary',
-        config: {
-            fireRate: 1000,
-            range: 400,
-            damage: 30,
-            projectileSpeed: 600,
-            sprite: 'weapon_laser_gun'
-        }
+        sprite: 'weapon_laser_gun',
+        fireRate: 1000,
+        range: 400,
+        damage: 30,
+        projectileSpeed: 600
     },
-    // Procs: Chance on Hit effects
+    {
+        id: 'buff_totem',
+        name: 'Totem Sagrado',
+        type: 'gadget',
+        category: 'Gadget',
+        description: 'Totem que aumenta seu dano em 50% quando você está próximo.',
+        icon: '🗿',
+        rarity: 'legendary',
+        sprite: 'weapon_sword',
+        radius: 200,
+        damageBonus: 0.5
+    },
+    {
+        id: 'debuff_field',
+        name: 'Campo de Enfraquecimento',
+        type: 'gadget',
+        category: 'Gadget',
+        description: 'Cria uma área que reduz a velocidade dos inimigos em 70%.',
+        icon: '🌀',
+        rarity: 'legendary',
+        sprite: 'weapon_laser_gun',
+        radius: 250,
+        slowAmount: 0.7,
+        damagePerSecond: 10
+    },
+    {
+        id: 'laser_trap',
+        name: 'Armadilha Laser',
+        type: 'gadget',
+        category: 'Gadget',
+        description: 'Laser rotativo que varre uma área, causando dano contínuo.',
+        icon: '📡',
+        rarity: 'legendary',
+        sprite: 'weapon_laser_gun',
+        length: 300,
+        rotationSpeed: 1.5,
+        damage: 40
+    },
+
+    // ========== PROCS ==========
     {
         id: 'chain_lightning',
         name: 'Cadeia de Raios',
         type: 'proc',
+        category: 'Proc',
         description: '15% de chance de disparar um raio que salta entre inimigos.',
         icon: '⚡',
         rarity: 'legendary',
-        config: {
-            chance: 0.15,
-            damage: 40,
-            bounces: 3,
-            range: 200,
-            color: 0x00FFFF
-        }
+        chance: 0.15,
+        damage: 40,
+        bounces: 3,
+        range: 200,
+        color: 0x00FFFF,
+        cooldown: 500
     },
     {
         id: 'frost_nova',
         name: 'Nova Gélida',
         type: 'proc',
+        category: 'Proc',
         description: '10% de chance de congelar inimigos em área ao acertar.',
         icon: '❄️',
         rarity: 'legendary',
-        config: {
-            chance: 0.10,
-            damage: 20,
-            radius: 150,
-            freezeDuration: 2000,
-            color: 0x66AAFF
-        }
+        chance: 0.10,
+        damage: 20,
+        radius: 150,
+        freezeDuration: 2000,
+        color: 0x66AAFF,
+        cooldown: 1000
+    },
+    {
+        id: 'explosion_on_kill',
+        name: 'Morte Explosiva',
+        type: 'proc',
+        category: 'Proc',
+        description: '100% de chance: inimigos explodem ao morrer, causando dano em área.',
+        icon: '💥',
+        rarity: 'legendary',
+        chance: 1.0,
+        damage: 60,
+        radius: 120,
+        color: 0xFF4500,
+        cooldown: 0
+    },
+    {
+        id: 'vampire_strike',
+        name: 'Golpe Vampírico',
+        type: 'proc',
+        category: 'Proc',
+        description: '20% de chance de roubar vida ao causar dano.',
+        icon: '🧛',
+        rarity: 'legendary',
+        chance: 0.20,
+        healPercent: 0.5,
+        color: 0xFF0000,
+        cooldown: 200
+    },
+    {
+        id: 'thorns_burst',
+        name: 'Espinhos Explosivos',
+        type: 'proc',
+        category: 'Proc',
+        description: '25% de chance ao receber dano de refletir em área.',
+        icon: '🌵',
+        rarity: 'legendary',
+        chance: 0.25,
+        damageMultiplier: 2.0,
+        radius: 180,
+        color: 0x8B4513,
+        cooldown: 1000
+    },
+
+    // ========== COMPANIONS ==========
+    {
+        id: 'attack_companion',
+        name: 'Jaguar Espiritual',
+        type: 'companion',
+        category: 'Companion',
+        description: 'Um jaguar espiritual que ataca inimigos próximos.',
+        icon: '🐆',
+        rarity: 'legendary',
+        sprite: 'enemy_jaguar',
+        scale: 0.6,
+        tint: 0x00FFFF,
+        offset: { x: -60, y: -40 },
+        attackRate: 1500,
+        range: 300,
+        damage: 35,
+        projectileSprite: 'weapon_laser_gun',
+        projectileSpeed: 500
+    },
+    {
+        id: 'collector_companion',
+        name: 'Espírito Coletor',
+        type: 'companion',
+        category: 'Companion',
+        description: 'Coleta automaticamente XP e itens em uma área maior.',
+        icon: '👻',
+        rarity: 'legendary',
+        sprite: 'pickup_xp',
+        scale: 1.0,
+        tint: 0xFFD700,
+        offset: { x: 50, y: -50 },
+        collectionRadius: 400,
+        collectionRate: 100
+    },
+    {
+        id: 'buff_companion',
+        name: 'Xamã Protetor',
+        type: 'companion',
+        category: 'Companion',
+        description: 'Periodicamente concede escudo e aumenta velocidade de ataque.',
+        icon: '🧙',
+        rarity: 'legendary',
+        sprite: 'enemy_shaman',
+        scale: 0.5,
+        tint: 0x00FF00,
+        offset: { x: 60, y: 40 },
+        buffDuration: 5000,
+        buffCooldown: 10000,
+        attackSpeedBonus: 0.3,
+        shieldAmount: 50
     }
 ];
 

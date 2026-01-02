@@ -100,6 +100,11 @@ export class Player {
     get x() { return this.view.container.x; }
     get y() { return this.view.container.y; }
     get health() { return this._health; }
+    set health(value) {
+        this._health = value;
+        console.debug("EVENT_EMITTED", { eventName: 'player-health-changed', payload: { health: this._health, maxHealth: this.stats.maxHealth } });
+        this.scene.events.emit('player-health-changed', this._health, this.stats.maxHealth);
+    }
     get weaponSprite() { return this.view.weapon; }
     get facingRight() { return this.movement.facingRight !== false; } // Default to true
     get active() { return this.view.container.active; }

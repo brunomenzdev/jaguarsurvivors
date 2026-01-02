@@ -1,117 +1,138 @@
-
+/**
+ * ProcManager
+ * 
+ * Manages all proc-type legendary upgrades.
+ * Event-driven orchestrator that routes game events to proc instances.
+ * 
+ * Responsibilities:
+ * - Store proc instances
+ * - Listen to game events
+ * - Route events to appropriate procs
+ * - Handle chance and cooldown checks
+ * - Cleanup on game reset
+ * 
+ * Does NOT contain proc behavior logic - that lives in individual proc classes.
+ */
 export class ProcManager {
     constructor(scene) {
         this.scene = scene;
-        this.procs = [];
+        this.procs = new Map(); // id -> ProcLegendary instance
+        this.registerEventListeners();
     }
 
-    addProc(id, config) {
-        this.procs.push({ id, config });
+    /**
+     * Register event listeners for proc triggers.
+     */
+    registerEventListeners() {
+        this.scene.events.on('enemy-damaged', this.onEnemyDamaged, this);
+        this.scene.events.on('enemy-killed', this.onEnemyKilled, this);
+        this.scene.events.on('player-damaged', this.onPlayerDamaged, this);
+        this.scene.events.on('player-attacked', this.onPlayerAttacked, this);
     }
 
-    onEnemyDamaged(target) {
+    /**
+     * Add a proc instance to be managed.
+     * @param {ProcLegendary} procInstance - The proc to add
+     */
+    addProc(procInstance) {
+        if (!procInstance || !procInstance.id) {
+            console.error('ProcManager: Invalid proc instance');
+            return;
+        }
+
+        this.procs.set(procInstance.id, procInstance);
+        procInstance.activate();
+
+        console.debug('ProcManager: Added proc', {
+            id: procInstance.id,
+            name: procInstance.name,
+            triggerEvent: procInstance.triggerEvent
+        });
+    }
+
+    /**
+     * Handle enemy-damaged event.
+     */
+    onEnemyDamaged(enemy, amount, isCritical, attacker) {
+        this.triggerProcs('enemy-damaged', { enemy, amount, isCritical, attacker });
+    }
+
+    /**
+     * Handle enemy-killed event.
+     */
+    onEnemyKilled(enemy, killer) {
+        this.triggerProcs('enemy-killed', { enemy, killer });
+    }
+
+    /**
+     * Handle player-damaged event.
+     */
+    onPlayerDamaged(amount) {
+        this.triggerProcs('player-damaged', { amount });
+    }
+
+    /**
+     * Handle player-attacked event.
+     */
+    onPlayerAttacked(target) {
+        this.triggerProcs('player-attacked', { target });
+    }
+
+    /**
+     * Trigger all procs that match the event type.
+     * @param {string} eventType - The event type
+     * @param {Object} data - Event data
+     */
+    triggerProcs(eventType, data) {
         this.procs.forEach(proc => {
-            if (Math.random() < proc.config.chance) {
-                this.triggerProc(proc, target);
-            }
-        });
-    }
-
-    triggerProc(proc, target) {
-        if (proc.id === 'chain_lightning') {
-            this.doChainLightning(proc.config, target);
-        } else if (proc.id === 'frost_nova') {
-            this.doFrostNova(proc.config, target);
-        }
-    }
-
-    doChainLightning(config, initialTarget) {
-        const range = config.range;
-        const bounces = config.bounces;
-        const damage = config.damage;
-
-        // Simple BFS/Greedy chain
-        let current = initialTarget;
-        let chain = [current];
-
-        // Visual
-        const graphics = this.scene.add.graphics();
-        graphics.lineStyle(2, config.color, 1);
-
-        for (let i = 0; i < bounces; i++) {
-            // Find nearest neighbor not in chain
-            const enemies = this.scene.enemySpawner.enemies.filter(e => e.isActive && !chain.includes(e));
-            let nearest = null;
-            let minDist = range;
-
-            enemies.forEach(e => {
-                const dist = Phaser.Math.Distance.Between(current.x, current.y, e.x, e.y);
-                if (dist < minDist) {
-                    minDist = dist;
-                    nearest = e;
-                }
-            });
-
-            if (nearest) {
-                // Zap
-                nearest.takeDamage(damage);
-
-                // Draw line
-                graphics.lineBetween(current.x, current.y, nearest.x, nearest.y);
-
-                current = nearest;
-                chain.push(current);
-            } else {
-                break; // No more targets
-            }
-        }
-
-        // Fade out graphics
-        this.scene.tweens.add({
-            targets: graphics,
-            alpha: 0,
-            duration: 300,
-            onComplete: () => graphics.destroy()
-        });
-    }
-
-    doFrostNova(config, center) {
-        const radius = config.radius;
-        const damage = config.damage;
-
-        // Visual Circle
-        const circle = this.scene.add.circle(center.x, center.y, 10, config.color, 0.5);
-        this.scene.tweens.add({
-            targets: circle,
-            scale: radius / 10, // Scale to radius
-            alpha: 0,
-            duration: 400,
-            onComplete: () => circle.destroy()
-        });
-
-        // Hit enemies
-        const enemies = this.scene.enemySpawner.enemies.filter(e => e.isActive);
-        enemies.forEach(e => {
-            if (Phaser.Math.Distance.Between(center.x, center.y, e.x, e.y) <= radius) {
-                e.takeDamage(damage);
-
-                // Apply Freeze (Slow)
-                // We need a mechanic on Enemy to handle speed modifiers. 
-                // Currently Enemy.js doesn't have a standardized status effect system other than simple DOT stub.
-                // Let's manually slow them for now.
-                if (e.enemy) {
-                    const originalSpeed = e.enemy.speed;
-                    e.enemy.speed = 0; // Stop them
-                    e.sprite.setTint(0x00FFFF);
-
-                    this.scene.time.delayedCall(config.freezeDuration, () => {
-                        if (e.isActive && e.enemy) {
-                            e.enemy.speed = originalSpeed; // Restore (buggy if multiple layers, but ok for proto)
-                            e.sprite.clearTint();
-                        }
-                    });
+            if (proc.triggerEvent === eventType && proc.isActive) {
+                // Check cooldown and chance
+                if (proc.canTrigger() && proc.rollChance()) {
+                    proc.onTrigger(data);
                 }
             }
         });
+    }
+
+    /**
+     * Get a proc by ID.
+     * @param {string} id - Proc ID
+     * @returns {ProcLegendary|null}
+     */
+    getProc(id) {
+        return this.procs.get(id) || null;
+    }
+
+    /**
+     * Get all active procs.
+     * @returns {Array<ProcLegendary>}
+     */
+    getAllProcs() {
+        return Array.from(this.procs.values());
+    }
+
+    /**
+     * Cleanup all procs and remove event listeners.
+     */
+    destroy() {
+        // Remove event listeners
+        this.scene.events.off('enemy-damaged', this.onEnemyDamaged, this);
+        this.scene.events.off('enemy-killed', this.onEnemyKilled, this);
+        this.scene.events.off('player-damaged', this.onPlayerDamaged, this);
+        this.scene.events.off('player-attacked', this.onPlayerAttacked, this);
+
+        // Destroy all procs
+        this.procs.forEach(proc => proc.destroy());
+        this.procs.clear();
+
+        console.debug('ProcManager: Destroyed all procs');
+    }
+
+    /**
+     * Reset for new run.
+     */
+    reset() {
+        this.destroy();
+        this.registerEventListeners();
     }
 }

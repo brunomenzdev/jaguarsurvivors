@@ -1,152 +1,133 @@
+/**
+ * GadgetManager
+ * 
+ * Manages all gadget-type legendary upgrades.
+ * Orchestrates gadget lifecycle, update loop, and collision handling.
+ * 
+ * Responsibilities:
+ * - Store gadget instances
+ * - Update all gadgets each frame
+ * - Handle collision detection for gadget projectiles
+ * - Cleanup on game reset
+ * 
+ * Does NOT contain gadget behavior logic - that lives in individual gadget classes.
+ */
 export class GadgetManager {
     constructor(scene) {
         this.scene = scene;
-        this.gadgets = [];
+        this.gadgets = new Map(); // id -> GadgetLegendary instance
         this.projectileGroup = this.scene.physics.add.group();
+        this.setupCollisions();
+    }
 
-        // Handling gadget collisions
-        this.scene.physics.add.overlap(this.projectileGroup, this.scene.enemySpawner.group, (proj, enemySprite) => {
-            const gadget = proj.getData('gadgetRef');
-            const enemy = enemySprite.getData('parent');
+    /**
+     * Setup collision handling for gadget projectiles.
+     */
+    setupCollisions() {
+        // Collision between gadget projectiles and enemies
+        this.scene.physics.add.overlap(
+            this.projectileGroup,
+            this.scene.enemySpawner.group,
+            (proj, enemySprite) => {
+                const gadgetRef = proj.getData('gadgetRef');
+                const enemy = enemySprite.getData('parent');
 
-            if (gadget && enemy && enemy.isActive) {
-                this.onGadgetHit(gadget, enemy);
+                if (gadgetRef && enemy && enemy.isActive) {
+                    this.onGadgetHit(gadgetRef, enemy, proj);
+                }
             }
+        );
+    }
+
+    /**
+     * Add a gadget instance to be managed.
+     * @param {GadgetLegendary} gadgetInstance - The gadget to add
+     */
+    addGadget(gadgetInstance) {
+        if (!gadgetInstance || !gadgetInstance.id) {
+            console.error('GadgetManager: Invalid gadget instance');
+            return;
+        }
+
+        this.gadgets.set(gadgetInstance.id, gadgetInstance);
+        gadgetInstance.activate();
+
+        console.debug('GadgetManager: Added gadget', {
+            id: gadgetInstance.id,
+            name: gadgetInstance.name
         });
     }
 
-    addGadget(id, config) {
-        const gadget = {
-            id,
-            config,
-            active: true,
-            timer: 0,
-            sprite: null
-        };
-
-        if (id === 'orbital_blade') {
-            // Create visual representation
-            gadget.sprite = this.scene.physics.add.image(this.scene.player.x, this.scene.player.y, config.sprite);
-            gadget.sprite.setScale(config.scale);
-            gadget.sprite.setTint(0xFFD700); // Gold tint
-            this.projectileGroup.add(gadget.sprite);
-            gadget.sprite.setData('gadgetRef', gadget);
-            gadget.angle = 0;
-        } else if (id === 'auto_turret') {
-            // Floating drone near player
-            gadget.sprite = this.scene.add.image(this.scene.player.x, this.scene.player.y, config.sprite);
-            gadget.sprite.setScale(0.5);
-            gadget.sprite.setTint(0x00FF00); // Tech tint
-        }
-
-        this.gadgets.push(gadget);
-    }
-
+    /**
+     * Update all gadgets.
+     * @param {number} delta - Time since last frame in ms
+     */
     update(delta) {
-        const player = this.scene.player;
-
-        this.gadgets.forEach(g => {
-            if (!g.active) return;
-
-            if (g.id === 'orbital_blade') {
-                this.updateOrbital(g, player, delta);
-            } else if (g.id === 'auto_turret') {
-                this.updateTurret(g, player, delta);
+        this.gadgets.forEach(gadget => {
+            if (gadget.isActive) {
+                gadget.update(delta);
             }
         });
     }
 
-    updateOrbital(gadget, player, delta) {
-        const cfg = gadget.config;
-        gadget.angle += cfg.speed * (delta / 1000);
-
-        const x = player.x + Math.cos(gadget.angle) * cfg.radius;
-        const y = player.y + Math.sin(gadget.angle) * cfg.radius;
-
-        gadget.sprite.setPosition(x, y);
-        gadget.sprite.rotation = gadget.angle + Math.PI / 2; // Face direction of movement
-    }
-
-    updateTurret(gadget, player, delta) {
-        // Floating follow
-        const targetX = player.x - 50;
-        const targetY = player.y - 50;
-        // Smooth lerp
-        gadget.sprite.x += (targetX - gadget.sprite.x) * 0.1;
-        gadget.sprite.y += (targetY - gadget.sprite.y) * 0.1;
-
-        gadget.timer += delta;
-        const fireRate = gadget.config.fireRate; // e.g., 1000ms
-
-        if (gadget.timer >= fireRate) {
-            this.turretFire(gadget);
-            gadget.timer = 0;
+    /**
+     * Handle collision between gadget and enemy.
+     * Routes to the gadget's onHit method if it exists.
+     * @param {GadgetLegendary} gadget - The gadget that hit
+     * @param {Object} enemy - The enemy that was hit
+     * @param {Phaser.GameObjects.GameObject} projectile - The projectile sprite (optional)
+     */
+    onGadgetHit(gadget, enemy, projectile = null) {
+        if (gadget.onHit && typeof gadget.onHit === 'function') {
+            gadget.onHit(enemy, projectile);
         }
     }
 
-    turretFire(gadget) {
-        // Find nearest enemy
-        const enemies = this.scene.enemySpawner.enemies.filter(e => e.isActive);
-        if (enemies.length === 0) return;
-
-        let nearest = null;
-        let minDist = gadget.config.range;
-
-        enemies.forEach(e => {
-            const dist = Phaser.Math.Distance.Between(gadget.sprite.x, gadget.sprite.y, e.x, e.y);
-            if (dist < minDist) {
-                minDist = dist;
-                nearest = e;
-            }
-        });
-
-        if (nearest) {
-            // Fire projectile
-            // We can reuse Weapon logic or simple projectile here. Let's do simple for speed.
-            const proj = this.scene.physics.add.image(gadget.sprite.x, gadget.sprite.y, 'weapon_laser_gun');
-            proj.setScale(0.5);
-            proj.setTint(0x00FF00);
-            this.projectileGroup.add(proj);
-
-            const angle = Phaser.Math.Angle.Between(gadget.sprite.x, gadget.sprite.y, nearest.x, nearest.y);
-            const speed = gadget.config.projectileSpeed;
-
-            proj.body.setVelocity(Math.cos(angle) * speed, Math.sin(angle) * speed);
-            proj.rotation = angle;
-
-            // Temporary data for damage
-            proj.setData('gadgetRef', { ...gadget, isProjectile: true }); // Hacky ref to pass dmg
-
-            // Destroy after range/time
-            this.scene.time.delayedCall(1000, () => proj.destroy());
-        }
+    /**
+     * Get a gadget by ID.
+     * @param {string} id - Gadget ID
+     * @returns {GadgetLegendary|null}
+     */
+    getGadget(id) {
+        return this.gadgets.get(id) || null;
     }
 
-    onGadgetHit(gadget, enemy) {
-        // Check cooldown to prevent frame-perfect melting for continuous colliders like Orbital
-        if (gadget.isProjectile) {
-            // It's a bullet, destroy it
-            // Find actual gadget config passed in the hacky way
-            const damage = gadget.config.damage;
-            enemy.takeDamage(damage);
-            // Destroy projectile
-            // We can't easily destroy the projectile sprite from here without passing it ref
-            // But wait, the collider callback passed 'proj' as first arg? 
-            // Ah, look at top: physics.add.overlap(this.projectileGroup...) -> (proj, enemySprite)
-            // But I called onGadgetHit(gadget, enemy). 
-            // I need to change the signature or handle destruction there.
-        } else {
-            // It's a persistent gadget like Orbital
-            const now = this.scene.time.now;
-            if (!gadget.lastHitTime) gadget.lastHitTime = {};
+    /**
+     * Get all active gadgets.
+     * @returns {Array<GadgetLegendary>}
+     */
+    getAllGadgets() {
+        return Array.from(this.gadgets.values());
+    }
 
-            // Internal cooldown per enemy to avoid 1-frame kill
-            if (!gadget.lastHitTime[enemy.container.id] || now - gadget.lastHitTime[enemy.container.id] > 500) {
-                enemy.takeDamage(gadget.config.damage);
-                gadget.lastHitTime[enemy.container.id] = now;
+    /**
+     * Cleanup all gadgets and projectiles.
+     */
+    destroy() {
+        if (this.gadgets) {
+            this.gadgets.forEach(gadget => {
+                if (gadget && typeof gadget.destroy === 'function') {
+                    gadget.destroy();
+                }
+            });
+            this.gadgets.clear();
+        }
 
-                // Juice - now handled via enemy-damaged event (via takeDamage)
+        if (this.projectileGroup && this.projectileGroup.scene && typeof this.projectileGroup.clear === 'function') {
+            try {
+                this.projectileGroup.clear(true, true);
+            } catch (e) {
+                console.debug('GadgetManager: Error clearing projectileGroup during shutdown', e);
             }
         }
+
+        console.debug('GadgetManager: Destroyed all gadgets');
+    }
+
+    /**
+     * Reset for new run.
+     */
+    reset() {
+        this.destroy();
     }
 }

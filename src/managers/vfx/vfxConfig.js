@@ -130,27 +130,6 @@ export const VFX_CONFIG = {
             effectClass: FlashEffect,
             condition: (d) => d.type === 'enrage',
             config: { duration: 100, color: 0xFF0000 }
-        },
-        // Spark
-        {
-            effectClass: SparkEffect,
-            condition: (d) => d.type === 'stun',
-            config: { count: 30, color: 0xFFFF00, speedMin: 100, speedMax: 500, life: 600 }
-        },
-        {
-            effectClass: SparkEffect,
-            condition: (d) => d.type === 'freeze',
-            config: { count: 30, color: 0x00FFFF, speedMin: 100, speedMax: 500, life: 600 }
-        },
-        {
-            effectClass: SparkEffect,
-            condition: (d) => d.type === 'poison',
-            config: { count: 30, color: 0x00FF00, speedMin: 100, speedMax: 500, life: 600 }
-        },
-        {
-            effectClass: SparkEffect,
-            condition: (d) => d.type === 'burn',
-            config: { count: 30, color: 0xFFD700, speedMin: 100, speedMax: 500, life: 600 }
         }
     ],
 
