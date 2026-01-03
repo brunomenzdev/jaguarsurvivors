@@ -281,7 +281,9 @@ export const bossPhaseConfig = {
                             chargeUpTime: 600,
                             chargeSpeed: 4.0,
                             chargeDuration: 600,
-                            cooldownTime: 800
+                            cooldownTime: 800,
+                            idleSpeed: 0.3,
+                            lockDirection: true
                         }
                     }
                 ],

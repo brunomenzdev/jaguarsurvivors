@@ -42,19 +42,19 @@ export class BossUIManager {
      * Foca o HUD em um chefe específico.
      */
     show(boss) {
-        if (!boss) return;
+        if (!boss || !boss.bossEntity || !boss.bossConfig) return;
 
         // Se trocou de chefe, atualiza o nome
-        if (this.currentBoss !== boss) {
-            this.nameText.textContent = (boss.enemy?.name || boss.name || 'BOSS').toUpperCase();
+        if (this.currentBoss !== boss.bossEntity) {
+            this.nameText.textContent = (boss.bossConfig?.name || 'BOSS').toUpperCase();
         }
 
-        this.currentBoss = boss;
+        this.currentBoss = boss.bossEntity;
+
+        this.updateHealth();
+
         this.container.style.display = 'flex';
         this.container.classList.add('active');
-
-        // DO NOT call update() here - this was causing infinite recursion!
-        // The boss flow controller will call update() separately when needed.
     }
 
     hide() {
@@ -66,9 +66,12 @@ export class BossUIManager {
     }
 
     update() {
+        this.updateHealth();
+    }
+
+    updateHealth() {
         if (!this.currentBoss || !this.currentBoss.isActive || this.currentBoss.health <= 0) {
             // Boss is dead or inactive - hide the UI
-            // DO NOT call show() here - let boss flow controller manage this!
             this.hide();
             return;
         }

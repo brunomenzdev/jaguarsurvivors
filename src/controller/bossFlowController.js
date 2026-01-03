@@ -52,7 +52,7 @@ export class BossFlowController {
 
             // Notifica sistemas (UI, Câmera, Audio) via evento central
             console.debug("EVENT_EMITTED", { eventName: 'boss-spawned', payload: bossEntity });
-            this.events.emit('boss-spawned', bossEntity);
+            this.events.emit('boss-spawned', { bossEntity: bossEntity, bossConfig: finalBossConfig });
         });
     }
 
