@@ -21,8 +21,8 @@ export class AutoTurretGadget extends GadgetLegendary {
         const player = this.scene.player;
 
         const sprite = this.scene.add.image(
-            player.x - 50,
-            player.y - 50,
+            player.x,
+            player.y,
             this.config.sprite || 'weapon_laser_gun'
         );
 
@@ -39,17 +39,6 @@ export class AutoTurretGadget extends GadgetLegendary {
 
     update(delta) {
         if (!this.isActive || this.sprites.length === 0) return;
-
-        const player = this.scene.player;
-        if (!player) return;
-
-        const sprite = this.sprites[0];
-
-        // Smooth follow with offset
-        const targetX = player.x - 50;
-        const targetY = player.y - 50;
-        sprite.x += (targetX - sprite.x) * 0.1;
-        sprite.y += (targetY - sprite.y) * 0.1;
 
         // Attack logic
         this.attackTimer += delta;
