@@ -152,16 +152,53 @@ export class PlayerDash {
     updateCooldownIndicator() {
         this.cooldownIndicator.clear();
 
-        const cooldownProgress = this.cooldownTimer / this.stats.dashCooldown;
+        const progress = Phaser.Math.Clamp(
+            1 - (this.cooldownTimer / this.stats.dashCooldown),
+            0,
+            1
+        );
 
-        if (cooldownProgress > 0) {
-            // Draw a shrinking black circle to indicate cooldown
-            this.cooldownIndicator.fillStyle(0x000000, 0.5);
-            this.cooldownIndicator.fillCircle(0, 0, 35 * cooldownProgress);
-        } else {
-            // Draw a white ring to indicate dash is ready
-            this.cooldownIndicator.lineStyle(2, 0xFFFFFF, 0.8);
-            this.cooldownIndicator.strokeCircle(0, 0, 12);
+        // ---- TUNING ----
+        const width = 28;
+        const height = 4;
+        const offsetY = ((this.player?.config?.bodyHeight || 130) + 10) * -1 / 2; // ↑ sobe mais (ajuste fino aqui)
+        // ----------------
+
+        // Background
+        this.cooldownIndicator.fillStyle(0x000000, 0.4);
+        this.cooldownIndicator.fillRoundedRect(
+            -width / 2,
+            offsetY,
+            width,
+            height,
+            2
+        );
+
+        // Foreground
+        const color = progress >= 1 ? 0x00ff88 : 0x00bfff;
+
+        this.cooldownIndicator.fillStyle(color, 0.9);
+        this.cooldownIndicator.fillRoundedRect(
+            -width / 2,
+            offsetY,
+            width * progress,
+            height,
+            2
+        );
+
+        // Optional outline when ready
+        if (progress >= 1) {
+            this.cooldownIndicator.lineStyle(1, 0x00ff88, 0.8);
+            this.cooldownIndicator.strokeRoundedRect(
+                -width / 2,
+                offsetY,
+                width,
+                height,
+                2
+            );
         }
+
+        // Optional: hide when ready
+        this.cooldownIndicator.setVisible(progress < 1);
     }
 }
