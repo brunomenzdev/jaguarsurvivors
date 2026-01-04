@@ -160,6 +160,28 @@ export const upgradesConfig = [
         type: 'passive',
         maxStacks: -1,
         applyEffect: { stat: 'hpRegenStat', operation: 'addFlat', value: 1.0 }
+    },
+    {
+        id: 'dash_cooldown',
+        name: 'DASH MAIS RÁPIDO',
+        spriteKey: 'pickup_speedboots',
+        iconSpriteKey: 'pickup_speedboots',
+        icon: '💨',
+        desc: '-15% Cooldown do Dash',
+        type: 'passive',
+        maxStacks: -1,
+        applyEffect: { stat: 'dashCooldownStat', operation: 'addMultiplier', value: -0.15 }
+    },
+    {
+        id: 'dash_speed',
+        name: 'DASH MAIS LONGO',
+        spriteKey: 'pickup_speedboots',
+        iconSpriteKey: 'pickup_speedboots',
+        icon: '🚀',
+        desc: '+20% Distância do Dash',
+        type: 'passive',
+        maxStacks: -1,
+        applyEffect: { stat: 'dashSpeedStat', operation: 'addMultiplier', value: 0.20 }
     }
 ];
 

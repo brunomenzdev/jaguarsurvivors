@@ -1,8 +1,9 @@
 export class PlayerDash {
-    constructor(scene, player, config) {
+    constructor(scene, player, stats, config) {
         this.scene = scene;
         this.player = player;
-        this.config = config.dash || { duration: 250, speed: 1000, cooldown: 1000 };
+        this.stats = stats;
+        this.config = config.dash || { duration: 250 };
 
         this.isDashing = false;
         this.dashTimer = 0;
@@ -17,9 +18,12 @@ export class PlayerDash {
         // Visuals
         this.ghostTimer = 0;
         this.ghostInterval = 50; // spawn ghost every 50ms
+        this.cooldownIndicator = this.scene.add.graphics();
+        this.player.view.container.add(this.cooldownIndicator);
     }
 
     update(cursors, wasd, delta) {
+        this.updateCooldownIndicator();
         // Handle Cooldown
         if (this.cooldownTimer > 0) {
             this.cooldownTimer -= delta;
@@ -97,7 +101,7 @@ export class PlayerDash {
         this.dashTimer -= delta;
 
         // Move Player
-        const speed = this.config.speed;
+        const speed = this.stats.dashSpeed;
         this.player.movement.body.setVelocity(
             this.dashDirection.x * speed,
             this.dashDirection.y * speed
@@ -119,7 +123,7 @@ export class PlayerDash {
     endDash() {
         console.debug('Dash Ended');
         this.isDashing = false;
-        this.cooldownTimer = this.config.cooldown;
+        this.cooldownTimer = this.stats.dashCooldown;
 
         // Reset Physics
         this.player.movement.body.setVelocity(0, 0);
@@ -143,5 +147,21 @@ export class PlayerDash {
 
         this.player.isInvulnerable = false;
         this.player.invTimer = 0;
+    }
+
+    updateCooldownIndicator() {
+        this.cooldownIndicator.clear();
+
+        const cooldownProgress = this.cooldownTimer / this.stats.dashCooldown;
+
+        if (cooldownProgress > 0) {
+            // Draw a shrinking black circle to indicate cooldown
+            this.cooldownIndicator.fillStyle(0x000000, 0.5);
+            this.cooldownIndicator.fillCircle(0, 0, 35 * cooldownProgress);
+        } else {
+            // Draw a white ring to indicate dash is ready
+            this.cooldownIndicator.lineStyle(2, 0xFFFFFF, 0.8);
+            this.cooldownIndicator.strokeCircle(0, 0, 12);
+        }
     }
 }

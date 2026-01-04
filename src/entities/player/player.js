@@ -12,7 +12,7 @@ export class Player {
         this.stats = new PlayerStats(playerConfig);
         this.view = new PlayerView(scene, x, y, playerConfig);
         this.movement = new PlayerMovement(scene, this.view.container, this.stats, playerConfig);
-        this.dash = new PlayerDash(scene, this, playerConfig);
+        this.dash = new PlayerDash(scene, this, this.stats, playerConfig);
 
 
         this._health = this.stats.maxHealth;
