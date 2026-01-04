@@ -29,8 +29,8 @@ export const mapsConfig = [
         boss: 'boss_bandido_moto',
         duration: 300,
         events: [
-            { time: 300, type: 'boss_spawn', key: 'boss_bandido_moto' },
-            { time: 60, type: 'final_hour' }
+            { time: 210, type: 'boss_spawn', key: 'boss_bandido_moto' },
+            { time: 45, type: 'final_hour' }
         ]
     },
     {
@@ -52,8 +52,8 @@ export const mapsConfig = [
         boss: 'boss_karl_marx',
         duration: 300,
         events: [
-            { time: 180, type: 'boss_spawn', key: 'boss_karl_marx' },
-            { time: 30, type: 'final_hour' }
+            { time: 210, type: 'boss_spawn', key: 'boss_karl_marx' },
+            { time: 45, type: 'final_hour' }
         ]
     },
     {
@@ -72,10 +72,10 @@ export const mapsConfig = [
             { interval: 1200, enemiesPerWave: 3, enemyTypes: ['enemy_petista'], totalEnemies: 60, bossPerWave: 0, spawnDistance: 700, maxOnScreen: 50 },
             { interval: 800, enemiesPerWave: 4, enemyTypes: ['enemy_partido_amarelo', 'enemy_elite_avenida_2'], totalEnemies: 100, bossPerWave: 1, spawnDistance: 700, maxOnScreen: 50 }
         ],
-        boss: 'boss_venus',
+        boss: 'boss_tia_zap',
         duration: 300,
         events: [
-            { time: 120, type: 'boss_spawn', key: 'boss_venus' },
+            { time: 210, type: 'boss_spawn', key: 'boss_tia_zap' },
             { time: 45, type: 'final_hour' }
         ]
     }
