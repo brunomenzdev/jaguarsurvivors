@@ -1,6 +1,5 @@
 import { PreloadScene } from './scenes/preloadScene.js';
 import { BootScene } from './scenes/bootScene.js';
-import { MapSelectionScene } from './scenes/mapSelectionScene.js';
 import { GameScene } from './scenes/gameScene.js';
 import { CONFIG } from './config/config.js';
 import { SaveManager } from './managers/saveManager.js';
@@ -17,9 +16,9 @@ export const GameEvents = {
         if (GameEvents.gameInstance) {
             GameEvents.gameInstance.sound.stopAll();
             GameEvents.gameInstance.scene.stop('GameScene');
-            GameEvents.gameInstance.scene.stop('MapSelectionScene');
         }
         document.getElementById('pause-screen').classList.remove('active');
+        document.getElementById('map-select').classList.remove('active');
         document.getElementById('char-select').classList.add('active');
         GameEvents.generateCharacterSelection();
     },
@@ -28,9 +27,9 @@ export const GameEvents = {
         if (GameEvents.gameInstance) {
             GameEvents.gameInstance.sound.stopAll();
             GameEvents.gameInstance.scene.stop('GameScene');
-            GameEvents.gameInstance.scene.stop('MapSelectionScene');
         }
         document.getElementById('pause-screen').classList.remove('active');
+        document.getElementById('map-select').classList.remove('active');
         document.getElementById('main-menu').classList.add('active');
     },
     goToShop: () => {
@@ -53,12 +52,58 @@ export const GameEvents = {
     },
 
     startGame: (charType) => {
+        GameEvents.selectedChar = charType;
+        GameEvents.hideAllOverlays();
+        document.getElementById('map-select').classList.add('active');
+        GameEvents.generateMapSelection();
+    },
+
+    generateMapSelection: () => {
+        const container = document.getElementById('map-container');
+        container.innerHTML = '';
+
+        CONFIG.maps.forEach(map => {
+            const card = document.createElement('div');
+            card.classList.add('map-card');
+
+            // Find if there's a record or something (future proofing)
+            const mapStatus = "MISSAO DISPONÍVEL";
+
+            card.innerHTML = `
+                <div class="map-badge">MAPA</div>
+                <div class="map-preview">
+                    <img src="${map.background.inner}" alt="${map.name}">
+                </div>
+                <div class="map-card-content">
+                    <h3>${map.name}</h3>
+                    <p>${map.description}</p>
+                    <div class="map-status">${mapStatus}</div>
+                </div>
+            `;
+
+            card.onclick = () => {
+                // Play sound if possible
+                const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
+                if (bootScene && bootScene.sound) {
+                    bootScene.sound.play('menuclick');
+                }
+
+                GameEvents.launchGame(map.id);
+            };
+
+            container.appendChild(card);
+        });
+    },
+
+    launchGame: (mapId) => {
         GameEvents.hideAllOverlays();
         // Hide HUD until actual game starts
         document.getElementById('game-ui').style.display = 'none';
 
-        // Start Map Selection Scene
-        GameEvents.gameInstance.scene.start('MapSelectionScene', { charType: charType });
+        GameEvents.gameInstance.scene.start('GameScene', {
+            charType: GameEvents.selectedChar,
+            mapId: mapId
+        });
     },
 
     resumeGame: () => {
@@ -228,7 +273,7 @@ const gameConfig = {
         }
     },
     render: { pixelArt: false, antialias: true },
-    scene: [PreloadScene, BootScene, MapSelectionScene, GameScene]
+    scene: [PreloadScene, BootScene, GameScene]
 };
 
 window.onload = () => {
