@@ -63,9 +63,14 @@ export class EnemySpawner {
      */
     update(delta) {
         this.handleCleanup();
-        this.handleWaves(delta);
         this.updateEnemies(delta);
-        this.checkWaveCompletion();
+
+        if (this.isInEndlessMode) {
+            this.handleEndlessSpawning(delta);
+        } else {
+            this.handleWaves(delta);
+            this.checkWaveCompletion();
+        }
     }
 
     /**
@@ -141,55 +146,53 @@ export class EnemySpawner {
      * Avança para a próxima onda.
      */
     nextWave() {
-        if (this.isInEndlessMode) {
-            this.initEndlessWave();
+        // In Endless Mode, this is no longer called due to the update() logic branch.
+        // This remains for standard wave-based gameplay.
+        const nextIndex = this.wave + 1;
+        if (this.waves[nextIndex]) {
+            this.initWave(nextIndex);
         } else {
-            const nextIndex = this.wave + 1;
-            if (this.waves[nextIndex]) {
-                this.initWave(nextIndex);
-            } else {
-                if (!this.scene.isEndlessMode) {
-                    this.scene.events.emit('map-completed');
-                }
+            if (!this.scene.isEndlessMode) {
+                this.scene.events.emit('map-completed');
             }
         }
     }
 
     startEndlessMode() {
         this.isInEndlessMode = true;
-        this.initEndlessWave();
+        this.timer = 0; // Reset timer for continuous spawning.
     }
 
-    generateEndlessWaveConfig() {
-        const endlessWave = (this.wave - this.waves.length) + 1;
-        const difficulty = 1 + (endlessWave * CONFIG.endlessMode.waveDifficultyMultiplier);
-        const enemyTypes = this.mapConfig.waves[this.mapConfig.waves.length - 1].enemyTypes;
+    handleEndlessSpawning(delta) {
+        const survivalTime = this.scene.stageSystem.survivalTimer; // in seconds
 
-        return {
-            totalEnemies: Math.floor(10 * difficulty),
-            maxOnScreen: Math.floor(15 * difficulty),
-            enemiesPerWave: Math.floor(2 * difficulty),
-            interval: Math.max(100, 500 / difficulty),
-            enemyTypes: enemyTypes,
-            spawnDistance: 700,
-            bossPerWave: Math.random() < CONFIG.endlessMode.bossChance ? 1 : 0,
-        };
-    }
+        // Difficulty scales directly with survival time.
+        // Factor increases by 0.025 every second (doubles every 40s).
+        const difficultyFactor = 1 + (survivalTime * 0.025);
 
-    initEndlessWave() {
-        this.wave++;
-        this.waveConfig = this.generateEndlessWaveConfig();
-        this.spawnedCount = 0;
-        this.timer = 0;
-        this.isWaveFinished = false;
+        const spawnInterval = Math.max(400, 1800 / difficultyFactor);
+        const enemiesPerSpawn = 1 + Math.floor(survivalTime / 20); // One new enemy slot every 20s
+        const maxOnScreen = Math.floor(25 * difficultyFactor);
 
-        const payload = {
-            index: this.wave + 1,
-            config: this.waveConfig,
-            isBossWave: false,
-            isEndless: true,
-        };
-        this.scene.events.emit('wave-changed', payload);
+        if (this.enemies.length >= maxOnScreen) {
+            return; // Throttle spawning if max capacity is reached.
+        }
+
+        this.timer += delta;
+        if (this.timer >= spawnInterval) {
+            this.timer = 0;
+
+            const enemyTypes = this.mapConfig.waves[this.mapConfig.waves.length - 1].enemyTypes;
+            if (enemyTypes.length === 0) return;
+
+            for (let i = 0; i < enemiesPerSpawn; i++) {
+                const type = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
+                const enemyConfig = CONFIG.enemy.find(e => e.key === type);
+                if (enemyConfig) {
+                    this.spawnEntity(enemyConfig, { distance: 800 });
+                }
+            }
+        }
     }
 
     /**

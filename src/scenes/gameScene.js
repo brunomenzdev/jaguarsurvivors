@@ -20,6 +20,7 @@ export class GameScene extends Phaser.Scene {
         // Ensure clean state on init
         this.isShuttingDown = false;
         this.isEndlessMode = false;
+        this.totalEnemiesDefeated = 0;
         this.events.on('shutdown', this.shutdown, this);
     }
 
@@ -62,6 +63,11 @@ export class GameScene extends Phaser.Scene {
 
         // Inicia sistema de ondas
         this.enemySystem.enemySpawner.initWave(0);
+
+        // Statistics tracking
+        this.events.on('enemy-defeated', () => {
+            this.totalEnemiesDefeated++;
+        });
 
         // Input - Pause
         this.input.keyboard.on('keydown-ESC', () => {
