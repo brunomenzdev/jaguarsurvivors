@@ -4,6 +4,7 @@ export const weaponsConfig = [
     {
         key: 'weapon_sword',
         name: 'Espada',
+        description: 'Ataques rápidos e equilibrados',
         type: 'melee',
         image: 'src/assets/images/weapon_sword.png',
         slotType: 'primary',
@@ -46,6 +47,7 @@ export const weaponsConfig = [
     {
         key: 'weapon_arm',
         name: 'Braço',
+        description: 'Golpes devastadores em área',
         type: 'melee',
         image: 'src/assets/images/weapon_arm.png',
         slotType: 'primary',
@@ -89,6 +91,7 @@ export const weaponsConfig = [
     {
         key: 'weapon_katana',
         name: 'Katana',
+        description: 'Velocidade letal com alcance',
         type: 'melee',
         image: 'src/assets/images/weapon_katana.png',
         slotType: 'primary',
@@ -131,6 +134,7 @@ export const weaponsConfig = [
     {
         key: 'weapon_axe',
         name: 'Machado Sangrento',
+        description: 'Dano brutal e knockback massivo',
         type: 'melee',
         image: 'src/assets/images/weapon_axe.png',
         slotType: 'primary',
@@ -174,6 +178,7 @@ export const weaponsConfig = [
     {
         key: 'weapon_hammer',
         name: 'Martelo Brasileiro',
+        description: 'Impacto explosivo e controle',
         type: 'melee',
         image: 'src/assets/images/weapon_hammer.png',
         slotType: 'primary',
@@ -217,6 +222,7 @@ export const weaponsConfig = [
     {
         key: 'weapon_mace',
         name: 'Maça do Impeachment',
+        description: 'Força bruta e destruição',
         type: 'melee',
         image: 'src/assets/images/weapon_mace.png',
         slotType: 'primary',
@@ -259,6 +265,7 @@ export const weaponsConfig = [
     {
         key: 'weapon_magic_staff',
         name: 'Microfone Gelado',
+        description: 'Controle elemental com congelamento',
         type: 'melee',
         image: 'src/assets/images/weapon_magic_staff.png',
         slotType: 'primary',
@@ -301,6 +308,7 @@ export const weaponsConfig = [
     {
         key: 'weapon_flame_sword',
         name: 'Espada de Fogo',
+        description: 'Dano contínuo com queimadura',
         type: 'melee',
         image: 'src/assets/images/weapon_flame_sword.png',
         slotType: 'primary',
@@ -344,6 +352,7 @@ export const weaponsConfig = [
     {
         key: 'weapon_laser_gun',
         name: 'Arma Laser',
+        description: 'Rajadas rápidas de energia',
         type: 'ranged',
         image: 'src/assets/images/weapon_laser_gun.png',
         slotType: 'primary',
@@ -387,6 +396,7 @@ export const weaponsConfig = [
     {
         key: 'weapon_rifle',
         name: 'Rifle',
+        description: 'Tiros precisos de longo alcance',
         type: 'ranged',
         image: 'src/assets/images/weapon_rifle.png',
         slotType: 'primary',
@@ -628,6 +638,7 @@ export const weaponsConfig = [
     {
         key: 'weapon_scythe',
         name: 'Foice',
+        description: 'Rotação devastadora 360°',
         type: 'melee',
         image: 'src/assets/images/weapon_scythe.png',
         slotType: 'primary',
@@ -670,6 +681,7 @@ export const weaponsConfig = [
     {
         key: 'weapon_orb',
         name: 'Orbe Mágico',
+        description: 'Projéteis místicos de busca',
         type: 'ranged',
         image: 'src/assets/images/weapon_orb.png',
         slotType: 'primary',

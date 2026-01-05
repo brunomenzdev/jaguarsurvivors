@@ -54,6 +54,13 @@ export const GameEvents = {
     startGame: (charType) => {
         GameEvents.selectedChar = charType;
         GameEvents.hideAllOverlays();
+        document.getElementById('weapon-select').classList.add('active');
+        GameEvents.generateWeaponSelection();
+    },
+
+    selectWeapon: (weaponKey) => {
+        GameEvents.selectedWeapon = weaponKey;
+        GameEvents.hideAllOverlays();
         document.getElementById('map-select').classList.add('active');
         GameEvents.generateMapSelection();
     },
@@ -102,6 +109,7 @@ export const GameEvents = {
 
         GameEvents.gameInstance.scene.start('GameScene', {
             charType: GameEvents.selectedChar,
+            primaryWeapon: GameEvents.selectedWeapon,
             mapId: mapId
         });
     },
@@ -186,12 +194,102 @@ export const GameEvents = {
         GameEvents.saveManager.toggleScreenShake();
     },
 
+    generateWeaponSelection: () => {
+        const weaponContainer = document.getElementById('weapon-container');
+        const detailPane = document.getElementById('weapon-detail-pane');
+        weaponContainer.innerHTML = '';
+        detailPane.innerHTML = '<div class="detail-placeholder">SELECIONE UMA ARMA AO LADO</div>';
+
+        // Get all primary weapons
+        const primaryWeapons = CONFIG.weapon.filter(w => w.slotType === 'primary');
+
+        primaryWeapons.forEach((weapon, index) => {
+            const miniCard = document.createElement('div');
+            miniCard.classList.add('weapon-card-mini');
+
+            let emoji = weapon.type === 'melee' ? '⚔️' : (weapon.type === 'ranged' ? '🎯' : '✨');
+            let typeName = weapon.type === 'melee' ? 'CORPO A CORPO' : (weapon.type === 'ranged' ? 'À DISTÂNCIA' : 'RASTRO');
+
+            miniCard.innerHTML = `
+                <img src="${weapon.image}" onerror="this.src='src/assets/images/weapon_sword.png'">
+                <div class="mini-info">
+                    <h4>${weapon.name}</h4>
+                    <span class="mini-type">${emoji} ${typeName}</span>
+                </div>
+            `;
+
+            miniCard.onclick = () => {
+                // Select visual feedback
+                document.querySelectorAll('.weapon-card-mini').forEach(c => c.classList.remove('active'));
+                miniCard.classList.add('active');
+
+                // Show detailed preview
+                GameEvents.showWeaponDetail(weapon);
+
+                // Play sound
+                const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
+                if (bootScene && bootScene.sound) {
+                    bootScene.sound.play('menuclick');
+                }
+            };
+
+            weaponContainer.appendChild(miniCard);
+
+            // Auto-select first weapon
+            if (index === 0) miniCard.click();
+        });
+    },
+
+    showWeaponDetail: (weapon) => {
+        const detailPane = document.getElementById('weapon-detail-pane');
+
+        const damage = weapon.baseStats?.damage || 0;
+        const cooldown = weapon.baseStats?.cooldown || 1000;
+        const attackSpeed = (1000 / cooldown).toFixed(1);
+        const knockback = weapon.baseStats?.knockback || 0;
+
+        detailPane.innerHTML = `
+            <div class="detail-header">
+                <div class="detail-visual-bg"></div>
+                <div class="detail-visual">
+                    <img src="${weapon.image}" onerror="this.src='src/assets/images/weapon_sword.png'">
+                </div>
+            </div>
+            <div class="detail-info">
+                <h2>${weapon.name}</h2>
+                <p class="detail-description">"${weapon.description || 'Uma ferramenta de destruição versátil para sua missão.'}"</p>
+                
+                <div class="detail-stats-grid">
+                    <div class="detail-stat-card">
+                        <span class="label">ESTIMATIVA DE DANO</span>
+                        <span class="value">💥 ${damage}</span>
+                    </div>
+                    <div class="detail-stat-card">
+                        <span class="label">ATAQUE POR SEGUNDO</span>
+                        <span class="value">⚡ ${attackSpeed}/s</span>
+                    </div>
+                    <div class="detail-stat-card">
+                        <span class="label">FORÇA DE RECUO</span>
+                        <span class="value">🛡️ ${knockback}</span>
+                    </div>
+                    <div class="detail-stat-card">
+                        <span class="label">CATEGORIA</span>
+                        <span class="value">${weapon.type.toUpperCase()}</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-equip" style="margin-top: 30px;" onclick="GameEvents.selectWeapon('${weapon.key}')">
+                    ESCOLHER ESTA ARMA
+                </button>
+            </div>
+        `;
+    },
+
     generateCharacterSelection: () => {
         const charContainer = document.getElementById('char-container');
         charContainer.innerHTML = '';
 
-        // Refresh unlocked status
-        const unlocked = GameEvents.saveManager.data.unlockedChars;
+        const unlocked = GameEvents.saveManager?.data?.unlockedChars || CONFIG.player.map(p => p.key);
 
         CONFIG.player.forEach((char) => {
             const isUnlocked = unlocked.includes(char.key);
@@ -200,46 +298,43 @@ export const GameEvents = {
             if (!isUnlocked) charCard.classList.add('locked');
 
             charCard.onclick = () => {
-                if (isUnlocked) GameEvents.startGame(char.key);
+                if (isUnlocked) {
+                    const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
+                    if (bootScene && bootScene.sound) bootScene.sound.play('menuclick');
+                    GameEvents.startGame(char.key);
+                }
             };
 
-            // Determine Traits (Pros/Cons)
-            let traits = [];
             const s = char.stats || {};
-            // Comparisons vs Baseline (approximate)
-            if (s.maxHealth > 1.0 || char.health > 100) traits.push({ text: 'Vida Alta', good: true });
-            if (s.maxHealth < 1.0 || char.health < 80) traits.push({ text: 'Vida Baixa', good: false });
-            if (s.moveSpeed > 1.0) traits.push({ text: 'Veloz', good: true });
-            if (s.moveSpeed < 1.0) traits.push({ text: 'Lento', good: false });
-            if (s.knockbackResistance > 1.0) traits.push({ text: 'Tanque', good: true });
-            if (s.critChance >= 0.1) traits.push({ text: 'Crítico Alto', good: true });
-            if (s.evasion >= 0.1) traits.push({ text: 'Esquiva', good: true });
-            if (s.elementalDamage > 1.0) traits.push({ text: 'Elemental+', good: true });
+            const hpWidth = Math.min(100, (char.health / 150) * 100);
+            const spdWidth = Math.min(100, (s.moveSpeed || 1.0) * 70);
+            const dmgWidth = Math.min(100, (s.damage || 1.0) * 60);
 
-            const traitsHtml = traits.map(t => `<span class="${t.good ? 'trait-good' : 'trait-bad'}">${t.text}</span>`).join(' ');
 
-            // Find Weapon Name/Icon
-            const w = CONFIG.weapon.find(x => x.key === char.weapon);
-            const wName = w ? w.name : char.weapon;
+            const traitsHtml = (char.traits || []).map(t => `<span class="${t.good ? 'trait-good' : 'trait-bad'}">${t.text}</span>`).join('');
 
             charCard.innerHTML = `
                 <div class="char-header">
                     <div class="char-placeholder-img">
-                        <img src="${char.player_body_image}" alt="${char.name}" style="${!isUnlocked ? 'filter: grayscale(100%) brightness(0.3);' : ''}">
+                        <img src="${char.player_body_image}" alt="${char.name}">
                     </div>
                 </div>
-                <h3>${char.name} ${!isUnlocked ? '<span style="font-size: 0.7em; color: #ff4444;">(BLOQUEADO)</span>' : ''}</h3>
                 <div class="char-info">
-                    <div class="char-main-row">
-                        <div class="char-quick-stats">
-                            <div class="q-stat">❤️ <span>${char.health}</span></div>
-                            <div class="q-stat">⚡ <span>${char.speed}</span></div>
-                            <div class="q-stat">⚔️ <span>${char.damage || 10}</span></div>
+                    <h3>${char.name}</h3>
+                    <p class="char-description">${char.description || 'Personagem misterioso'}</p>
+                    
+                    <div class="char-stat-bars">
+                        <div class="stat-bar-row">
+                            <div class="stat-label"><span>SAÚDE</span> <span>${char.health}</span></div>
+                            <div class="stat-bar-bg"><div class="stat-bar-fill hp" style="width: ${hpWidth}%"></div></div>
                         </div>
-                        
-                        <div class="char-weapon-display">
-                            <img src="${w.image}" class="mini-weapon-icon">
-                            <span class="weapon-name-label">${wName}</span>
+                        <div class="stat-bar-row">
+                            <div class="stat-label"><span>VELOCIDADE</span> <span>${Math.round((s.moveSpeed || 1) * 100)}%</span></div>
+                            <div class="stat-bar-bg"><div class="stat-bar-fill spd" style="width: ${spdWidth}%"></div></div>
+                        </div>
+                        <div class="stat-bar-row">
+                            <div class="stat-label"><span>PODER</span> <span>${Math.round((s.damage || 1) * 100)}%</span></div>
+                            <div class="stat-bar-bg"><div class="stat-bar-fill dmg" style="width: ${dmgWidth}%"></div></div>
                         </div>
                     </div>
 

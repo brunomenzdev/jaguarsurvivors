@@ -115,6 +115,23 @@
                 onclick="GameEvents.goToMainMenu()">Voltar</button>
         </div>
 
+        <div id="weapon-select" class="overlay-screen">
+            <h1>ARSENAL DE COMBATE</h1>
+            <div class="weapon-selection-layout">
+                <div id="weapon-list-pane">
+                    <div id="weapon-container">
+                    </div>
+                </div>
+                <div id="weapon-detail-pane">
+                    <!-- Detalhes da arma selecionada -->
+                </div>
+            </div>
+            <div class="selection-footer">
+                <button class="btn" style="background: #333; font-size: 18px; padding: 15px 40px;"
+                    onclick="GameEvents.goToCharSelect()">VOLTAR</button>
+            </div>
+        </div>
+
         <div id="map-select" class="overlay-screen">
             <h1>ONDE SERÁ A BATALHA?</h1>
             <div id="map-container">

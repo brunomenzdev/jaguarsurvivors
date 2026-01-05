@@ -156,7 +156,10 @@ export class SceneBootstrap {
         this.scene.weaponManager = new WeaponManager(this.scene);
 
         this.scene.equipmentManager = new EquipmentManager(this.scene);
-        this.scene.equipmentManager.init(this.scene.playerConfig.weapon);
+
+        // Use explicitly selected primary weapon instead of character's default
+        const primaryWeapon = this.data.primaryWeapon || 'weapon_sword'; // Fallback for safety
+        this.scene.equipmentManager.init(primaryWeapon);
 
         this.scene.gadgetManager = new GadgetManager(this.scene);
         this.scene.procManager = new ProcManager(this.scene);

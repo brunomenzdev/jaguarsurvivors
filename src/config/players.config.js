@@ -9,13 +9,13 @@ export const playersConfig = [
     {
         key: 'presida',
         name: 'O Presida',
+        description: 'Líder equilibrado com habilidades versáteis',
         player_body_image: 'src/assets/images/presida.png',
         player_legs_image: 'src/assets/images/presida_legs.png',
         speed: 300,
         acceleration: 2000,
         friction: 1500,
         size: 40,
-        weapon: 'weapon_laser_gun',
         health: 120,
         invulnerableTime: 500,
         bodyScale: 0.3,
@@ -53,18 +53,22 @@ export const playersConfig = [
             knockback: 1.0,
             hpRegen: 0.0,
             lifeSteal: 0.0
-        }
+        },
+        traits: [
+            { text: 'VERSÁTIL', good: true },
+            { text: 'LÍDER', good: true }
+        ]
     },
     {
         key: 'ucraniaman',
         name: 'O Ucrânia Man',
+        description: 'Tanque resistente com alto poder defensivo',
         player_body_image: 'src/assets/images/ucraniaman.png',
         player_legs_image: 'src/assets/images/ucraniaman_legs.png',
         speed: 300,
         acceleration: 2000,
         friction: 1500,
         size: 40,
-        weapon: 'weapon_arm',
         health: 150,
         invulnerableTime: 500,
         bodyScale: 0.3,
@@ -92,18 +96,23 @@ export const playersConfig = [
             knockbackResistance: 1.2,
             maxHealth: 1.0,
             thorns: 0.1
-        }
+        },
+        traits: [
+            { text: 'TANQUE', good: true },
+            { text: 'LENTO', good: false },
+            { text: 'ESPINHOS', good: true }
+        ]
     },
     {
         key: 'samurai',
         name: 'O Samurai',
+        description: 'Guerreiro ágil com alta chance de crítico',
         player_body_image: 'src/assets/images/samurai.png',
         player_legs_image: 'src/assets/images/samurai_legs.png',
         speed: 300,
         acceleration: 2000,
         friction: 1500,
         size: 40,
-        weapon: 'weapon_katana',
         health: 70,
         invulnerableTime: 500,
         bodyScale: 0.3,
@@ -132,18 +141,23 @@ export const playersConfig = [
             maxHealth: 1.0,
             critChance: 0.2,
             criticalDamage: 2.0
-        }
+        },
+        traits: [
+            { text: 'VELOZ', good: true },
+            { text: 'CRÍTICO', good: true },
+            { text: 'FRÁGIL', good: false }
+        ]
     },
     {
         key: 'miss',
         name: 'A Anti-Bandido',
+        description: 'Lutadora evasiva com alto dano explosivo',
         player_body_image: 'src/assets/images/miss.png',
         player_legs_image: 'src/assets/images/miss_legs.png',
         speed: 300,
         acceleration: 2000,
         friction: 1500,
         size: 40,
-        weapon: 'weapon_hammer',
         health: 60,
         invulnerableTime: 500,
         bodyScale: 0.3,
@@ -170,18 +184,23 @@ export const playersConfig = [
             damage: 1.5,
             projectileSpeed: 1.2,
             evasion: 0.1
-        }
+        },
+        traits: [
+            { text: 'DANO ALTO', good: true },
+            { text: 'ESQUIVA', good: true },
+            { text: 'LETAL', good: true }
+        ]
     },
     {
         key: 'mind-changer',
         name: 'O Mind Changer',
+        description: 'Mago elemental com área de efeito ampliada',
         player_body_image: 'src/assets/images/mind_changer.png',
         player_legs_image: 'src/assets/images/mind_changer_legs.png',
         speed: 300,
         acceleration: 2000,
         friction: 1500,
         size: 40,
-        weapon: 'weapon_magic_staff',
         health: 75,
         invulnerableTime: 500,
         bodyScale: 0.3,
@@ -208,6 +227,11 @@ export const playersConfig = [
             elementalDamage: 1.4,
             area: 1.2,
             critChance: 0.1
-        }
+        },
+        traits: [
+            { text: 'ELEMENTAL', good: true },
+            { text: 'ÁREA+', good: true },
+            { text: 'MÍSTICO', good: true }
+        ]
     }
 ];
