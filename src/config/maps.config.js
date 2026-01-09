@@ -17,27 +17,31 @@ export const mapsConfig = [
         allowedStructures: ['crate_wood', 'structure_rock_1'],
         music: 'cinematic1',
         waves: [
-            { interval: 300, enemiesPerWave: 1, enemyTypes: ['enemy_crime5'], totalEnemies: 5, bossPerWave: 0, spawnDistance: 600, maxOnScreen: 500 },
-            {
-                interval: 20, enemiesPerWave: 1, enemyTypes: ['enemy_favela_basico', 'enemy_funkeiro3', 'enemy_crime5', 'enemy_favela', 'enemy_mendigo', 'enemy_elite_bandido',
-                    'enemy_bandido_moto', 'enemy_crime', 'enemy_crime2', 'enemy_crime3', 'enemy_crime4', 'enemy_milicia', 'enemy_milicia2', 'enemy_milicia3', 'enemy_funkeiro', 'enemy_funkeiro2', 'enemy_cria', 'enemy_cria2', 'enemy_influencer', 'enemy_influencer2'], totalEnemies: 30, bossPerWave: 0, spawnDistance: 600, maxOnScreen: 500
-            },
-            { interval: 3000, enemiesPerWave: 5, enemyTypes: ['enemy_favela_basico', 'enemy_bandido'], totalEnemies: 20, bossPerWave: 0, spawnDistance: 600, maxOnScreen: 500 },
-            { interval: 2500, enemiesPerWave: 10, enemyTypes: ['enemy_favela_basico', 'enemy_bandido', 'enemy_bandido2', 'enemy_favela', 'enemy_mendigo', 'enemy_elite_bandido', 'enemy_elite_favela_1', 'enemy_elite_favela_2', 'enemy_elite_favela_3', 'enemy_bandido_moto', 'enemy_crime', 'enemy_crime2', 'enemy_crime3', 'enemy_crime4', 'enemy_milicia', 'enemy_milicia2', 'enemy_milicia3', 'enemy_funkeiro', 'enemy_funkeiro2', 'enemy_cria', 'enemy_cria2', 'enemy_influencer', 'enemy_influencer2'], totalEnemies: 30, bossPerWave: 0, spawnDistance: 600, maxOnScreen: 500 },
-            { interval: 2000, enemiesPerWave: 15, enemyTypes: ['enemy_favela_basico', 'enemy_bandido', 'enemy_bandido2', 'enemy_favela', 'enemy_mendigo'], totalEnemies: 40, bossPerWave: 0, spawnDistance: 600, maxOnScreen: 500 },
-            { interval: 1500, enemiesPerWave: 20, enemyTypes: ['enemy_favela_basico', 'enemy_bandido', 'enemy_bandido2', 'enemy_favela', 'enemy_mendigo'], totalEnemies: 50, bossPerWave: 0, spawnDistance: 600, maxOnScreen: 500 },
-            { interval: 1000, enemiesPerWave: 25, enemyTypes: ['enemy_favela_basico', 'enemy_bandido', 'enemy_bandido2', 'enemy_favela', 'enemy_mendigo'], totalEnemies: 60, bossPerWave: 0, spawnDistance: 600, maxOnScreen: 500 },
-            { interval: 800, enemiesPerWave: 30, enemyTypes: ['enemy_favela_basico', 'enemy_bandido', 'enemy_bandido2', 'enemy_favela', 'enemy_mendigo'], totalEnemies: 80, bossPerWave: 1, spawnDistance: 600, maxOnScreen: 500 }
+            // 0-2 min: Introdução - Inimigos lentos e erráticos
+            { interval: 3000, enemiesPerWave: 2, enemyTypes: ['enemy_favela_basico', 'enemy_mendigo'], totalEnemies: 40, bossPerWave: 0, spawnDistance: 700, maxOnScreen: 30 },
+
+            // 2-4 min: Escalada - Funkeiros e Crime básico
+            { interval: 2500, enemiesPerWave: 3, enemyTypes: ['enemy_favela_basico', 'enemy_funkeiro', 'enemy_funkeiro2', 'enemy_crime'], totalEnemies: 60, bossPerWave: 0, spawnDistance: 700, maxOnScreen: 45 },
+
+            // 4-6 min: Perigo - Milícias (tiros) e Motos
+            { interval: 2000, enemiesPerWave: 4, enemyTypes: ['enemy_favela', 'enemy_crime2', 'enemy_bandido_moto', 'enemy_milicia'], totalEnemies: 100, bossPerWave: 0, spawnDistance: 700, maxOnScreen: 60 },
+
+            // 6-8 min: Tensão - Elites e Influencers
+            { interval: 1500, enemiesPerWave: 5, enemyTypes: ['enemy_elite_bandido', 'enemy_milicia2', 'enemy_milicia3', 'enemy_influencer'], totalEnemies: 150, bossPerWave: 0, spawnDistance: 700, maxOnScreen: 80 },
+
+            // 8-10 min: Caos - Swarm total e preparo para o Boss
+            { interval: 1000, enemiesPerWave: 10, enemyTypes: ['enemy_cria', 'enemy_cria2', 'enemy_crime5', 'enemy_funkeiro3', 'enemy_crime4'], totalEnemies: 300, bossPerWave: 0, spawnDistance: 700, maxOnScreen: 120 }
         ],
         suddenDeath: {
-            interval: 10000,
-            buffPercent: 0.10
+            interval: 5000,
+            buffPercent: 0.15
         },
         boss: 'boss_bandido_moto',
-        duration: 1200,
+        duration: 600,
         events: [
-            { time: 180, type: 'boss_spawn', key: 'boss_bandido_moto' },
-            { time: 60, type: 'final_hour' }
+            { time: 300, type: 'boss_spawn', key: 'boss_bandido_moto' }, // Mini-boss na metade
+            { time: 600, type: 'boss_spawn', key: 'boss_bandido_moto' }, // Boss Final
+            { time: 120, type: 'final_hour' }
         ]
     },
     {

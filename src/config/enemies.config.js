@@ -52,8 +52,8 @@ export const enemiesConfig = [
         enemy_legs_image: 'src/assets/images/enemy_favela_legs.png',
         speed: 120,
         size: 32,
-        damage: 8,
-        health: 25,
+        damage: 10,
+        health: 50,
         spawnDistance: 700,
         maxOnScreen: 50,
         xpDropChance: 0.75,
@@ -74,16 +74,23 @@ export const enemiesConfig = [
         projectileScale: 0.8,
         hitSoundKey: 'hit',
         dropChance: 0.1,
-        lootTable: 'common'
+        lootTable: 'common',
+        ai: {
+            behaviorKey: 'chase',
+            behaviorParams: {
+                speed: 1.2,
+                trackingSpeed: 0.8
+            }
+        }
     },
     {
         key: 'enemy_mendigo',
         enemy_body_image: 'src/assets/images/enemy_mendigo.png',
         enemy_legs_image: 'src/assets/images/enemy_mendigo_legs.png',
-        speed: 120,
+        speed: 80,
         size: 32,
         damage: 8,
-        health: 25,
+        health: 40,
         spawnDistance: 700,
         maxOnScreen: 50,
         xpDropChance: 0.75,
@@ -104,25 +111,33 @@ export const enemiesConfig = [
         projectileScale: 0.8,
         hitSoundKey: 'hit',
         dropChance: 0.1,
-        lootTable: 'common'
+        lootTable: 'common',
+        ai: {
+            behaviorKey: 'zigzag',
+            behaviorParams: {
+                baseSpeed: 0.8,
+                amplitude: 100,
+                frequency: 1.5
+            }
+        }
     },
     {
         key: 'enemy_elite_bandido',
         enemy_body_image: 'src/assets/images/enemy_elite_bandido.png',
         enemy_legs_image: 'src/assets/images/enemy_elite_bandido_legs.png',
-        speed: 120,
+        speed: 140,
         size: 32,
-        damage: 8,
-        health: 25,
+        damage: 15,
+        health: 200,
         spawnDistance: 700,
         maxOnScreen: 50,
         xpDropChance: 0.75,
-        canShoot: false,
-        projectileSpeed: 0,
-        shootInterval: 0,
-        shootRange: 0,
-        projectileDamage: 0,
-        xpValue: 2,
+        canShoot: true,
+        projectileSpeed: 300,
+        shootInterval: 3000,
+        shootRange: 350,
+        projectileDamage: 12,
+        xpValue: 10,
         bodyScale: 0.7,
         legsScale: 0.7,
         bodyWidth: 60,
@@ -130,12 +145,23 @@ export const enemiesConfig = [
         hitbox: { width: 40, height: 80 },
         bossScale: 0.6,
         legOffset: { x: 0, y: 50 },
-        projectileColor: 0x9966FF,
-        projectileScale: 0.8,
+        projectileColor: 0xFF5500,
+        projectileScale: 1.2,
         hitSoundKey: 'hit',
         dropChance: 0.1,
         isElite: true,
-        lootTable: 'common'
+        lootTable: 'common',
+        ai: {
+            behaviorKey: 'orbit',
+            behaviorParams: {
+                preferredDistance: 250,
+                orbitSpeed: 0.9,
+                approachSpeed: 1.2,
+                orbitDirection: 1,
+                distanceTolerance: 40
+            }
+        },
+        scalingProfile: 'ranged'
     },
     {
         key: 'enemy_bandido_moto',
@@ -238,7 +264,19 @@ export const enemiesConfig = [
         projectileScale: 1.0,
         hitSoundKey: 'hit',
         dropChance: 0.05,
-        lootTable: 'common'
+        lootTable: 'common',
+        ai: {
+            behaviorKey: 'chase',
+            behaviorParams: {
+                speed: 1.0,
+                trackingSpeed: 0.4
+            }
+        },
+        canShoot: true,
+        projectileSpeed: 350,
+        shootInterval: 2500,
+        shootRange: 400,
+        projectileDamage: 10
     },
     {
         key: 'enemy_milicia2',
@@ -247,15 +285,15 @@ export const enemiesConfig = [
         speed: 100,
         size: 32,
         damage: 10,
-        health: 100,
+        health: 120,
         spawnDistance: 700,
         maxOnScreen: 50,
         xpDropChance: 0.8,
-        canShoot: false,
-        projectileSpeed: 0,
-        shootInterval: 0,
-        shootRange: 0,
-        projectileDamage: 0,
+        canShoot: true,
+        projectileSpeed: 300,
+        shootInterval: 3500,
+        shootRange: 300,
+        projectileDamage: 12,
         xpValue: 1,
         bodyScale: 0.8,
         legsScale: 0.5,
@@ -264,11 +302,20 @@ export const enemiesConfig = [
         hitbox: { width: 40, height: 80 },
         bossScale: 0.6,
         legOffset: { x: 0, y: 40 },
-        projectileColor: 0xFF0000,
+        projectileColor: 0x00FF00,
         projectileScale: 1.0,
         hitSoundKey: 'hit',
         dropChance: 0.05,
-        lootTable: 'common'
+        lootTable: 'common',
+        ai: {
+            behaviorKey: 'orbit',
+            behaviorParams: {
+                preferredDistance: 300,
+                orbitSpeed: 0.7,
+                approachSpeed: 1.0,
+                orbitDirection: -1
+            }
+        }
     },
     {
         key: 'enemy_milicia3',
@@ -277,15 +324,15 @@ export const enemiesConfig = [
         speed: 100,
         size: 32,
         damage: 10,
-        health: 100,
+        health: 120,
         spawnDistance: 700,
         maxOnScreen: 50,
         xpDropChance: 0.8,
-        canShoot: false,
-        projectileSpeed: 0,
-        shootInterval: 0,
-        shootRange: 0,
-        projectileDamage: 0,
+        canShoot: true,
+        projectileSpeed: 400,
+        shootInterval: 2000,
+        shootRange: 450,
+        projectileDamage: 8,
         xpValue: 1,
         bodyScale: 0.8,
         legsScale: 0.5,
@@ -294,11 +341,19 @@ export const enemiesConfig = [
         hitbox: { width: 40, height: 80 },
         bossScale: 0.6,
         legOffset: { x: 0, y: 40 },
-        projectileColor: 0xFF0000,
+        projectileColor: 0x0000FF,
         projectileScale: 1.0,
         hitSoundKey: 'hit',
         dropChance: 0.05,
-        lootTable: 'common'
+        lootTable: 'common',
+        ai: {
+            behaviorKey: 'zigzag',
+            behaviorParams: {
+                baseSpeed: 1.1,
+                amplitude: 60,
+                frequency: 2.5
+            }
+        }
     },
     {
         key: 'enemy_funkeiro',
@@ -328,7 +383,17 @@ export const enemiesConfig = [
         projectileScale: 1.0,
         hitSoundKey: 'hit',
         dropChance: 0.05,
-        lootTable: 'common'
+        lootTable: 'common',
+        ai: {
+            behaviorKey: 'charge',
+            behaviorParams: {
+                chargeUpTime: 1000,
+                chargeSpeed: 2.5,
+                chargeDuration: 600,
+                cooldownTime: 2000,
+                idleSpeed: 0.4
+            }
+        }
     },
     {
         key: 'enemy_funkeiro2',
@@ -358,7 +423,16 @@ export const enemiesConfig = [
         projectileScale: 1.0,
         hitSoundKey: 'hit',
         dropChance: 0.05,
-        lootTable: 'common'
+        lootTable: 'common',
+        ai: {
+            behaviorKey: 'burst_pursuit',
+            behaviorParams: {
+                pursuitSpeed: 1.6,
+                pursuitDuration: 1000,
+                pauseDuration: 500,
+                pauseSpeed: 0.1
+            }
+        }
     },
     {
         key: 'enemy_funkeiro3',
@@ -426,7 +500,16 @@ export const enemiesConfig = [
         projectileScale: 1.0,
         hitSoundKey: 'hit',
         dropChance: 0.05,
-        lootTable: 'common'
+        lootTable: 'common',
+        ai: {
+            behaviorKey: 'flee',
+            behaviorParams: {
+                fleeSpeed: 1.3,
+                triggerDistance: 180,
+                safeDistance: 350,
+                idleSpeed: 0.6
+            }
+        }
     },
     {
         key: 'enemy_cria2',
@@ -456,7 +539,15 @@ export const enemiesConfig = [
         projectileScale: 1.0,
         hitSoundKey: 'hit',
         dropChance: 0.05,
-        lootTable: 'common'
+        lootTable: 'common',
+        ai: {
+            behaviorKey: 'zigzag',
+            behaviorParams: {
+                baseSpeed: 1.2,
+                amplitude: 40,
+                frequency: 4.0
+            }
+        }
     },
     {
         key: 'enemy_influencer',
@@ -486,7 +577,21 @@ export const enemiesConfig = [
         projectileScale: 1.0,
         hitSoundKey: 'hit',
         dropChance: 0.05,
-        lootTable: 'common'
+        lootTable: 'common',
+        ai: {
+            behaviorKey: 'orbit',
+            behaviorParams: {
+                preferredDistance: 400,
+                orbitSpeed: 0.6,
+                approachSpeed: 0.8,
+                orbitDirection: 1
+            }
+        },
+        canShoot: true,
+        projectileSpeed: 250,
+        shootInterval: 4000,
+        shootRange: 500,
+        projectileDamage: 15
     },
     {
         key: 'enemy_influencer2',
@@ -499,11 +604,11 @@ export const enemiesConfig = [
         spawnDistance: 700,
         maxOnScreen: 50,
         xpDropChance: 0.8,
-        canShoot: false,
-        projectileSpeed: 0,
-        shootInterval: 0,
-        shootRange: 0,
-        projectileDamage: 0,
+        canShoot: true,
+        projectileSpeed: 300,
+        shootInterval: 3000,
+        shootRange: 400,
+        projectileDamage: 12,
         xpValue: 1,
         bodyScale: 0.8,
         legsScale: 0.5,
@@ -512,11 +617,20 @@ export const enemiesConfig = [
         hitbox: { width: 40, height: 80 },
         bossScale: 0.6,
         legOffset: { x: 0, y: 40 },
-        projectileColor: 0xFF0000,
+        projectileColor: 0xFFFF00,
         projectileScale: 1.0,
         hitSoundKey: 'hit',
         dropChance: 0.05,
-        lootTable: 'common'
+        lootTable: 'common',
+        ai: {
+            behaviorKey: 'orbit',
+            behaviorParams: {
+                preferredDistance: 350,
+                orbitSpeed: 0.8,
+                approachSpeed: 1.0,
+                orbitDirection: -1
+            }
+        }
     },
     {
         key: 'enemy_crime',
@@ -546,16 +660,25 @@ export const enemiesConfig = [
         projectileScale: 1.0,
         hitSoundKey: 'hit',
         dropChance: 0.05,
-        lootTable: 'common'
+        lootTable: 'common',
+        ai: {
+            behaviorKey: 'burst_pursuit',
+            behaviorParams: {
+                pursuitSpeed: 1.4,
+                pursuitDuration: 1500,
+                pauseDuration: 1000,
+                pauseSpeed: 0.2
+            }
+        }
     },
     {
         key: 'enemy_crime2',
         enemy_body_image: 'src/assets/images/enemy_crime2.png',
         enemy_legs_image: 'src/assets/images/enemy_crime4_legs.png',
-        speed: 100,
+        speed: 130,
         size: 32,
         damage: 10,
-        health: 100,
+        health: 120,
         spawnDistance: 700,
         maxOnScreen: 50,
         xpDropChance: 0.8,
@@ -576,7 +699,14 @@ export const enemiesConfig = [
         projectileScale: 1.0,
         hitSoundKey: 'hit',
         dropChance: 0.05,
-        lootTable: 'common'
+        lootTable: 'common',
+        ai: {
+            behaviorKey: 'chase',
+            behaviorParams: {
+                speed: 1.3,
+                trackingSpeed: 0.9
+            }
+        }
     },
     {
         key: 'enemy_crime3',
@@ -584,8 +714,8 @@ export const enemiesConfig = [
         enemy_legs_image: 'src/assets/images/enemy_crime3_legs.png',
         speed: 100,
         size: 32,
-        damage: 10,
-        health: 100,
+        damage: 12,
+        health: 150,
         spawnDistance: 700,
         maxOnScreen: 50,
         xpDropChance: 0.8,
@@ -606,7 +736,17 @@ export const enemiesConfig = [
         projectileScale: 1.0,
         hitSoundKey: 'hit',
         dropChance: 0.05,
-        lootTable: 'common'
+        lootTable: 'common',
+        ai: {
+            behaviorKey: 'charge',
+            behaviorParams: {
+                chargeUpTime: 700,
+                chargeSpeed: 3.5,
+                chargeDuration: 400,
+                cooldownTime: 1800,
+                idleSpeed: 0.2
+            }
+        }
     },
     {
         key: 'enemy_crime4',
@@ -615,7 +755,7 @@ export const enemiesConfig = [
         speed: 100,
         size: 32,
         damage: 10,
-        health: 100,
+        health: 130,
         spawnDistance: 700,
         maxOnScreen: 50,
         xpDropChance: 0.8,
@@ -636,7 +776,16 @@ export const enemiesConfig = [
         projectileScale: 1.0,
         hitSoundKey: 'hit',
         dropChance: 0.05,
-        lootTable: 'common'
+        lootTable: 'common',
+        ai: {
+            behaviorKey: 'burst_pursuit',
+            behaviorParams: {
+                pursuitSpeed: 1.8,
+                pursuitDuration: 2000,
+                pauseDuration: 1000,
+                pauseSpeed: 0
+            }
+        }
     },
     {
         key: 'enemy_crime5',
