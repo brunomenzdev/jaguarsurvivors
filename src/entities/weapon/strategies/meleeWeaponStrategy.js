@@ -6,18 +6,8 @@ export class MeleeWeaponStrategy extends WeaponStrategy {
     }
 
     attack() {
-        const { config, player } = this.weapon;
-        this.scene.events.emit('weapon-attack', config.key);
-
-        // Play attack VFX
-        if (config.visual.attackVFX) {
-            this.scene.vfxManager.playAnimation(config.visual.attackVFX, player);
-        }
-
-        // Play attack sound
-        if (config.audio && config.audio.soundKey) {
-            this.scene.audioManager.playSound(config.audio.soundKey);
-        }
+        const { config } = this.weapon;
+        this.scene.events.emit('weapon-attack', { weaponKey: config.key, ...config });
 
         this.playAnimation();
         this.spawnHitbox();
@@ -144,11 +134,6 @@ export class MeleeWeaponStrategy extends WeaponStrategy {
         const { config, player, current } = weapon;
         const { damage, isCritical } = weapon.calculateDamage();
         const effects = config.effects || {};
-
-        // Play impact VFX
-        if (config.visual.impactVFX) {
-            this.scene.vfxManager.playAnimation(config.visual.impactVFX, target);
-        }
 
         // Helper to check if target is a Structure
         const isStructure = target.container && target.container.getData('isStructure');

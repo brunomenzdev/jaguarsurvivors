@@ -37,22 +37,12 @@ export class RangedWeaponStrategy extends WeaponStrategy {
      * @param {EnemyFacade} target - The enemy to target
      */
     attack(target) {
-        const { config, player } = this.weapon;
+        const { config } = this.weapon;
         const strategyStats = config.strategyStats || {};
 
         if (!target) return;
 
-        this.scene.events.emit('weapon-shoot', config.key);
-
-        // Play attack VFX
-        if (config.visual.attackVFX) {
-            this.scene.vfxManager.playAnimation(config.visual.attackVFX, player);
-        }
-
-        // Play attack sound
-        if (config.audio && config.audio.soundKey) {
-            this.scene.audioManager.playSound(config.audio.soundKey);
-        }
+        this.scene.events.emit('weapon-attack', { weaponKey: config.key, ...config });
 
         switch (strategyStats.rangedType) {
             case 'laser':
@@ -151,11 +141,6 @@ export class RangedWeaponStrategy extends WeaponStrategy {
         const { damage, isCritical } = weapon.calculateDamage();
         const effects = config.effects || {};
         const isStructure = target.container && target.container.getData('isStructure');
-
-        // Play impact VFX
-        if (config.visual.impactVFX) {
-            this.scene.vfxManager.playAnimation(config.visual.impactVFX, target);
-        }
 
         if (!isStructure && effects.elemental && effects.elemental !== 'none') {
             target.applyEffect(

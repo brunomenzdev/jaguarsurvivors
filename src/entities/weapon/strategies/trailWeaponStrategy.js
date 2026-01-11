@@ -31,22 +31,12 @@ export class TrailWeaponStrategy extends WeaponStrategy {
      */
     attack(target) {
         const { weapon } = this;
-        const { config, player, current } = weapon;
+        const { config } = weapon;
         const strategyStats = config.strategyStats || {};
 
         if (!target) return;
 
-        this.scene.events.emit('weapon-shoot', config.key);
-
-        // Play attack VFX
-        if (config.visual.attackVFX) {
-            this.scene.vfxManager.playAnimation(config.visual.attackVFX, player);
-        }
-
-        // Play attack sound
-        if (config.audio && config.audio.soundKey) {
-            this.scene.audioManager.playSound(config.audio.soundKey);
-        }
+        this.scene.events.emit('weapon-attack', { weaponKey: config.key, ...config });
 
         switch (strategyStats.trailType) {
             case 'mine':
