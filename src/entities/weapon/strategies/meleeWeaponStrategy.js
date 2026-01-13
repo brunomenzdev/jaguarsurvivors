@@ -38,10 +38,46 @@ export class MeleeWeaponStrategy extends WeaponStrategy {
         // Behavior-specific animations
         if (behaviorType === 'THRUST') {
             this.playThrustAnimation(sprite, player, facing, duration, visual);
+        } else if (behaviorType === 'AREA_360') {
+            this.playArea360Animation(sprite, player, facing, duration, visual);
         } else {
             // Default: Arc swing motion
             this.playSwingAnimation(sprite, player, facing, duration, visual);
         }
+    }
+
+    playArea360Animation(sprite, player, facing, duration, visual) {
+        // Full circle rotation around player
+        const isFlipped = facing === -1;
+        let gx = visual.gripOrigin?.x ?? 0.5;
+        let gy = visual.gripOrigin?.y ?? 1.5;
+
+        if (isFlipped) {
+            gx = 1 - gx;
+        }
+        sprite.setOrigin(gx, gy);
+
+        // Start angle
+        sprite.setAngle((visual.angleAttackOrigin ?? 0) * facing);
+
+        const targetAngle = (visual.angleAttackEnd ?? 360) * facing;
+
+        this.scene.tweens.add({
+            targets: sprite,
+            angle: targetAngle,
+            duration: duration * 1.5, // Slightly longer for full rotation
+            ease: 'Cubic.easeInOut',
+            onComplete: () => {
+                // Revert to idle
+                if (visual.origin) {
+                    let ox = visual.origin.x;
+                    let oy = visual.origin.y;
+                    if (isFlipped) ox = 1 - ox;
+                    sprite.setOrigin(ox, oy);
+                }
+                sprite.setAngle(visual.angleOrigin ?? 0);
+            }
+        });
     }
 
     playSwingAnimation(sprite, player, facing, duration, visual) {

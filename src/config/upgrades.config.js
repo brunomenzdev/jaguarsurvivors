@@ -12,10 +12,10 @@ export const equipableItemsConfig = [
         name: 'Botas Velozes',
         spriteKey: 'item_boots',
         icon: '👟',
-        desc: '+15% Move Speed por nível',
+        desc: '+25% Move Speed por nível',
         maxLevel: 5,
         levelEffects: [
-            { stat: 'moveSpeedStat', operation: 'addMultiplier', value: 0.15 }
+            { stat: 'moveSpeedStat', operation: 'addMultiplier', value: 0.25 }
         ]
     },
     {
@@ -23,10 +23,10 @@ export const equipableItemsConfig = [
         name: 'Escudo de Espinhos',
         spriteKey: 'pickup_shield',
         icon: '🛡️',
-        desc: '+15% Thorns por nível',
+        desc: '+25% Thorns por nível',
         maxLevel: 5,
         levelEffects: [
-            { stat: 'thornsStat', operation: 'addFlat', value: 0.15 }
+            { stat: 'thornsStat', operation: 'addFlat', value: 0.25 }
         ]
     },
     {
@@ -34,10 +34,10 @@ export const equipableItemsConfig = [
         name: 'Coroa do Poder',
         spriteKey: 'item_crown',
         icon: '👑',
-        desc: '+12% Dano por nível',
+        desc: '+25% Dano por nível',
         maxLevel: 5,
         levelEffects: [
-            { stat: 'damageStat', operation: 'addMultiplier', value: 0.12 }
+            { stat: 'damageStat', operation: 'addMultiplier', value: 0.25 }
         ]
     },
     {
@@ -45,10 +45,10 @@ export const equipableItemsConfig = [
         name: 'Óculos de Precisão',
         spriteKey: 'item_glasses',
         icon: '👓',
-        desc: '+8% Crit Chance por nível',
+        desc: '+15% Crit Chance por nível',
         maxLevel: 5,
         levelEffects: [
-            { stat: 'critChanceStat', operation: 'addFlat', value: 0.08 }
+            { stat: 'critChanceStat', operation: 'addFlat', value: 0.15 }
         ]
     },
     {
@@ -56,10 +56,10 @@ export const equipableItemsConfig = [
         name: 'Luvas de Força',
         spriteKey: 'item_gloves',
         icon: '🥊',
-        desc: '+15% Knockback por nível',
+        desc: '+20% Knockback por nível',
         maxLevel: 5,
         levelEffects: [
-            { stat: 'knockbackStat', operation: 'addMultiplier', value: 0.15 }
+            { stat: 'knockbackStat', operation: 'addMultiplier', value: 0.20 }
         ]
     },
     {
@@ -67,10 +67,10 @@ export const equipableItemsConfig = [
         name: 'Capa da Evasão',
         spriteKey: 'item_cape',
         icon: '🧥',
-        desc: '+5% Evasion por nível',
+        desc: '+15% Evasion por nível',
         maxLevel: 5,
         levelEffects: [
-            { stat: 'evasionStat', operation: 'addFlat', value: 0.05 }
+            { stat: 'evasionStat', operation: 'addFlat', value: 0.15 }
         ]
     },
     {
@@ -78,10 +78,10 @@ export const equipableItemsConfig = [
         name: 'Corrente da Justiça',
         spriteKey: 'item_chain_justice',
         icon: '⛓️',
-        desc: '+20% HP Max por nível',
+        desc: '+25% HP Max por nível',
         maxLevel: 5,
         levelEffects: [
-            { stat: 'maxHealthStat', operation: 'addMultiplier', value: 0.20 }
+            { stat: 'maxHealthStat', operation: 'addMultiplier', value: 0.25 }
         ]
     },
     {
@@ -89,10 +89,10 @@ export const equipableItemsConfig = [
         name: 'Livro da Sabedoria',
         spriteKey: 'item_book',
         icon: '📖',
-        desc: '+10% XP Gain por nível',
+        desc: '+25% XP Gain por nível',
         maxLevel: 5,
         levelEffects: [
-            { stat: 'xpGainStat', operation: 'addMultiplier', value: 0.10 }
+            { stat: 'xpGainStat', operation: 'addMultiplier', value: 0.25 }
         ]
     },
     {
@@ -111,21 +111,10 @@ export const equipableItemsConfig = [
         name: 'Amuleto da Sorte',
         spriteKey: 'item_amulet',
         icon: '🍀',
-        desc: '+5% Chance de Drop por nível',
+        desc: '+25% Chance de Drop por nível',
         maxLevel: 5,
         levelEffects: [
-            { stat: 'dropChanceStat', operation: 'addMultiplier', value: 0.05 }
-        ]
-    },
-    {
-        id: 'tome_of_power',
-        name: 'Tomo do Poder',
-        spriteKey: 'item_tome',
-        icon: '📜',
-        desc: '+1 Projétil por nível',
-        maxLevel: 3,
-        levelEffects: [
-            { stat: 'projectileCountStat', operation: 'addFlat', value: 1 }
+            { stat: 'dropChanceStat', operation: 'addMultiplier', value: 0.25 }
         ]
     }
 ];

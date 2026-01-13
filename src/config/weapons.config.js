@@ -46,51 +46,6 @@ export const weaponsConfig = [
         }
     },
     {
-        key: 'weapon_arm',
-        name: 'Braço',
-        description: 'Golpes devastadores em área',
-        type: 'melee',
-        image: 'src/assets/images/weapon_arm.png',
-        slotType: 'primary',
-
-        baseStats: {
-            damage: 50,
-            cooldown: 2000,
-            knockback: 200,
-            knockbackDuration: 100
-        },
-
-        strategyStats: {
-            behaviorType: 'AREA_360',
-            meleeHitbox: { width: 180, height: 200 },
-            meleeAnimDuration: 250,
-            frontalAttack: false,
-            meleeOffsetHitbox: { x: 0, y: 40 },
-        },
-
-        visual: {
-            scale: 0.38,
-            offset: { x: 28, y: 40 },
-            origin: { x: 0.3, y: 0.5 },
-            gripOrigin: { x: 0.5, y: 1.5 },
-            angleOrigin: 180,
-            angleAttackOrigin: 0,
-            angleAttackEnd: 900,
-            rotationSmoothing: 0.2
-        },
-
-        effects: {
-            elemental: 'none',
-            dotDamage: 0,
-            dotDuration: 0
-        },
-
-        audio: {
-            soundKey: 'weapon_sword',
-            hitSoundKey: 'hit'
-        }
-    },
-    {
         key: 'weapon_katana',
         name: 'Katana',
         description: 'Velocidade letal com alcance',
@@ -121,6 +76,52 @@ export const weaponsConfig = [
             angleOrigin: 0,
             angleAttack: 180,
             rotationSmoothing: 0.2
+        },
+
+        effects: {
+            elemental: 'none',
+            dotDamage: 0,
+            dotDuration: 0
+        },
+
+        audio: {
+            soundKey: 'weapon_sword',
+            hitSoundKey: 'hit'
+        }
+    },
+    {
+        key: 'weapon_hammer',
+        name: 'Martelo Brasileiro',
+        description: 'Impacto devastador em área',
+        type: 'melee',
+        image: 'src/assets/images/weapon_hammer.png',
+        slotType: 'primary',
+
+        baseStats: {
+            damage: 50,
+            cooldown: 2000,
+            knockback: 200,
+            knockbackDuration: 100
+        },
+
+        strategyStats: {
+            behaviorType: 'AREA_360',
+            meleeHitbox: { width: 180, height: 200 },
+            meleeAnimDuration: 250,
+            frontalAttack: false,
+            meleeOffsetHitbox: { x: 0, y: 40 },
+        },
+
+        visual: {
+            scale: 0.4,
+            offset: { x: 30, y: 0 },
+            origin: { x: 0.5, y: 0.8 },
+            gripOrigin: { x: 0.1, y: 0.8 },
+            angleOrigin: 0,
+            angleAttackOrigin: 0,
+            angleAttackEnd: 720,
+            rotationSmoothing: 0.2,
+            depth: -1
         },
 
         effects: {
@@ -212,52 +213,6 @@ export const weaponsConfig = [
             angleOrigin: 0,
             angleAttackOrigin: 0,
             angleAttackEnd: 180,
-            rotationSmoothing: 0.2
-        },
-
-        effects: {
-            elemental: 'none',
-            dotDamage: 0,
-            dotDuration: 0
-        },
-
-        audio: {
-            soundKey: 'weapon_sword',
-            hitSoundKey: 'hit'
-        }
-    },
-    {
-        key: 'weapon_hammer',
-        name: 'Martelo Brasileiro',
-        enabled: false,
-        description: 'Impacto explosivo e controle',
-        type: 'melee',
-        image: 'src/assets/images/weapon_hammer.png',
-        slotType: 'primary',
-
-        baseStats: {
-            damage: 80,
-            cooldown: 2200,
-            knockback: 400,
-            knockbackDuration: 300
-        },
-
-        strategyStats: {
-            behaviorType: 'WAVE',
-            meleeHitbox: { width: 200, height: 100 },
-            meleeAnimDuration: 250,
-            frontalAttack: true,
-            meleeOffsetHitbox: { x: 100, y: 0 }
-        },
-
-        visual: {
-            scale: 0.4,
-            offset: { x: 40, y: -40 },
-            origin: { x: 0.3, y: 0.5 },
-            gripOrigin: { x: 0.5, y: 1.0 },
-            angleOrigin: 0,
-            angleAttackOrigin: 0,
-            angleAttackEnd: 90,
             rotationSmoothing: 0.2
         },
 
