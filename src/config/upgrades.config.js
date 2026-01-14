@@ -8,10 +8,10 @@
 // ==================== EQUIPABLE ITEMS ====================
 export const equipableItemsConfig = [
     {
-        id: 'boots_speed',
-        name: 'Botas Velozes',
-        spriteKey: 'item_boots',
-        icon: '👟',
+        id: 'item_luva',
+        name: 'Luva do Brasil',
+        spriteKey: 'item_luva',
+        image: 'src/assets/images/item_luva.png',
         desc: '+25% Move Speed por nível',
         maxLevel: 5,
         levelEffects: [
@@ -19,105 +19,140 @@ export const equipableItemsConfig = [
         ]
     },
     {
-        id: 'shield_reflect',
-        name: 'Escudo de Espinhos',
-        spriteKey: 'pickup_shield',
-        icon: '🛡️',
-        desc: '+25% Thorns por nível',
+        id: 'item_medalha',
+        name: 'Medalha de Honra',
+        spriteKey: 'item_medalha',
+        image: 'src/assets/images/item_medalha.png',
+        desc: '+20% Dano por nível',
         maxLevel: 5,
         levelEffects: [
-            { stat: 'thornsStat', operation: 'addFlat', value: 0.25 }
+            { stat: 'damageStat', operation: 'addMultiplier', value: 0.20 }
         ]
     },
     {
-        id: 'crown_power',
-        name: 'Coroa do Poder',
-        spriteKey: 'item_crown',
-        icon: '👑',
-        desc: '+25% Dano por nível',
+        id: 'item_coroa',
+        name: 'Coroa Imperial',
+        spriteKey: 'item_coroa',
+        image: 'src/assets/images/item_coroa.png',
+        desc: '+20% Dano Crítico por nível',
         maxLevel: 5,
         levelEffects: [
-            { stat: 'damageStat', operation: 'addMultiplier', value: 0.25 }
+            { stat: 'criticalDamageStat', operation: 'addMultiplier', value: 0.20 }
         ]
     },
     {
-        id: 'glasses_vision',
-        name: 'Óculos de Precisão',
-        spriteKey: 'item_glasses',
-        icon: '👓',
-        desc: '+15% Crit Chance por nível',
+        id: 'item_oculos',
+        name: 'Óculos do Futuro',
+        spriteKey: 'item_oculos',
+        image: 'src/assets/images/item_oculos.png',
+        desc: '+10% Chance Crítico por nível',
         maxLevel: 5,
         levelEffects: [
-            { stat: 'critChanceStat', operation: 'addFlat', value: 0.15 }
+            { stat: 'critChanceStat', operation: 'addFlat', value: 0.10 }
         ]
     },
     {
-        id: 'gloves_strength',
-        name: 'Luvas de Força',
-        spriteKey: 'item_gloves',
-        icon: '🥊',
-        desc: '+20% Knockback por nível',
-        maxLevel: 5,
-        levelEffects: [
-            { stat: 'knockbackStat', operation: 'addMultiplier', value: 0.20 }
-        ]
-    },
-    {
-        id: 'cape_evasion',
-        name: 'Capa da Evasão',
-        spriteKey: 'item_cape',
-        icon: '🧥',
-        desc: '+15% Evasion por nível',
-        maxLevel: 5,
-        levelEffects: [
-            { stat: 'evasionStat', operation: 'addFlat', value: 0.15 }
-        ]
-    },
-    {
-        id: 'chain_justice',
-        name: 'Corrente da Justiça',
-        spriteKey: 'item_chain_justice',
-        icon: '⛓️',
-        desc: '+25% HP Max por nível',
+        id: 'item_toga',
+        name: 'Toga do STF',
+        spriteKey: 'item_toga',
+        image: 'src/assets/images/item_toga.png',
+        desc: '+25% HP Máximo por nível',
         maxLevel: 5,
         levelEffects: [
             { stat: 'maxHealthStat', operation: 'addMultiplier', value: 0.25 }
         ]
     },
     {
-        id: 'book_of_wisdom',
-        name: 'Livro da Sabedoria',
-        spriteKey: 'item_book',
-        icon: '📖',
-        desc: '+25% XP Gain por nível',
+        id: 'item_terno_centrao',
+        name: 'Terno do Centrão',
+        spriteKey: 'item_terno_centrao',
+        image: 'src/assets/images/item_terno_centrao.png',
+        desc: '+1.0 HP Regen por nível',
         maxLevel: 5,
         levelEffects: [
-            { stat: 'xpGainStat', operation: 'addMultiplier', value: 0.25 }
+            { stat: 'hpRegenStat', operation: 'addFlat', value: 1.0 }
         ]
     },
     {
-        id: 'ring_of_fire',
-        name: 'Anel de Fogo',
-        spriteKey: 'item_ring',
-        icon: '🔥',
-        desc: '+15% Dano Elemental por nível',
+        id: 'item_garra',
+        name: 'Garra de Jaguar',
+        spriteKey: 'item_garra',
+        image: 'src/assets/images/item_garra.png',
+        desc: '+5% Life Steal por nível',
         maxLevel: 5,
         levelEffects: [
-            { stat: 'elementalDamageStat', operation: 'addMultiplier', value: 0.15 }
+            { stat: 'lifeStealStat', operation: 'addFlat', value: 0.05 }
         ]
     },
     {
-        id: 'amulet_of_luck',
-        name: 'Amuleto da Sorte',
-        spriteKey: 'item_amulet',
-        icon: '🍀',
-        desc: '+25% Chance de Drop por nível',
+        id: 'item_bandeira_missao',
+        name: 'Bandeira de Missão',
+        spriteKey: 'item_bandeira_missao',
+        image: 'src/assets/images/item_bandeira_missao.png',
+        desc: '-15% Recarga Dash por nível',
         maxLevel: 5,
         levelEffects: [
-            { stat: 'dropChanceStat', operation: 'addMultiplier', value: 0.25 }
+            { stat: 'dashCooldownStat', operation: 'addMultiplier', value: -0.15 }
+        ]
+    },
+    {
+        id: 'item_corrente',
+        name: 'Corrente de Ouro',
+        spriteKey: 'item_corrente',
+        image: 'src/assets/images/item_corrente.png',
+        desc: '+20 Espinhos por nível',
+        maxLevel: 5,
+        levelEffects: [
+            { stat: 'thornsStat', operation: 'addFlat', value: 20 }
+        ]
+    },
+    {
+        id: 'item_soco_ingles',
+        name: 'Soco Inglês',
+        spriteKey: 'item_soco_ingles',
+        image: 'src/assets/images/item_soco_ingles.png',
+        desc: '+15% Dano por nível',
+        maxLevel: 5,
+        levelEffects: [
+            { stat: 'damageStat', operation: 'addMultiplier', value: 0.15 }
+        ]
+    },
+    {
+        id: 'item_cinto',
+        name: 'Cinto da Missão',
+        spriteKey: 'item_cinto',
+        image: 'src/assets/images/item_cinto.png',
+        desc: '+40 Raio de Coleta por nível',
+        maxLevel: 5,
+        levelEffects: [
+            { stat: 'pickupRadiusStat', operation: 'addFlat', value: 40 }
+        ]
+    },
+    {
+        id: 'item_boots',
+        name: 'Botas Voadoras',
+        spriteKey: 'item_boots',
+        image: 'src/assets/images/item_boots.png',
+        desc: '+15% Move Speed por nível',
+        maxLevel: 5,
+        levelEffects: [
+            { stat: 'moveSpeedStat', operation: 'addMultiplier', value: 0.15 }
+        ]
+    },
+    {
+        id: 'item_bracelete',
+        name: 'Bracelete de Força',
+        spriteKey: 'item_bracelete',
+        image: 'src/assets/images/item_bracelete.png',
+        desc: '+15% Vel. Ataque por nível',
+        maxLevel: 5,
+        levelEffects: [
+            { stat: 'attackSpeedStat', operation: 'addMultiplier', value: 0.15 }
         ]
     }
 ];
+
+
 
 // ==================== LEGENDARY REWARDS ====================
 export const legendaryConfig = [

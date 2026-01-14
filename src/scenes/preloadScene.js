@@ -37,14 +37,15 @@ export class PreloadScene extends Phaser.Scene {
                     }
                 });
             }
-            // Load extra item assets
-            if (BASE_CONFIG.pickups.items) {
-                BASE_CONFIG.pickups.items.forEach(item => {
-                    if (item.key && item.image) {
-                        this.load.image(item.key, item.image);
+            // Load Equipable Items from config
+            if (BASE_CONFIG.equipableItems) {
+                BASE_CONFIG.equipableItems.forEach(item => {
+                    if (item.spriteKey && item.image) {
+                        this.load.image(item.spriteKey, item.image);
                     }
                 });
             }
+
         }
 
         // Load Projectile Sprites
