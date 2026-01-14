@@ -26,13 +26,12 @@ export class BuffCompanion extends CompanionLegendary {
         this.sprite = this.scene.add.sprite(
             player.x + this.offset.x,
             player.y + this.offset.y,
-            this.config.sprite || 'enemy_shaman'
+            this.config.sprite
         );
 
         this.sprite.setScale(this.config.scale || 0.5);
-        this.sprite.setTint(this.config.tint || 0x00FF00);
 
-        // Create aura circle
+        // Create aura circle (follows companion)
         this.aura = this.scene.add.circle(
             this.sprite.x,
             this.sprite.y,
@@ -42,23 +41,36 @@ export class BuffCompanion extends CompanionLegendary {
         );
         this.aura.setVisible(false);
 
-        // Floating animation
-        this.scene.tweens.add({
-            targets: this.sprite,
-            y: this.sprite.y - 8,
-            duration: 1200,
-            yoyo: true,
-            repeat: -1,
-            ease: 'Sine.easeInOut'
-        });
+        // Player buff glow (will be shown when buff is active)
+        this.playerGlow = null;
+
+        // Bobbing offset for smooth movement
+        this.bobOffset = 0;
     }
 
     updatePosition(delta) {
-        super.updatePosition(delta);
+        const player = this.scene.player;
+        if (!player) return;
+
+        // Bobbing animation
+        this.bobOffset += delta * 0.003;
+        const bobY = Math.sin(this.bobOffset) * 8;
+
+        // Smooth follow with bob
+        const targetX = player.x + this.offset.x;
+        const targetY = player.y + this.offset.y + bobY;
+
+        this.sprite.x = Phaser.Math.Linear(this.sprite.x, targetX, 0.1);
+        this.sprite.y = Phaser.Math.Linear(this.sprite.y, targetY, 0.1);
 
         // Update aura position
         if (this.aura) {
             this.aura.setPosition(this.sprite.x, this.sprite.y);
+        }
+
+        // Update player glow if buff is active
+        if (this.playerGlow && this.buffActive) {
+            this.playerGlow.setPosition(player.x, player.y);
         }
     }
 
@@ -99,7 +111,7 @@ export class BuffCompanion extends CompanionLegendary {
         // Apply shield (temporary health)
         player.health = Math.min(player.health + shieldAmount, player.stats.maxHealth + shieldAmount);
 
-        // Visual feedback
+        // Visual feedback on companion
         if (this.aura) {
             this.aura.setVisible(true);
             this.scene.tweens.add({
@@ -112,6 +124,16 @@ export class BuffCompanion extends CompanionLegendary {
             });
         }
 
+        // Visual feedback on PLAYER - green glow circle
+        this.playerGlow = this.scene.add.graphics();
+        this.playerGlow.setDepth(player.depth - 1);
+        this.drawPlayerGlow();
+
+        // Tint player green
+        if (player.sprite) {
+            player.sprite.setTint(0x88FF88);
+        }
+
         // Particle effect
         this.createBuffParticles(player);
 
@@ -119,6 +141,16 @@ export class BuffCompanion extends CompanionLegendary {
             attackSpeed: attackSpeedBonus,
             shield: shieldAmount
         });
+    }
+
+    drawPlayerGlow() {
+        if (!this.playerGlow || !this.scene.player) return;
+
+        this.playerGlow.clear();
+        this.playerGlow.fillStyle(0x00FF00, 0.35);
+        this.playerGlow.fillCircle(0, 0, 50);
+        this.playerGlow.fillStyle(0x88FF88, 0.25);
+        this.playerGlow.fillCircle(0, 0, 35);
     }
 
     deactivateBuff() {
@@ -137,6 +169,17 @@ export class BuffCompanion extends CompanionLegendary {
         if (this.aura) {
             this.aura.setVisible(false);
             this.scene.tweens.killTweensOf(this.aura);
+        }
+
+        // Remove player glow
+        if (this.playerGlow) {
+            this.playerGlow.destroy();
+            this.playerGlow = null;
+        }
+
+        // Remove player tint
+        if (player.sprite) {
+            player.sprite.clearTint();
         }
 
         console.debug('Buff Companion: Deactivated buff');

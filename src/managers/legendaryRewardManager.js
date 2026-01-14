@@ -1,21 +1,27 @@
 import { CONFIG } from '../config/config.js';
 
-// Import all legendary classes
+// Import all legendary classes - Gadgets
 import { OrbitalBladeGadget } from '../entities/legendary/gadget/OrbitalBladeGadget.js';
 import { AutoTurretGadget } from '../entities/legendary/gadget/AutoTurretGadget.js';
 import { BuffTotemGadget } from '../entities/legendary/gadget/BuffTotemGadget.js';
 import { DebuffFieldGadget } from '../entities/legendary/gadget/DebuffFieldGadget.js';
 import { LaserTrapGadget } from '../entities/legendary/gadget/LaserTrapGadget.js';
+import { MineGadget } from '../entities/legendary/gadget/MineGadget.js';
 
+// Import all legendary classes - Procs
 import { ChainLightningProc } from '../entities/legendary/proc/ChainLightningProc.js';
 import { FrostNovaProc } from '../entities/legendary/proc/FrostNovaProc.js';
 import { ExplosionOnKillProc } from '../entities/legendary/proc/ExplosionOnKillProc.js';
 import { VampireStrikeProc } from '../entities/legendary/proc/VampireStrikeProc.js';
 import { ThornsBurstProc } from '../entities/legendary/proc/ThornsBurstProc.js';
+import { SacredNovaProc } from '../entities/legendary/proc/SacredNovaProc.js';
 
+// Import all legendary classes - Companions
 import { AttackCompanion } from '../entities/legendary/companion/AttackCompanion.js';
 import { CollectorCompanion } from '../entities/legendary/companion/CollectorCompanion.js';
 import { BuffCompanion } from '../entities/legendary/companion/BuffCompanion.js';
+import { DroneCompanion } from '../entities/legendary/companion/DroneCompanion.js';
+import { WispCompanion } from '../entities/legendary/companion/WispCompanion.js';
 
 /**
  * LegendaryRewardManager
@@ -118,23 +124,27 @@ export class LegendaryRewardManager {
         // Map of legendary IDs to their class constructors
         const legendaryClasses = {
             // Gadgets
-            'orbital_blade': OrbitalBladeGadget,
-            'auto_turret': AutoTurretGadget,
-            'buff_totem': BuffTotemGadget,
-            'debuff_field': DebuffFieldGadget,
-            'laser_trap': LaserTrapGadget,
+            'legend_blade': OrbitalBladeGadget,
+            'legend_torre': AutoTurretGadget,
+            'legend_totem': BuffTotemGadget,
+            'legend_dark_field': DebuffFieldGadget,
+            'legend_torre_laser': LaserTrapGadget,
+            'legend_mina_terrestre': MineGadget,
 
             // Procs
-            'chain_lightning': ChainLightningProc,
-            'frost_nova': FrostNovaProc,
-            'explosion_on_kill': ExplosionOnKillProc,
-            'vampire_strike': VampireStrikeProc,
-            'thorns_burst': ThornsBurstProc,
+            'legend_chain': ChainLightningProc,
+            'legend_ice': FrostNovaProc,
+            'legend_explosao': ExplosionOnKillProc,
+            'legend_vampiro': VampireStrikeProc,
+            'legend_espinhos': ThornsBurstProc,
+            'legend_light': SacredNovaProc,
 
             // Companions
-            'attack_companion': AttackCompanion,
-            'collector_companion': CollectorCompanion,
-            'buff_companion': BuffCompanion,
+            'legend_jaguar': AttackCompanion,
+            'legend_espirito': CollectorCompanion,
+            'legend_xama': BuffCompanion,
+            'legend_drone': DroneCompanion,
+            'legend_wisp': WispCompanion,
         };
 
         const LegendaryClass = legendaryClasses[config.id];

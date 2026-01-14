@@ -26,7 +26,7 @@ export class BuffTotemGadget extends GadgetLegendary {
         const totem = this.scene.add.sprite(
             player.x,
             player.y,
-            this.config.sprite || 'weapon_sword'
+            this.config.sprite
         );
         totem.setScale(1.2);
         totem.setTint(0xFFD700); // Golden totem
@@ -82,6 +82,14 @@ export class BuffTotemGadget extends GadgetLegendary {
             player.stats.damageStat.addMultiplier(damageBonus);
             this.buffApplied = true;
 
+            // Visual feedback - golden tint on player
+            if (player.sprite) {
+                player.sprite.setTint(0xFFD700);
+            }
+
+            // Create buff particles around player
+            this.createBuffParticles(player);
+
             console.debug('Buff Totem: Applied damage buff', { bonus: damageBonus });
         }
     }
@@ -92,7 +100,33 @@ export class BuffTotemGadget extends GadgetLegendary {
             player.stats.damageStat.addMultiplier(-damageBonus);
             this.buffApplied = false;
 
+            // Remove visual tint
+            if (player.sprite) {
+                player.sprite.clearTint();
+            }
+
             console.debug('Buff Totem: Removed damage buff');
+        }
+    }
+
+    createBuffParticles(player) {
+        // Golden particles rising around player
+        for (let i = 0; i < 6; i++) {
+            const angle = (i / 6) * Math.PI * 2;
+            const px = player.x + Math.cos(angle) * 25;
+            const py = player.y + Math.sin(angle) * 25;
+
+            const particle = this.scene.add.graphics();
+            particle.fillStyle(0xFFD700, 0.8);
+            particle.fillCircle(px, py, 4);
+
+            this.scene.tweens.add({
+                targets: particle,
+                alpha: 0,
+                duration: 400,
+                delay: i * 50,
+                onComplete: () => particle.destroy()
+            });
         }
     }
 

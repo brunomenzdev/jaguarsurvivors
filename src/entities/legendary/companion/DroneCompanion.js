@@ -1,22 +1,22 @@
 import { CompanionLegendary } from './CompanionLegendary.js';
 
 /**
- * AttackCompanion
+ * DroneCompanion
  * 
- * A companion that follows the player and attacks nearby enemies with projectiles.
+ * A hovering drone that follows the player and attacks enemies.
+ * Similar to AttackCompanion but with unique visuals and floating animation.
  * 
  * Behavior:
- * - Follows player with offset
- * - Scans for enemies in range
- * - Fires projectiles at nearest enemy
- * - Has attack rate cooldown
+ * - Floats above player with bobbing motion
+ * - Fires laser projectiles at nearest enemy
+ * - Has futuristic visual style
  */
-export class AttackCompanion extends CompanionLegendary {
+export class DroneCompanion extends CompanionLegendary {
     constructor(scene, config) {
         super(scene, config);
         this.attackTimer = 0;
         this.projectiles = [];
-        this.bobOffset = Math.random() * Math.PI * 2;
+        this.bobPhase = 0;
     }
 
     createSprite() {
@@ -29,27 +29,37 @@ export class AttackCompanion extends CompanionLegendary {
         );
 
         this.sprite.setScale(this.config.scale || 0.6);
-        this.sprite.setDepth(player.depth - 1);
+        this.sprite.setDepth(player.depth + 1);
+
+        // Add glow effect
+        this.glowGraphics = this.scene.add.graphics();
     }
 
     updatePosition(delta) {
         const player = this.scene.player;
         if (!player) return;
 
-        // Bobbing animation for organic feel
-        this.bobOffset += delta * 0.003;
-        const bobY = Math.sin(this.bobOffset) * 10;
+        // Bobbing animation
+        this.bobPhase += 0.08;
+        const bobOffset = Math.sin(this.bobPhase) * 8;
 
+        // Smooth follow with bob
         const targetX = player.x + this.offset.x;
-        const targetY = player.y + this.offset.y + bobY;
+        const targetY = player.y + this.offset.y + bobOffset;
 
-        // Smooth follow
         this.sprite.x = Phaser.Math.Linear(this.sprite.x, targetX, 0.1);
         this.sprite.y = Phaser.Math.Linear(this.sprite.y, targetY, 0.1);
 
-        // Face movement direction
-        if (targetX > this.sprite.x + 5) this.sprite.flipX = true;
-        else if (targetX < this.sprite.x - 5) this.sprite.flipX = false;
+        // Update glow position
+        this.updateGlow();
+    }
+
+    updateGlow() {
+        if (!this.glowGraphics) return;
+
+        this.glowGraphics.clear();
+        this.glowGraphics.fillStyle(0x00FFFF, 0.2);
+        this.glowGraphics.fillCircle(this.sprite.x, this.sprite.y + 5, 15);
     }
 
     updateBehavior(delta) {
@@ -96,14 +106,14 @@ export class AttackCompanion extends CompanionLegendary {
     }
 
     fireProjectile(target) {
+        // Create laser-style projectile
         const proj = this.scene.physics.add.image(
             this.sprite.x,
             this.sprite.y,
             this.config.projectileSprite || 'weapon_laser_gun'
         );
 
-        proj.setScale(0.4);
-        proj.setTint(this.config.tint || 0x00FFFF);
+        proj.setScale(0.5);
 
         const angle = Phaser.Math.Angle.Between(
             this.sprite.x,
@@ -119,6 +129,28 @@ export class AttackCompanion extends CompanionLegendary {
         );
         proj.rotation = angle;
 
+        // Add trail effect
+        const trail = this.scene.add.graphics();
+        trail.lineStyle(2, 0x00FFFF, 0.5);
+
+        const trailUpdate = this.scene.time.addEvent({
+            delay: 16,
+            callback: () => {
+                if (proj.active) {
+                    trail.clear();
+                    trail.lineStyle(2, 0x00FFFF, 0.3);
+                    trail.lineBetween(
+                        this.sprite.x, this.sprite.y,
+                        proj.x, proj.y
+                    );
+                } else {
+                    trail.destroy();
+                    trailUpdate.remove();
+                }
+            },
+            loop: true
+        });
+
         this.projectiles.push(proj);
 
         const damage = this.config.damage || 35;
@@ -131,6 +163,19 @@ export class AttackCompanion extends CompanionLegendary {
                 const enemy = enemySprite.getData('parent');
                 if (enemy && enemy.isActive) {
                     enemy.takeDamage(damage);
+
+                    // Hit VFX
+                    const hitGfx = this.scene.add.graphics();
+                    hitGfx.fillStyle(0x00FFFF, 0.8);
+                    hitGfx.fillCircle(projectile.x, projectile.y, 10);
+                    this.scene.tweens.add({
+                        targets: hitGfx,
+                        alpha: 0,
+                        duration: 150,
+                        onComplete: () => hitGfx.destroy()
+                    });
+
+                    trail.destroy();
                     projectile.destroy();
                 }
             }
@@ -138,7 +183,10 @@ export class AttackCompanion extends CompanionLegendary {
 
         // Auto-destroy after 2 seconds
         this.scene.time.delayedCall(2000, () => {
-            if (proj.active) proj.destroy();
+            if (proj.active) {
+                trail.destroy();
+                proj.destroy();
+            }
         });
     }
 
@@ -150,6 +198,12 @@ export class AttackCompanion extends CompanionLegendary {
             if (proj.active) proj.destroy();
         });
         this.projectiles = [];
+
+        // Clean up glow
+        if (this.glowGraphics) {
+            this.glowGraphics.destroy();
+            this.glowGraphics = null;
+        }
 
         super.destroy();
     }

@@ -23,11 +23,10 @@ export class OrbitalBladeGadget extends GadgetLegendary {
         const sprite = this.scene.physics.add.image(
             player.x,
             player.y,
-            this.config.sprite || 'weapon_katana'
+            this.config.sprite
         );
 
         sprite.setScale(this.config.scale || 1.0);
-        sprite.setTint(0xFFD700); // Gold tint
 
         this.sprites.push(sprite);
 
@@ -49,8 +48,8 @@ export class OrbitalBladeGadget extends GadgetLegendary {
         const radius = this.config.radius || 100;
         const speed = this.config.speed || 2;
 
-        // Update angle
-        this.angle += speed * (delta / 1000);
+        // Update angle (rotating counter-clockwise)
+        this.angle -= speed * (delta / 1000);
 
         // Calculate position
         const x = player.x + Math.cos(this.angle) * radius;

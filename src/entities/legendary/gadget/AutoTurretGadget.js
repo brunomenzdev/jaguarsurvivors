@@ -22,11 +22,11 @@ export class AutoTurretGadget extends GadgetLegendary {
 
         const sprite = this.scene.add.image(
             player.x,
-            player.y,
-            this.config.sprite || 'weapon_laser_gun'
+            player.y - 40,
+            this.config.sprite
         );
 
-        sprite.setScale(0.5);
+        sprite.setScale(0.6);
         sprite.setTint(0x00FF00); // Tech green tint
 
         this.sprites.push(sprite);
@@ -39,6 +39,14 @@ export class AutoTurretGadget extends GadgetLegendary {
 
     update(delta) {
         if (!this.isActive || this.sprites.length === 0) return;
+
+        const player = this.scene.player;
+        if (!player) return;
+
+        // Follow player
+        const sprite = this.sprites[0];
+        sprite.x = player.x;
+        sprite.y = player.y - 40;
 
         // Attack logic
         this.attackTimer += delta;

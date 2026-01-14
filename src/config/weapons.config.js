@@ -25,7 +25,7 @@ export const weaponsConfig = [
         },
 
         visual: {
-            scale: 0.5,
+            scale: 0.6,
             offset: { x: 30, y: 0 },
             origin: { x: 0.3, y: 0.5 },
             gripOrigin: { x: 0.5, y: 1.5 },

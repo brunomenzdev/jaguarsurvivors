@@ -23,7 +23,7 @@ export class DebuffFieldGadget extends GadgetLegendary {
         const player = this.scene.player;
         const radius = this.config.radius || 250;
 
-        // Create field circle
+        // Create field circle (static)
         const field = this.scene.add.circle(
             player.x,
             player.y,
@@ -32,19 +32,18 @@ export class DebuffFieldGadget extends GadgetLegendary {
             0.2
         );
 
-        // Create swirling graphics
+        // Create swirling graphics - draw centered at 0,0 then position
         const graphics = this.scene.add.graphics();
+        graphics.setPosition(player.x, player.y);
         graphics.lineStyle(3, 0x9400D3, 0.6);
 
-        // Draw spiral
-        const centerX = player.x;
-        const centerY = player.y;
+        // Draw spiral centered at origin
         let angle = 0;
         graphics.beginPath();
 
         for (let r = 0; r < radius; r += 10) {
-            const x = centerX + Math.cos(angle) * r;
-            const y = centerY + Math.sin(angle) * r;
+            const x = Math.cos(angle) * r;
+            const y = Math.sin(angle) * r;
             if (r === 0) {
                 graphics.moveTo(x, y);
             } else {
@@ -55,7 +54,7 @@ export class DebuffFieldGadget extends GadgetLegendary {
 
         graphics.strokePath();
 
-        // Rotate the spiral continuously
+        // Rotate the spiral continuously (now rotates around its position)
         this.scene.tweens.add({
             targets: graphics,
             rotation: Math.PI * 2,
@@ -128,11 +127,30 @@ export class DebuffFieldGadget extends GadgetLegendary {
                 enemy.enemy.speed = originalSpeed * (1 - slowAmount);
             }
 
-            // Visual tint
+            // Visual tint and particles
             if (enemy.sprite) {
                 enemy.sprite.setTint(0x9400D3);
+
+                // Add periodic slow particles
+                if (Math.random() < 0.1) {
+                    this.createSlowParticle(enemy.x, enemy.y);
+                }
             }
         }
+    }
+
+    createSlowParticle(x, y) {
+        const particle = this.scene.add.graphics();
+        particle.fillStyle(0x9400D3, 0.6);
+        particle.fillCircle(x + Phaser.Math.Between(-15, 15), y + Phaser.Math.Between(-20, 20), 4);
+
+        this.scene.tweens.add({
+            targets: particle,
+            y: '+=20',
+            alpha: 0,
+            duration: 800,
+            onComplete: () => particle.destroy()
+        });
     }
 
     removeDebuff(enemy, originalSpeed) {

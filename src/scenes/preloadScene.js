@@ -75,6 +75,15 @@ export class PreloadScene extends Phaser.Scene {
             });
         }
 
+        // Load Legendary Sprites from config
+        if (BASE_CONFIG.legendary) {
+            BASE_CONFIG.legendary.forEach(legendary => {
+                if (legendary.sprite) {
+                    this.load.image(legendary.sprite, `src/assets/images/${legendary.sprite}.png`);
+                }
+            });
+        }
+
         // Barra de carregamento simples
         this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, 'CARREGANDO...', {
             fontFamily: 'Anton', fontSize: '32px', fill: '#FFD700'

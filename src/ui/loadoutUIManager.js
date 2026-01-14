@@ -6,6 +6,7 @@ export class LoadoutUIManager {
 
         this.weaponSlots = [];
         this.itemSlots = [];
+        this.legendarySlots = [];
 
         this.root = document.getElementById('game-ui');
         if (!this.root) {
@@ -14,6 +15,7 @@ export class LoadoutUIManager {
         }
 
         this.createUI();
+        this.setupEventListeners();
     }
 
     createUI() {
@@ -63,11 +65,44 @@ export class LoadoutUIManager {
         itemsSection.appendChild(itemsTitle);
         itemsSection.appendChild(itemsSlots);
 
+        // ========== LEGENDARIES ==========
+        const legendarySection = document.createElement('div');
+        legendarySection.className = 'loadout-section';
+
+        const legendaryTitle = document.createElement('div');
+        legendaryTitle.className = 'loadout-title legendary';
+        legendaryTitle.innerText = 'LEGENDÁRIOS';
+
+        this.legendarySlotsContainer = document.createElement('div');
+        this.legendarySlotsContainer.className = 'loadout-slots';
+        this.legendarySlotsContainer.id = 'legendary-slots';
+
+        // Create 3 fixed placeholder slots for legendaries (max 3)
+        const maxLegendaries = 3;
+        for (let i = 0; i < maxLegendaries; i++) {
+            const slot = this.createLegendaryPlaceholderSlot();
+            this.legendarySlots.push(slot);
+            this.legendarySlotsContainer.appendChild(slot.el);
+        }
+
+        legendarySection.appendChild(legendaryTitle);
+        legendarySection.appendChild(this.legendarySlotsContainer);
+
         // Append everything
         this.container.appendChild(weaponsSection);
         this.container.appendChild(itemsSection);
+        this.container.appendChild(legendarySection);
 
         this.root.appendChild(this.container);
+    }
+
+    setupEventListeners() {
+        // Listen for legendary obtained events
+        if (this.scene?.events) {
+            this.scene.events.on('legendary-obtained', (config) => {
+                this.onLegendaryObtained(config);
+            });
+        }
     }
 
     createSlot(type) {
@@ -90,6 +125,32 @@ export class LoadoutUIManager {
             level,
             type,
             isEmpty: true
+        };
+    }
+
+    createLegendaryPlaceholderSlot() {
+        const el = document.createElement('div');
+        el.className = 'loadout-slot legendary empty';
+
+        const img = document.createElement('img');
+        img.style.display = 'none';
+        img.alt = '';
+
+        // Tooltip (hidden by default on empty slots)
+        const tooltip = document.createElement('div');
+        tooltip.className = 'legendary-tooltip';
+        tooltip.style.display = 'none';
+
+        el.appendChild(img);
+        el.appendChild(tooltip);
+
+        return {
+            el,
+            img,
+            tooltip,
+            type: 'legendary',
+            isEmpty: true,
+            legendaryId: null
         };
     }
 
@@ -135,7 +196,42 @@ export class LoadoutUIManager {
         if (slot) slot.level.innerText = level;
     }
 
+    onLegendaryObtained(config) {
+        // Find the first empty legendary slot
+        const emptySlot = this.legendarySlots.find(s => s.isEmpty);
+        if (!emptySlot) {
+            console.warn('[LoadoutUI] No more legendary slots available');
+            return;
+        }
+
+        // Fill the slot with the legendary
+        emptySlot.img.src = `src/assets/images/${config.sprite || config.id}.png`;
+        emptySlot.img.style.display = 'block';
+        emptySlot.img.alt = config.name;
+
+        // Update tooltip
+        emptySlot.tooltip.innerHTML = `
+            <h4>${config.name}</h4>
+            <p>${config.description}</p>
+        `;
+        emptySlot.tooltip.style.display = '';
+
+        // Mark as filled
+        emptySlot.isEmpty = false;
+        emptySlot.legendaryId = config.id;
+        emptySlot.el.classList.remove('empty');
+
+        // Add entrance animation
+        emptySlot.el.style.animation = 'legendarySlotEntrance 0.4s ease-out';
+    }
+
     destroy() {
+        // Remove event listeners
+        if (this.scene?.events) {
+            this.scene.events.off('legendary-obtained');
+        }
+
         this.container?.remove();
     }
 }
+

@@ -1,117 +1,149 @@
-
+/**
+ * LegendarySelectionUIManager
+ * 
+ * Premium UI for selecting legendary rewards.
+ * Features:
+ * - Card-based layout with sprite icons
+ * - Animated entrance effects
+ * - Hover/selection feedback with audio
+ * - Matches UpgradeUIManager visual style
+ */
 export class LegendarySelectionUIManager {
     constructor(scene) {
         this.scene = scene;
         this.container = this.createContainer();
+        this.isSelecting = false;
     }
 
     createContainer() {
         const div = document.createElement('div');
         div.id = 'legendary-selection';
-        div.style.position = 'absolute';
-        div.style.top = '0';
-        div.style.left = '0';
-        div.style.width = '100%';
-        div.style.height = '100%';
-        div.style.backgroundColor = 'rgba(20, 0, 0, 0.9)'; // Dark Red/Black
-        div.style.display = 'none';
-        div.style.flexDirection = 'column';
-        div.style.justifyContent = 'center';
-        div.style.alignItems = 'center';
-        div.style.zIndex = '2000'; // Above everything
-        div.style.fontFamily = 'Arial, sans-serif';
-        div.style.color = '#FFD700'; // Gold
+        div.className = 'legendary-selection-screen';
 
+        // Title
         const title = document.createElement('h1');
+        title.className = 'legendary-title';
         title.innerText = 'RECOMPENSA LENDÁRIA';
-        title.style.fontSize = '3rem';
-        title.style.textShadow = '0 0 20px #FF4500'; // Orange flow
-        title.style.marginBottom = '50px';
-        title.style.textTransform = 'uppercase';
-        title.style.letterSpacing = '5px';
         div.appendChild(title);
 
+        // Subtitle
+        const subtitle = document.createElement('p');
+        subtitle.className = 'legendary-subtitle';
+        subtitle.innerText = 'Escolha um poder ancestral';
+        div.appendChild(subtitle);
+
+        // Cards container
         const cardsContainer = document.createElement('div');
         cardsContainer.id = 'legendary-cards';
-        cardsContainer.style.display = 'flex';
-        cardsContainer.style.gap = '30px';
+        cardsContainer.className = 'legendary-cards-container';
         div.appendChild(cardsContainer);
 
-        document.body.appendChild(div);
+        document.getElementById('game-wrapper').appendChild(div);
         return div;
     }
 
     show(rewards) {
         const cardsContainer = this.container.querySelector('#legendary-cards');
-        cardsContainer.innerHTML = ''; // Clear prev
+        cardsContainer.innerHTML = '';
+        this.isSelecting = false;
 
-        rewards.forEach(reward => {
-            const card = document.createElement('div');
-            card.className = 'legendary-card';
-
-            card.style.width = '250px';
-            card.style.height = '350px';
-            card.style.backgroundColor = '#2a0a0a';
-            card.style.border = '2px solid #FFD700';
-            card.style.borderRadius = '15px';
-            card.style.padding = '20px';
-            card.style.display = 'flex';
-            card.style.flexDirection = 'column';
-            card.style.alignItems = 'center';
-            card.style.cursor = 'pointer';
-            card.style.transition = 'transform 0.2s, box-shadow 0.2s';
-            card.style.boxShadow = '0 0 15px rgba(255, 215, 0, 0.3)';
-
-            // Hover effect logic handled via JS or separate CSS class? 
-            // Let's add simple JS hover
-            card.onmouseenter = () => {
-                card.style.transform = 'scale(1.05)';
-                card.style.boxShadow = '0 0 30px rgba(255, 215, 0, 0.6)';
-            };
-            card.onmouseleave = () => {
-                card.style.transform = 'scale(1.0)';
-                card.style.boxShadow = '0 0 15px rgba(255, 215, 0, 0.3)';
-            };
-
-            card.innerHTML = `
-                <div class="legendary-card-icon">${reward.icon}</div>
-                <div class="legendary-card-type">${reward.type.toUpperCase()}</div>
-                <h2 class="legendary-card-title">${reward.name}</h2>
-                <p class="legendary-card-description">${reward.description}</p>
-            `;
-
-            card.onclick = () => {
-                this.selectReward(reward);
-            };
-
+        rewards.forEach((reward, index) => {
+            const card = this.createCard(reward, index);
             cardsContainer.appendChild(card);
         });
 
-        this.container.style.display = 'flex';
+        this.container.classList.add('active');
 
-        // Simple entry animation
-        this.container.style.opacity = '0';
-        requestAnimationFrame(() => {
-            this.container.style.transition = 'opacity 0.5s';
-            this.container.style.opacity = '1';
-        });
+        // Play legendary reveal sound
+        if (this.scene.audio) {
+            this.scene.audio.play('levelup');
+        }
+    }
+
+    createCard(reward, index) {
+        const card = document.createElement('div');
+        card.className = 'legendary-card';
+        card.style.animationDelay = `${index * 0.12}s`;
+
+        // Sprite icon
+        const iconContainer = document.createElement('div');
+        iconContainer.className = 'legendary-icon';
+
+        // Use sprite if available, otherwise use emoji
+        if (reward.sprite) {
+            iconContainer.style.backgroundImage = `url(src/assets/images/${reward.sprite}.png)`;
+        } else {
+            iconContainer.innerHTML = `<span class="legendary-emoji">${reward.icon || '⭐'}</span>`;
+        }
+
+        // Category badge
+        const badge = document.createElement('div');
+        badge.className = 'legendary-type-badge';
+        badge.innerText = reward.category || reward.type?.toUpperCase() || 'LEGENDARY';
+
+        // Name
+        const title = document.createElement('h2');
+        title.className = 'legendary-card-name';
+        title.innerText = reward.name;
+
+        // Description
+        const desc = document.createElement('p');
+        desc.className = 'legendary-card-description';
+        desc.innerText = reward.description;
+
+        // Rarity indicator
+        const rarity = document.createElement('div');
+        rarity.className = 'legendary-rarity-glow';
+
+        card.append(iconContainer, badge, title, desc, rarity);
+
+        // Interactions
+        card.onmouseenter = () => {
+            if (this.scene.events) {
+                this.scene.events.emit('ui-hover');
+            }
+        };
+
+        card.onclick = () => {
+            if (this.isSelecting) return;
+
+            if (this.scene.events) {
+                this.scene.events.emit('ui-click');
+            }
+
+            // Visual feedback
+            card.classList.add('selected');
+
+            this.selectReward(reward);
+        };
+
+        return card;
     }
 
     hide() {
-        this.container.style.opacity = '0';
-        setTimeout(() => {
-            this.container.style.display = 'none';
-        }, 500);
+        this.container.classList.remove('active');
     }
 
     selectReward(reward) {
-        this.scene.legendaryRewardManager.activateLegendary(reward.id);
-        this.hide();
+        if (this.isSelecting) return;
+        this.isSelecting = true;
 
-        if (this.scene.bootstrap && this.scene.bootstrap.uiFlow) {
-            this.scene.bootstrap.uiFlow.closeScreen('legendary');
-        } else {
-            this.scene.scene.resume();
+        // Small delay for selection animation to play
+        setTimeout(() => {
+            this.scene.legendaryRewardManager.activateLegendary(reward.id);
+            this.hide();
+
+            if (this.scene.bootstrap && this.scene.bootstrap.uiFlow) {
+                this.scene.bootstrap.uiFlow.closeScreen('legendary');
+            } else {
+                this.scene.scene.resume();
+            }
+        }, 200);
+    }
+
+    destroy() {
+        if (this.container && this.container.parentNode) {
+            this.container.parentNode.removeChild(this.container);
         }
     }
 }

@@ -21,7 +21,7 @@ export const mapsConfig = [
             {
                 name: 'A FAVELA',
                 duration: 120,
-                interval: 5000,
+                interval: 500,
                 enemiesPerWave: 1,
                 enemyTypes: ['enemy_favela_basico', 'enemy_favela', 'enemy_cria', 'enemy_cria2', 'enemy_mendigo', 'enemy_mandraka', 'enemy_bolsa_familia'],
                 totalEnemies: 9999,
@@ -84,8 +84,8 @@ export const mapsConfig = [
         boss: 'boss_bandido_moto',
         duration: 600,
         events: [
-            { time: 300, type: 'boss_spawn', key: 'boss_bandido_moto' }, // Mini-boss na metade
-            { time: 150, type: 'boss_spawn', key: 'boss_bandido_moto' }, // Boss Final
+            { time: 595, type: 'boss_spawn', key: 'boss_bandido_moto' }, // Mini-boss na metade
+            { time: 580, type: 'boss_spawn', key: 'boss_bandido_moto' }, // Boss Final
             { time: 60, type: 'final_hour' }
         ]
     },

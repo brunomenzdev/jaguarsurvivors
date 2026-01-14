@@ -26,10 +26,9 @@ export class LaserTrapGadget extends GadgetLegendary {
         const base = this.scene.add.sprite(
             player.x,
             player.y,
-            this.config.sprite || 'weapon_laser_gun'
+            this.config.sprite
         );
         base.setScale(0.8);
-        base.setTint(0xFF0000); // Red laser
 
         // Create laser beam graphics
         const laserGraphics = this.scene.add.graphics();
