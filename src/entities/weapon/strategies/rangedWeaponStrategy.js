@@ -81,6 +81,7 @@ export class RangedWeaponStrategy extends WeaponStrategy {
 
         if (!isFinite(lifetimeMs) || lifetimeMs <= 0) lifetimeMs = 2000;
 
+        this.playRecoilAnimation(angle);
         this.spawnProjectile(x, y, target.x, target.y, damage, isCritical, speed, lifetimeMs, config);
     }
 
@@ -88,8 +89,7 @@ export class RangedWeaponStrategy extends WeaponStrategy {
         const { weapon } = this;
         const { config, player, current } = weapon;
 
-        // Ultra-fast projectile
-        const speed = 1200;
+        const speed = current.projectileSpeed || 1200;
         const range = current.range || 600;
         let lifetimeMs = (range / speed) * 1000;
 
@@ -103,6 +103,7 @@ export class RangedWeaponStrategy extends WeaponStrategy {
 
         const { damage, isCritical } = weapon.calculateDamage();
 
+        this.playRecoilAnimation(angle);
         this.spawnProjectile(x, y, target.x, target.y, damage, isCritical, speed, lifetimeMs, config);
     }
 
@@ -118,7 +119,7 @@ export class RangedWeaponStrategy extends WeaponStrategy {
 
         for (let i = 0; i < burstCount; i++) {
             this.scene.time.delayedCall(i * burstDelay, () => {
-                if (!weapon.player || !weapon.player.isActive) return;
+                if (!player || !player.isActive) return;
 
                 const angle = Phaser.Math.Angle.Between(
                     player.x, player.y, target.x, target.y
@@ -130,6 +131,7 @@ export class RangedWeaponStrategy extends WeaponStrategy {
 
                 const { damage, isCritical } = weapon.calculateDamage();
 
+                this.playRecoilAnimation(angle);
                 this.spawnProjectile(x, y, target.x, target.y, damage * 0.4, isCritical, speed, lifetimeMs, config);
             });
         }
@@ -158,6 +160,71 @@ export class RangedWeaponStrategy extends WeaponStrategy {
         projectile.applyVelocity(x, y, targetX, targetY, speed);
 
         this.activeProjectiles.push(projectile);
+    }
+
+    playRecoilAnimation(angle) {
+        const sprite = this.getWeaponSprite();
+        if (!sprite) return;
+
+        // Recoil effect: push weapon back and slightly rotate
+        const recoilDistance = 8;
+        const recoilDuration = 50;
+        const recoverDuration = 150;
+
+        // Calculate recoil vector (opposite to fire angle)
+        const rx = -Math.cos(angle) * recoilDistance;
+        const ry = -Math.sin(angle) * recoilDistance;
+
+        // Kill any existing recoil tweens on this specific animOffset
+        this.scene.tweens.killTweensOf(this.weapon.animOffset);
+
+        // Reset animOffset before starting new tween
+        this.weapon.animOffset.x = 0;
+        this.weapon.animOffset.y = 0;
+
+        this.scene.tweens.add({
+            targets: this.weapon.animOffset,
+            x: rx,
+            y: ry,
+            duration: recoilDuration,
+            ease: 'Back.easeOut',
+            yoyo: true,
+            hold: 20,
+            onComplete: () => {
+                this.weapon.animOffset.x = 0;
+                this.weapon.animOffset.y = 0;
+            }
+        });
+
+        // Subtle kick rotation
+        const kickRotation = 0.15; // rads
+        const facing = this.weapon.player.facingRight ? 1 : -1;
+
+        // Kill existing rotation tweens
+        this.scene.tweens.killTweensOf(this.weapon);
+
+        this.scene.tweens.add({
+            targets: this.weapon,
+            visualRotationOffset: -(kickRotation * facing),
+            duration: recoilDuration,
+            yoyo: true,
+            ease: 'Sine.easeOut',
+            onComplete: () => {
+                this.weapon.visualRotationOffset = 0;
+            }
+        });
+    }
+
+    getWeaponSprite() {
+        const weaponManager = this.scene.weaponManager;
+        if (!weaponManager || !weaponManager.weapons || weaponManager.weapons.length === 0) {
+            return null;
+        }
+
+        const weaponKey = this.weapon.config.key;
+        const weaponEntry = weaponManager.weapons.find(w => w.weaponKey === weaponKey);
+
+        return weaponEntry ? weaponEntry.sprite : null;
     }
 
     update(delta) {

@@ -40,6 +40,8 @@ export class StructureLoot {
 
             case 'xp_gem':
             case 'xp_gem_medium':
+            case 'xp_gem_big':
+            case 'xp_gem_huge':
                 if (this.scene.xpSystem) {
                     this.scene.xpSystem.dropXP(x, y, item.value || 10);
                 }

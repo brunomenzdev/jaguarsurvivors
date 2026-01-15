@@ -117,7 +117,7 @@ export class AttackCompanion extends CompanionLegendary {
             Math.cos(angle) * speed,
             Math.sin(angle) * speed
         );
-        proj.rotation = angle;
+        proj.rotation = angle + Math.PI / 2;
 
         this.projectiles.push(proj);
 

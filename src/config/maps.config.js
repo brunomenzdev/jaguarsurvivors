@@ -23,7 +23,8 @@ export const mapsConfig = [
                 duration: 120,
                 interval: 500,
                 enemiesPerWave: 1,
-                enemyTypes: ['enemy_favela_basico', 'enemy_favela', 'enemy_cria', 'enemy_cria2', 'enemy_mendigo', 'enemy_mandraka', 'enemy_bolsa_familia'],
+                enemyTypes: ['enemy_influencer', 'enemy_influencer2'],
+                //enemyTypes: ['enemy_favela_basico', 'enemy_favela', 'enemy_cria', 'enemy_cria2', 'enemy_mendigo', 'enemy_mandraka', 'enemy_bolsa_familia'],
                 totalEnemies: 9999,
                 spawnDistance: 700,
                 maxOnScreen: 30

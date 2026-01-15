@@ -200,6 +200,40 @@ export const VFX_CONFIG = {
             effectClass: FlashEffect,
             condition: (data) => data.type.startsWith('health'),
             config: { duration: 200, color: 0x00FF00 }
+        },
+        // === NEW PICKUPS ===
+        // Shield Core
+        {
+            effectClass: PulseEffect,
+            condition: (data) => data.type === 'shield_core',
+            config: { scale: 2.5, duration: 400 }
+        },
+        {
+            effectClass: SparkEffect,
+            condition: (data) => data.type === 'shield_core',
+            config: { count: 45, color: 0x00AAFF, speedMin: 100, speedMax: 500, life: 700 }
+        },
+        // Rage Orb
+        {
+            effectClass: PulseEffect,
+            condition: (data) => data.type === 'rage_orb',
+            config: { scale: 2.2, duration: 250 }
+        },
+        {
+            effectClass: SparkEffect,
+            condition: (data) => data.type === 'rage_orb',
+            config: { count: 55, color: 0xFF4400, speedMin: 150, speedMax: 600, life: 600 }
+        },
+        // Time Freeze
+        {
+            effectClass: CameraFlashEffect,
+            condition: (data) => data.type === 'time_freeze',
+            config: { duration: 200, r: 136, g: 0, b: 255 }
+        },
+        {
+            effectClass: SparkEffect,
+            condition: (data) => data.type === 'time_freeze',
+            config: { count: 70, color: 0x8800FF, speedMin: 50, speedMax: 250, life: 1000 }
         }
     ],
     'difficulty-increased': [
@@ -245,6 +279,20 @@ export const VFX_CONFIG = {
             effectClass: SparkEffect,
             condition: () => true,
             config: { count: 8, color: 0xFFAA00, speedMin: 50, speedMax: 150, life: 200 }
+        }
+    ],
+
+    // ==================== BUFF EXPIRATION VFX ====================
+    'buff-expired-vfx': [
+        {
+            effectClass: PulseEffect,
+            condition: () => true,
+            config: { scale: 1.3, duration: 200 }
+        },
+        {
+            effectClass: SparkEffect,
+            condition: () => true,
+            config: { count: 15, color: 0xFFFFFF, speedMin: 50, speedMax: 200, life: 400 }
         }
     ]
 };

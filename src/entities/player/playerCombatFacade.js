@@ -10,6 +10,10 @@ export class PlayerCombatFacade {
     // === DIRECTION ===
     get facingRight() { return this.player.facingRight; }
 
+    // === LIFECYCLE ===
+    get active() { return this.player.active; }
+    get isActive() { return this.player.active; }
+
     // === STATS ===
     get stats() { return this.player.stats; }
 

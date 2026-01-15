@@ -124,6 +124,11 @@ export class WeaponManager {
                     playerY + visual.offset.y + animY
                 );
 
+                // Apply rotation calculated by the weapon logic (mostly for ranged)
+                if (data.weaponData.config.type === 'ranged' && data.weaponData.rotation !== undefined) {
+                    data.sprite.rotation = data.weaponData.rotation;
+                }
+
                 // Ensure origin is correct (strategies might have changed it)
                 // We only reset if both offset is zero AND no tweens are active on the sprite
                 const isTweening = this.scene.tweens.isTweening(data.sprite);

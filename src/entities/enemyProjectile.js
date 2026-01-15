@@ -7,9 +7,8 @@ export class EnemyProjectile {
         const scale = enemyConfig.projectileScale ?? 1;
         const speed = enemyConfig.projectileSpeed ?? 200;
 
-        this.sprite = scene.physics.add.image(x, y, null);
+        this.sprite = scene.physics.add.image(x, y, 'projectile_enemy');
         this.sprite.setCircle(5);
-        this.sprite.setTint(color);
         this.sprite.setScale(scale);
         this.sprite.setDepth(2000);
         this.sprite.setData('parent', this);
@@ -18,17 +17,10 @@ export class EnemyProjectile {
             Math.cos(angle) * speed,
             Math.sin(angle) * speed
         );
+        this.sprite.rotation = angle + Math.PI / 2;
 
         scene.time.delayedCall(2000, () => {
             if (this.sprite?.active) this.destroy();
-        });
-
-        scene.tweens.add({
-            targets: this.sprite,
-            angle: 360,
-            duration: 1200,
-            repeat: -1,
-            ease: 'Linear'
         });
     }
 

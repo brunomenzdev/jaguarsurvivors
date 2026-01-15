@@ -165,13 +165,11 @@ export class GameEventHandler {
         this.events.on('pickup-collected', (pickup) => {
             const type = pickup.type;
             const player = this.playerManager.player;
+            const pickupConfig = pickup.pickupConfig || {};
 
             switch (type) {
                 case 'health_kit':
                     player.heal(player.stats.maxHealth * 0.2);
-                    break;
-                case 'health_kit_big':
-                    player.heal(player.stats.maxHealth * 0.5);
                     break;
                 case 'map_bomb':
                     // Deals massive damage to all enemies currently on screen
@@ -190,19 +188,117 @@ export class GameEventHandler {
                     this.audio.play('magic');
                     break;
                 case 'boots':
-                    // Temporary movement speed boost
-                    const speedMultiplier = 0.5; // +50% speed
+                    // Temporary movement speed boost via buff system
+                    const speedMultiplier = pickupConfig.value || 0.5;
+                    const speedDuration = pickupConfig.duration || 5000;
+
                     player.stats.moveSpeedStat.addMultiplier(speedMultiplier);
 
-                    this.audio.play('evasion');
+                    // Track via buff manager for UI and visuals
+                    if (this.scene.playerBuffManager) {
+                        this.scene.playerBuffManager.addBuff('speed', {
+                            duration: speedDuration,
+                            speedBonus: speedMultiplier
+                        });
+                    }
 
-                    // Remove after 5 seconds
-                    this.scene.time.delayedCall(5000, () => {
-                        if (player.active) {
-                            player.stats.moveSpeedStat.addMultiplier(-speedMultiplier);
+                    // Listen for buff end to remove the stat multiplier
+                    const onSpeedEnd = (buffType, data) => {
+                        if (buffType === 'speed' && player.active) {
+                            player.stats.moveSpeedStat.addMultiplier(-data.speedBonus);
+                            this.events.off('buff-ended', onSpeedEnd);
+                        }
+                    };
+                    this.events.on('buff-ended', onSpeedEnd);
+                    break;
+
+                case 'shield_core':
+                    // Shield that absorbs hits
+                    if (this.scene.playerBuffManager) {
+                        this.scene.playerBuffManager.addBuff('shield', {
+                            duration: pickupConfig.duration || 8000,
+                            hitsRemaining: pickupConfig.value || 3
+                        });
+                    }
+                    break;
+
+                case 'rage_orb':
+                    // Temporary damage boost
+                    const rageDamage = pickupConfig.value || 0.5;
+                    const rageDuration = pickupConfig.duration || 6000;
+
+                    player.stats.damageStat.addMultiplier(rageDamage);
+
+                    if (this.scene.playerBuffManager) {
+                        this.scene.playerBuffManager.addBuff('rage', {
+                            duration: rageDuration,
+                            damageBonus: rageDamage
+                        });
+                    }
+
+                    // Listen for buff end to remove the stat multiplier
+                    const onRageEnd = (buffType, data) => {
+                        if (buffType === 'rage' && player.active) {
+                            player.stats.damageStat.addMultiplier(-data.damageBonus);
+                            this.events.off('buff-ended', onRageEnd);
+                        }
+                    };
+                    this.events.on('buff-ended', onRageEnd);
+                    break;
+
+                case 'time_freeze':
+                    // Freeze all enemies
+                    const freezeDuration = pickupConfig.duration || 4000;
+
+                    if (this.scene.playerBuffManager) {
+                        this.scene.playerBuffManager.addBuff('time_freeze', {
+                            duration: freezeDuration
+                        });
+                    }
+
+                    // 1. Apply stun to all active enemies
+                    const enemies = this.scene.enemySpawner?.enemies?.filter(e => e.isActive) || [];
+                    enemies.forEach(enemy => {
+                        if (enemy.applyEffect) {
+                            enemy.applyEffect('stun', 0, freezeDuration);
+                        } else if (enemy.status) {
+                            enemy.status.apply('stun', { duration: freezeDuration, damage: 0 });
                         }
                     });
+
+                    // 2. Freeze all active enemy projectiles
+                    const projGroup = this.scene.enemyProjectiles;
+                    if (projGroup && projGroup.children) {
+                        projGroup.children.iterate(proj => {
+                            if (proj && proj.active && proj.body) {
+                                // Store current velocity to restore later
+                                proj.setData('frozenVelocity', { x: proj.body.velocity.x, y: proj.body.velocity.y });
+                                proj.body.setVelocity(0, 0);
+                            }
+                        });
+                    }
+
+                    // 3. Listen for freeze end to unfreeze projectiles
+                    const onFreezeEnd = (buffType) => {
+                        if (buffType === 'time_freeze') {
+                            if (projGroup && projGroup.children) {
+                                projGroup.children.iterate(proj => {
+                                    if (proj && proj.active && proj.body && proj.getData('frozenVelocity')) {
+                                        const vel = proj.getData('frozenVelocity');
+                                        proj.body.setVelocity(vel.x, vel.y);
+                                        proj.removeData('frozenVelocity');
+                                    }
+                                });
+                            }
+                            this.events.off('buff-ended', onFreezeEnd);
+                        }
+                    };
+                    this.events.on('buff-ended', onFreezeEnd);
+
+                    // Camera effect for impact
+                    this.scene.cameras.main.flash(200, 136, 0, 255, true);
                     break;
+
                 case 'coin':
                     this.scene.coins = (this.scene.coins || 0) + 1;
                     break;

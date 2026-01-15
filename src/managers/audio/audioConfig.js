@@ -129,11 +129,33 @@ export const AUDIO_CONFIG = {
     ],
 
     'pickup-collected': [
+        // Default pickup sound (for health, coin, etc.)
         {
             key: 'sfx_item_pickup',
-            condition: () => true,
+            condition: (ctx) => !['shield_core', 'rage_orb', 'time_freeze'].includes(ctx.type),
             priority: 80,
             config: { volume: 0.6 }
+        },
+        // Shield Core - magical shield activation
+        {
+            key: 'magic',
+            condition: (ctx) => ctx.type === 'shield_core',
+            priority: 85,
+            config: { volume: 0.7, detune: 200 }
+        },
+        // Rage Orb - aggressive power-up sound
+        {
+            key: 'magic',
+            condition: (ctx) => ctx.type === 'rage_orb',
+            priority: 85,
+            config: { volume: 0.8, detune: -300 }
+        },
+        // Time Freeze - ethereal time manipulation
+        {
+            key: 'magic',
+            condition: (ctx) => ctx.type === 'time_freeze',
+            priority: 90,
+            config: { volume: 0.9, detune: 500 }
         }
     ],
 
@@ -143,6 +165,15 @@ export const AUDIO_CONFIG = {
             condition: () => true,
             priority: 90,
             config: { volume: 0.8 }
+        }
+    ],
+
+    'buff-ended': [
+        {
+            key: 'sfx_item_pickup', // Reuse pickup sound but lower pitch and volume
+            condition: () => true,
+            priority: 60,
+            config: { volume: 0.4, detune: -600 }
         }
     ],
 

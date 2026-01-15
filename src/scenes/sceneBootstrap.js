@@ -12,6 +12,8 @@ import { GadgetManager } from '../managers/gadgetManager.js';
 import { ProcManager } from '../managers/procManager.js';
 import { CompanionManager } from '../managers/companionManager.js';
 import { PickupManager } from '../managers/pickupManager.js';
+import { PlayerBuffManager } from '../managers/playerBuffManager.js';
+import { PlayerBuffVisuals } from '../managers/playerBuffVisuals.js';
 
 import { DamageTextPool } from '../ui/damagePopup.js';
 import { HUDManager } from '../managers/hudManager.js';
@@ -22,6 +24,7 @@ import { GameOverUIManager } from '../ui/gameOverUIManager.js';
 import { MapCompletedUIManager } from '../ui/mapCompletedUIManager.js';
 import { LoadoutUIManager } from '../ui/loadoutUIManager.js';
 import { PauseUIManager } from '../ui/pauseUIManager.js';
+import { BuffIndicatorManager } from '../ui/buffIndicatorManager.js';
 import { SaveManager } from '../managers/saveManager.js';
 import { AchievementManager } from '../managers/achievementManager.js';
 
@@ -168,6 +171,10 @@ export class SceneBootstrap {
         this.scene.pickupManager = new PickupManager(this.scene);
         this.scene.vfxManager = new VFXManager(this.scene);
 
+        // Player Buff System
+        this.scene.playerBuffManager = new PlayerBuffManager(this.scene);
+        this.scene.playerBuffVisuals = new PlayerBuffVisuals(this.scene, this.scene.player.view);
+
         this.scene.legendaryRewardManager = new LegendaryRewardManager(this.scene);
     }
 
@@ -189,6 +196,9 @@ export class SceneBootstrap {
 
         // NEW: Loadout UI shows equipped weapons/items
         this.scene.loadoutUI = new LoadoutUIManager(this.scene);
+
+        // Buff Indicator UI
+        this.scene.buffIndicatorManager = new BuffIndicatorManager(this.scene);
 
         // Initial Sync
         if (this.scene.player) {

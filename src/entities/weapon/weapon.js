@@ -24,6 +24,7 @@ export class Weapon {
 
         this.current = {};
         this.animOffset = { x: 0, y: 0 };
+        this.visualRotationOffset = 0;
         this.strategy = this.createStrategy();
     }
 
@@ -149,11 +150,12 @@ export class Weapon {
 
         // We store the rotation on config.rotation temporarily for visual consistency if needed
         // But better to store on 'current' or instance
-        this.rotation = Phaser.Math.Linear(
-            this.rotation || 0,
+        this.baseRotation = Phaser.Math.Linear(
+            this.baseRotation || 0,
             desired,
             smoothing
         );
+        this.rotation = this.baseRotation + (this.visualRotationOffset || 0);
     }
 
     calculateDamage() {

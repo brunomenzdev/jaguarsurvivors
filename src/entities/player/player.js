@@ -43,6 +43,24 @@ export class Player {
     takeDamage(amount, attacker = null) {
         if (this.isInvulnerable) return;
 
+        // Check for shield buff (absorbs damage)
+        const shieldBuff = this.scene.playerBuffManager?.getActiveBuff('shield');
+        if (shieldBuff) {
+            shieldBuff.data.hitsRemaining--;
+            console.debug('[Player] Shield absorbed hit. Remaining:', shieldBuff.data.hitsRemaining);
+            this.scene.events.emit('shield-absorbed', shieldBuff.data.hitsRemaining);
+
+            // Shield break effect
+            if (shieldBuff.data.hitsRemaining <= 0) {
+                this.scene.playerBuffManager.removeBuff('shield');
+            }
+
+            // Brief invulnerability after shield absorbs
+            this.isInvulnerable = true;
+            this.invTimer = 200;
+            return; // Damage fully absorbed
+        }
+
         if (Math.random() < this.stats.evasion) {
             console.debug("EVENT_EMITTED", { eventName: 'player-evaded', payload: null });
             this.scene.events.emit('player-evaded');
@@ -107,5 +125,6 @@ export class Player {
     }
     get weaponSprite() { return this.view.weapon; }
     get facingRight() { return this.movement.facingRight !== false; } // Default to true
-    get active() { return this.view.container.active; }
+    get active() { return this.view?.container?.active ?? true; }
+    get isActive() { return this.active; }
 }

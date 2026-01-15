@@ -6,14 +6,11 @@ export class Pickup extends Phaser.GameObjects.Container {
         this.scene = scene;
         this.isActive = false;
 
-        // Pre-create visuals (we'll update them in spawn)
-        this.shape = scene.add.circle(0, 0, 15, 0xFFFFFF);
+        // Use ONLY the sprite as per constraints
+        this.icon = scene.add.sprite(0, 0, 'pickup_bomb');
+        this.icon.setScale(0.5);
 
-        // Use sprite instead of text for icons
-        this.icon = scene.add.sprite(0, 0, 'pickup_bomb'); // Default sprite
-        this.icon.setScale(0.5); // Start small, will adjust per pickup type
-
-        this.add([this.shape, this.icon]);
+        this.add(this.icon);
 
         // Physics
         scene.physics.world.enable(this);
@@ -33,6 +30,11 @@ export class Pickup extends Phaser.GameObjects.Container {
         this.type = type;
         this.pickupConfig = CONFIG.pickups.types[type];
 
+        if (!this.pickupConfig) {
+            console.error(`[Pickup] Config missing for type: ${type}. Check pickups.config.js.`);
+            this.pickupConfig = CONFIG.pickups.types['health_kit'] || { spriteKey: 'pickup_bomb', scale: 1.0 };
+        }
+
         this.setPosition(x, y);
         this.setVisible(true);
         this.setActive(true);
@@ -41,31 +43,20 @@ export class Pickup extends Phaser.GameObjects.Container {
         this.alpha = 1;
         this.setScale(0);
 
-        this.shape.setFillStyle(this.pickupConfig.color);
-
-        // Use sprite from config, fallback to pickup_bomb if not specified
-        const spriteKey = this.pickupConfig.spriteKey;
+        // Use sprite from config
+        const spriteKey = this.pickupConfig.spriteKey || 'pickup_bomb';
         this.icon.setTexture(spriteKey);
         this.icon.setScale(this.pickupConfig.scale || 1.0);
 
-        // Standard animations
+        // Floating animation
         if (this.floatTween) this.floatTween.remove();
         this.floatTween = this.scene.tweens.add({
             targets: this,
-            y: y - 10,
+            y: y - 8,
             yoyo: true,
-            duration: 1000,
+            duration: 1200,
             ease: 'Sine.easeInOut',
             repeat: -1
-        });
-
-        if (this.pulseTween) this.pulseTween.remove();
-        this.pulseTween = this.scene.tweens.add({
-            targets: this.shape,
-            alpha: 0.6,
-            yoyo: true,
-            duration: 500,
-            loop: -1
         });
 
         // Entrance animation
@@ -75,12 +66,23 @@ export class Pickup extends Phaser.GameObjects.Container {
             duration: 300,
             ease: 'Back.out'
         });
+
+        // Subtle pulsing of the sprite itself
+        if (this.pulseTween) this.pulseTween.remove();
+        this.pulseTween = this.scene.tweens.add({
+            targets: this.icon,
+            scale: (this.pickupConfig.scale || 1.0) * 1.1,
+            yoyo: true,
+            duration: 600,
+            ease: 'Sine.easeInOut',
+            repeat: -1
+        });
     }
 
     collect() {
         if (!this.isActive) return;
         this.isActive = false;
-        this.body.enable = false; // IMMEDIATE DISABLE
+        this.body.enable = false;
 
         // Stop tweens
         if (this.floatTween) this.floatTween.remove();
@@ -89,12 +91,12 @@ export class Pickup extends Phaser.GameObjects.Container {
         // Exit animation
         this.scene.tweens.add({
             targets: this,
-            scale: 1.5,
+            scale: 1.8,
             alpha: 0,
-            duration: 200,
+            duration: 250,
+            ease: 'Cubic.out',
             onComplete: () => {
                 this.setVisible(false);
-                this.body.enable = false;
                 this.setActive(false);
             }
         });

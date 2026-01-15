@@ -130,6 +130,18 @@ export class VFXManager {
                     context.y = this.scene.player.y;
                 }
                 break;
+            case 'buff-expired-vfx':
+                // args: [buffType, { x, y }]
+                context.buffType = args[0];
+                // Use provided position or fallback to player
+                if (args[1] && typeof args[1].x === 'number') {
+                    context.x = args[1].x;
+                    context.y = args[1].y;
+                } else if (this.scene.player) {
+                    context.x = this.scene.player.x;
+                    context.y = this.scene.player.y;
+                }
+                break;
             default:
                 // Fallback: try to find x/y in first arg if it's an object
                 if (args[0] && typeof args[0].x === 'number') {

@@ -91,6 +91,9 @@ export class GameScene extends Phaser.Scene {
         if (this.gadgetManager) this.gadgetManager.update(delta);
         if (this.companionManager) this.companionManager.update(delta);
 
+        // Player Buff System
+        if (this.playerBuffManager) this.playerBuffManager.update(delta);
+
         // DifficultyManager is time-based and uses scene.time.now
         // It does not require a manual update(delta) call in the loop
         // It tracks time via internal methods getElapsedTime() called by clients
@@ -167,6 +170,11 @@ export class GameScene extends Phaser.Scene {
         if (this.gadgetManager) this.gadgetManager.destroy();
         if (this.procManager) this.procManager.destroy();
         if (this.companionManager) this.companionManager.destroy();
+
+        // Buff system cleanup
+        if (this.playerBuffVisuals) this.playerBuffVisuals.destroy();
+        if (this.playerBuffManager) this.playerBuffManager.destroy();
+        if (this.buffIndicatorManager) this.buffIndicatorManager.destroy();
 
         if (this.playerManager) {
             try {

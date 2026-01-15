@@ -85,8 +85,7 @@ export const structuresConfig = {
         ],
         legendary_structure: [
             { type: 'nothing', chance: 0.2 },
-            { type: 'xp_gem_large', chance: 0.6, value: 50 },
-            { type: 'treasure_chest', chance: 0.2 }
+            { type: 'xp_gem_big', chance: 0.6, value: 50 }
         ]
     }
 };

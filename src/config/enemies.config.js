@@ -925,7 +925,7 @@ export const enemiesConfig = [
         legOffset: { x: 5, y: 45 },
         hitSoundKey: 'hit',
         dropChance: 0.15,
-        lootTable: 'ucommon',
+        lootTable: 'common',
         ai: {
             behaviorKey: 'orbit',
             behaviorParams: {

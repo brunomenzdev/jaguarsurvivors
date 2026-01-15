@@ -119,23 +119,12 @@ export class WispCompanion extends CompanionLegendary {
     }
 
     fireIceProjectile(target) {
-        // Create icy projectile with graphics
-        const projGfx = this.scene.add.graphics();
-        projGfx.fillStyle(0x88DDFF, 0.9);
-        projGfx.fillCircle(0, 0, 8);
-        projGfx.fillStyle(0xFFFFFF, 0.7);
-        projGfx.fillCircle(0, 0, 4);
-
-        // Create container for projectile
         const proj = this.scene.physics.add.image(
             this.sprite.x,
             this.sprite.y,
-            'pixel'
+            this.config.projectileSprite || 'projectile_ice'
         );
-        proj.setVisible(false);
-
-        // Add graphics to scene and make it follow proj
-        projGfx.setPosition(this.sprite.x, this.sprite.y);
+        proj.setScale(this.config.projectileScale || 0.8);
 
         const angle = Phaser.Math.Angle.Between(
             this.sprite.x,
@@ -149,14 +138,13 @@ export class WispCompanion extends CompanionLegendary {
             Math.cos(angle) * speed,
             Math.sin(angle) * speed
         );
+        proj.rotation = angle + Math.PI / 2;
 
         // Trail particles
         const trailEvent = this.scene.time.addEvent({
             delay: 30,
             callback: () => {
                 if (proj.active) {
-                    projGfx.setPosition(proj.x, proj.y);
-
                     // Leave small trail particle
                     const particle = this.scene.add.graphics();
                     particle.fillStyle(0xAADDFF, 0.5);
@@ -217,7 +205,6 @@ export class WispCompanion extends CompanionLegendary {
                     });
 
                     trailEvent.remove();
-                    projGfx.destroy();
                     projectile.destroy();
                 }
             }
@@ -227,7 +214,6 @@ export class WispCompanion extends CompanionLegendary {
         this.scene.time.delayedCall(3000, () => {
             if (proj.active) {
                 trailEvent.remove();
-                projGfx.destroy();
                 proj.destroy();
             }
         });

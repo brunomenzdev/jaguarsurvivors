@@ -72,6 +72,13 @@ export class AudioManager {
                 context.type = args[0];
             }
         }
+        else if (eventName === 'buff-ended') {
+            // args: [type, data]
+            context.type = args[0];
+            if (args[1] && typeof args[1] === 'object') {
+                Object.assign(context, args[1]);
+            }
+        }
         // Pattern 3: Generic object passed as first arg
         else if (args[0] && typeof args[0] === 'object') {
             Object.assign(context, args[0]);

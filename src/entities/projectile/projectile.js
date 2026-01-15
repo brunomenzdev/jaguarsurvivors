@@ -175,6 +175,11 @@ export class Projectile {
             Math.cos(angle) * speed,
             Math.sin(angle) * speed
         );
+
+        // Auto-rotate projectile to face movement direction
+        const visuals = this.weapon.projectileVisuals || {};
+        const offset = visuals.rotationOffset || 0;
+        this.visual.rotation = angle + offset;
     }
 
     /* ------------------------------------------------------------------ */

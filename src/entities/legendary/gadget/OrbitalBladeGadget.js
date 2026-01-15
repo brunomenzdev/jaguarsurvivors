@@ -48,15 +48,14 @@ export class OrbitalBladeGadget extends GadgetLegendary {
         const radius = this.config.radius || 100;
         const speed = this.config.speed || 2;
 
-        // Update angle (rotating counter-clockwise)
         this.angle -= speed * (delta / 1000);
 
-        // Calculate position
         const x = player.x + Math.cos(this.angle) * radius;
         const y = player.y + Math.sin(this.angle) * radius;
 
         sprite.setPosition(x, y);
-        sprite.rotation = this.angle + Math.PI / 2; // Face direction of movement
+        // Spin the sprite on its own axis
+        sprite.rotation += 0.01;
     }
 
     /**

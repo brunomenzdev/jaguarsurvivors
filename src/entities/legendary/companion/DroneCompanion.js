@@ -127,7 +127,7 @@ export class DroneCompanion extends CompanionLegendary {
             Math.cos(angle) * speed,
             Math.sin(angle) * speed
         );
-        proj.rotation = angle;
+        proj.rotation = angle + Math.PI / 2;
 
         // Add trail effect
         const trail = this.scene.add.graphics();

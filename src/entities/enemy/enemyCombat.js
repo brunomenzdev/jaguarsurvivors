@@ -25,6 +25,11 @@ export class EnemyCombat {
     update(player, delta) {
         if (!this.enemy.isActive) return;
 
+        // Respect stun status
+        if (this.enemy.status && this.enemy.status.isStunned()) {
+            return;
+        }
+
         // 1. Boss Stomp Mechanic
         if (this.enemy.isBoss) {
             this.updateBossStomp(delta);
@@ -65,7 +70,10 @@ export class EnemyCombat {
         this.scene.time.delayedCall(1000, () => {
             // Validate state before shooting
             if (this.enemy.isActive && this.enemy.entity.health > 0) {
-                this.shoot(player);
+                // DON'T shoot if stunned
+                if (!this.enemy.status || !this.enemy.status.isStunned()) {
+                    this.shoot(player);
+                }
             }
             this.clearTelegraph();
         });

@@ -167,9 +167,9 @@ export const legendaryConfig = [
         rarity: 'legendary',
         sprite: 'legend_blade',
         radius: 120,
-        speed: 3,
+        speed: 2,
         damage: 75,
-        scale: 1.2
+        scale: 0.4
     },
     {
         id: 'legend_torre',
@@ -183,7 +183,9 @@ export const legendaryConfig = [
         fireRate: 1000,
         range: 400,
         damage: 30,
-        projectileSpeed: 600
+        projectileSpeed: 600,
+        projectileSprite: 'projectile_energy',
+        scale: 0.6
     },
     {
         id: 'legend_totem',
@@ -199,7 +201,7 @@ export const legendaryConfig = [
     },
     {
         id: 'legend_dark_field',
-        name: 'Campo de Enfraquecimento',
+        name: 'Zona Obscura',
         type: 'gadget',
         category: 'Gadget',
         description: 'Cria uma área que reduz a velocidade dos inimigos em 70%.',
@@ -237,7 +239,7 @@ export const legendaryConfig = [
         cooldown: 3000
     },
 
-    // ========== PROCS ==========
+    // // ========== PROCS ==========
     {
         id: 'legend_chain',
         name: 'Cadeia de Raios',
@@ -330,7 +332,7 @@ export const legendaryConfig = [
         cooldown: 1000
     },
 
-    // // ========== COMPANIONS ==========
+    // ========== COMPANIONS ==========
     {
         id: 'legend_jaguar',
         name: 'Jaguar Espiritual',
@@ -346,7 +348,7 @@ export const legendaryConfig = [
         attackRate: 1500,
         range: 300,
         damage: 35,
-        projectileSprite: 'weapon_laser_gun',
+        projectileSprite: 'projectile_blue',
         projectileSpeed: 500
     },
     {
@@ -394,7 +396,7 @@ export const legendaryConfig = [
         attackRate: 1500,
         range: 300,
         damage: 35,
-        projectileSprite: 'weapon_laser_gun',
+        projectileSprite: 'projectile_energy',
         projectileSpeed: 500
     },
     {
@@ -412,7 +414,7 @@ export const legendaryConfig = [
         attackRate: 2000,
         range: 400,
         damage: 20,
-        projectileSprite: 'pixel',
+        projectileSprite: 'projectile_ice',
         projectileSpeed: 400,
         effects: {
             elemental: 'freeze',

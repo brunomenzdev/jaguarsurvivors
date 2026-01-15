@@ -373,22 +373,22 @@ export const weaponsConfig = [
 
         baseStats: {
             damage: 25,
-            cooldown: 120,
+            cooldown: 1200,
             knockback: 20,
             knockbackDuration: 50
         },
 
         strategyStats: {
             behaviorType: 'LASER',
-            projectileSpeed: 500,
+            projectileSpeed: 200,
             range: 350,
             projectileSize: 10
         },
 
         projectileVisuals: {
-            spriteKey: 'pixel',
-            tint: 0xFF0000,
-            scale: { x: 3, y: 0.5 },
+            spriteKey: 'projectile_laser',
+            scale: 0.8,
+            rotationOffset: Math.PI / 2,
             animations: []
         },
 
@@ -431,9 +431,9 @@ export const weaponsConfig = [
         },
 
         projectileVisuals: {
-            spriteKey: 'pixel',
-            tint: 0xFFAA00,
-            scale: 1.5,
+            spriteKey: 'projectile_rifle',
+            scale: 0.7,
+            rotationOffset: Math.PI / 2,
             animations: []
         },
 
