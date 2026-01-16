@@ -87,57 +87,59 @@ export class CollectorCompanion extends CompanionLegendary {
         const collectionRadius = this.config.collectionRadius || 400;
 
         // Collect XP gems
-        if (this.scene.xpGems) {
-            this.scene.xpGems.forEach(gem => {
-                if (!gem.isBeingCollected) {
+        if (this.scene.xpSystem && this.scene.xpSystem.activeGems) {
+            this.scene.xpSystem.activeGems.forEach(gem => {
+                if (gem.isActive && !gem.isFlying) {
                     const dist = Phaser.Math.Distance.Between(
                         this.sprite.x,
                         this.sprite.y,
-                        gem.x,
-                        gem.y
+                        gem.sprite.x,
+                        gem.sprite.y
                     );
 
                     if (dist <= collectionRadius) {
-                        // Pull gem toward player
-                        gem.isBeingCollected = true;
-
-                        this.scene.tweens.add({
-                            targets: gem,
-                            x: player.x,
-                            y: player.y,
-                            duration: 300,
-                            ease: 'Power2',
-                            onComplete: () => {
-                                if (gem.active) {
-                                    gem.collect();
-                                }
-                            }
-                        });
+                        gem.flyToPlayer();
                     }
                 }
             });
         }
 
         // Collect pickups
-        if (this.scene.pickupSystem && this.scene.pickupSystem.pickups) {
-            this.scene.pickupSystem.pickups.forEach(pickup => {
-                if (pickup.active) {
-                    const dist = Phaser.Math.Distance.Between(
+        if (this.scene.pickupManager && this.scene.pickupManager.activePickups) {
+            this.scene.pickupManager.activePickups.forEach(pickup => {
+                if (pickup.isActive) {
+                    const distToCompanion = Phaser.Math.Distance.Between(
                         this.sprite.x,
                         this.sprite.y,
                         pickup.x,
                         pickup.y
                     );
 
-                    if (dist <= collectionRadius) {
+                    if (distToCompanion <= collectionRadius) {
                         // Pull pickup toward player
-                        this.scene.tweens.add({
-                            targets: pickup,
-                            x: player.x,
-                            y: player.y,
-                            duration: 300,
-                            ease: 'Power2'
-                        });
+                        if (!pickup.isBeingPulled) {
+                            pickup.isBeingPulled = true;
+                            this.scene.tweens.add({
+                                targets: pickup,
+                                x: player.x,
+                                y: player.y,
+                                duration: 400,
+                                ease: 'Power2',
+                                onUpdate: () => {
+                                    // Update target position as player moves
+                                    if (this.scene.tweens.getTweensOf(pickup)[0]) {
+                                        this.scene.tweens.getTweensOf(pickup)[0].updateTo('x', player.x, true);
+                                        this.scene.tweens.getTweensOf(pickup)[0].updateTo('y', player.y, true);
+                                    }
+                                },
+                                onComplete: () => {
+                                    pickup.isBeingPulled = false;
+                                    if (pickup.isActive) {
+                                        pickup.collect(player);
+                                    }
+                                }
+                            });
+                        }
                     }
                 }
             });

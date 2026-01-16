@@ -300,7 +300,7 @@ export const enemiesConfig = [
         legsScale: 0.5,
         bodyWidth: 60,
         bodyHeight: 100,
-        hitbox: { width: 150, height: 190 },
+        hitbox: { width: 40, height: 80 },
         bossScale: 0.6,
         legOffset: { x: 0, y: 40 },
         projectileColor: 0xFF0000,
@@ -481,10 +481,10 @@ export const enemiesConfig = [
         key: 'enemy_funkeiro3',
         enemy_body_image: 'src/assets/images/enemy_funkeiro3.png',
         enemy_legs_image: 'src/assets/images/enemy_bandido_legs.png',
-        speed: 200,
+        speed: 180,
         size: 32,
-        damage: 10,
-        health: 80,
+        damage: 5,
+        health: 60,
         spawnDistance: 700,
         maxOnScreen: 50,
         xpDropChance: 0.8,
@@ -513,7 +513,7 @@ export const enemiesConfig = [
                 pauseSpeed: 0
             }
         },
-        scalingProfile: 'aggressive'
+        scalingProfile: 'swarm'
     },
     {
         key: 'enemy_cria',
@@ -706,7 +706,7 @@ export const enemiesConfig = [
         ai: {
             behaviorKey: 'orbit',
             behaviorParams: {
-                preferredDistance: 3000,
+                preferredDistance: 300,
                 orbitSpeed: 0.7,
                 approachSpeed: 1.0,
                 orbitDirection: -1
@@ -825,8 +825,8 @@ export const enemiesConfig = [
             behaviorKey: 'burst_pursuit',
             behaviorParams: {
                 pursuitSpeed: 1.8,
-                pursuitDuration: 2000,
-                pauseDuration: 1000,
+                pursuitDuration: 500,
+                pauseDuration: 500,
                 pauseSpeed: 0
             }
         }

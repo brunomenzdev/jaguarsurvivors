@@ -52,63 +52,34 @@ export class Pickup extends Phaser.GameObjects.Container {
         this.icon.setTexture(spriteKey);
         this.icon.setScale(this.pickupConfig.scale || 1.0);
 
-        // Floating animation
-        if (this.floatTween) this.floatTween.remove();
-        this.floatTween = this.scene.tweens.add({
-            targets: this,
-            y: y - 8,
-            yoyo: true,
-            duration: 1200,
-            ease: 'Sine.easeInOut',
-            repeat: -1
-        });
-
-        // Entrance animation
-        this.scene.tweens.add({
-            targets: this,
-            scale: 1,
-            duration: 300,
-            ease: 'Back.out'
-        });
-
-        // Subtle pulsing of the sprite itself
-        if (this.pulseTween) this.pulseTween.remove();
-        this.pulseTween = this.scene.tweens.add({
-            targets: this.icon,
-            scale: (this.pickupConfig.scale || 1.0) * 1.1,
-            yoyo: true,
-            duration: 600,
-            ease: 'Sine.easeInOut',
-            repeat: -1
-        });
+        // Entry state
+        this.setScale(1);
+        this.alpha = 1;
+        this.icon.setScale(this.pickupConfig.scale || 1.0);
     }
 
     collect() {
         if (!this.isActive) return;
         this.isActive = false;
         this.body.enable = false;
+        this.setVisible(false);
+        this.setActive(false);
+        this.alpha = 0;
+        this.setScale(0);
 
-        // Stop all active tweens on this object and its icon
-        if (this.floatTween) this.floatTween.remove();
-        if (this.pulseTween) this.pulseTween.remove();
+        // Kill all active animations/tweens immediately
+        if (this.floatTween) {
+            this.floatTween.remove();
+            this.floatTween = null;
+        }
+        if (this.pulseTween) {
+            this.pulseTween.remove();
+            this.pulseTween = null;
+        }
         this.scene.tweens.killTweensOf([this, this.icon]);
 
-        // Exit animation: "Absorbed" feel
-        this.scene.tweens.add({
-            targets: this,
-            scale: 0.1,
-            alpha: 0,
-            duration: 150,
-            ease: 'Power2.in',
-            onComplete: () => {
-                this.setVisible(false);
-                this.alpha = 0;
-                this.setScale(0);
-                this.setActive(false);
-                // Clear texture to be safe
-                this.icon.setTexture('');
-            }
-        });
+        // Reset texture for pooling safety
+        this.icon.setTexture('pickup_bomb');
 
         return this.pickupConfig;
     }

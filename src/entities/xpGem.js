@@ -73,7 +73,7 @@ export class XPGem {
         const distance = Math.sqrt(dx * dx + dy * dy);
 
         // Pickup range (from stats or config)
-        const pickupRange = player.stats.pickupRadius || CONFIG.xp.magnetRange;
+        const pickupRange = CONFIG.xp.magnetRange + (player.stats.pickupRadius || 0);
 
         if (distance < pickupRange || this.isFlying) {
             const speed = this.isFlying ? 800 : CONFIG.xp.magnetSpeed;

@@ -40,7 +40,7 @@ export class PickupSystem {
     updateMagnet(delta) {
         if (!this.pickupManager?.group || !this.pickupManager.group.children) return;
 
-        const magnetRadius = this.player.stats.pickupRadius || 100;
+        const magnetRadius = 100 + (this.player.stats.pickupRadius || 0);
         const playerX = this.player.x;
         const playerY = this.player.y;
 

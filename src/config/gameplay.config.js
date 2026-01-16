@@ -53,7 +53,7 @@ export const worldConfig = {
 export const equipmentLimitsConfig = {
     maxWeapons: 2,
     maxItems: 3,
-    maxLegendaries: 4
+    maxLegendaries: 5
 };
 
 
@@ -73,7 +73,7 @@ export const telegraphConfig = {
             shape: 'circle'
         },
         elite: {
-            color: 0xFF8C00, // Dark Orange
+            color: 0xFF0000, // Dark Orange
             radius: 45,
             shape: 'circle'
         },
