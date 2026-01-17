@@ -92,10 +92,7 @@ export class SceneBootstrap {
         this.scene.audio = new AudioManager(this.scene);
 
         if (this.scene.mapConfig.music) {
-            this.scene.audio.play(this.scene.mapConfig.music, {
-                loop: true,
-                volume: 0.3
-            });
+            this.scene.audio.playBGM(this.scene.mapConfig.music);
         }
     }
 

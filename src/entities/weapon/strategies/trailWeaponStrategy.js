@@ -35,9 +35,6 @@ export class TrailWeaponStrategy extends WeaponStrategy {
 
         if (!target) return;
 
-        console.debug("EVENT_EMITTED", { eventName: 'weapon-shoot', payload: config.key });
-        this.scene.events.emit('weapon-shoot', config.key);
-
         // Get behavior type (default to CONTINUOUS)
         const behaviorType = config.strategyStats?.behaviorType || 'CONTINUOUS';
 
@@ -89,7 +86,8 @@ export class TrailWeaponStrategy extends WeaponStrategy {
             weapon: trailConfig,
             projectileSpeed: current.trailSpeed,
             isCritical,
-            knockbackMultiplier: player.stats.knockback
+            knockback: weapon.current.knockback,
+            knockbackDuration: weapon.current.knockbackDuration
         });
 
         trail.visual.setData('parent', trail);

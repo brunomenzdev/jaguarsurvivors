@@ -8,6 +8,8 @@ export class AudioManager {
         // Internal state for throttling and management
         this.lastPlayed = new Map(); // Map<string, number> (Key -> Timestamp)
         this.maxChannels = 16;       // Max concurrent sounds to avoid cacophony
+        this.bgm = null;             // Reference to current background music
+        this.bgmKey = null;          // Key of currently playing music
 
         // Initialize
         this.init();
@@ -64,7 +66,7 @@ export class AudioManager {
             context.source = args[3];
         }
         // Pattern 2: pickup-collected (pickupInstance) or (type)
-        else if (eventName === 'pickup-collected') {
+        else if (eventName === 'pickup-collected' || eventName === 'coin-collected' || eventName === 'xp-collected') {
             if (args[0] && typeof args[0] === 'object') {
                 context.pickup = args[0];
                 context.type = args[0].type || 'unknown';
@@ -249,9 +251,85 @@ export class AudioManager {
         }
     }
 
-    stopAll() {
+    /**
+     * Play Background Music with lower volume than SFX (30-40%)
+     * @param {string} key 
+     * @param {object} config 
+     */
+    playBGM(key, config = {}) {
+        if (!this.validateAsset(key)) return;
+
+        // 1. Check if we already have a reference to this BGM playing
+        if (this.bgm && this.bgmKey === key && this.bgm.isPlaying) {
+            return;
+        }
+
+        // 2. Force stop any OTHER BGM tracks playing (prevention of layering)
+        const allPlaying = this.scene.sound.getAllPlaying();
+        allPlaying.forEach(s => {
+            if (s.priority >= 1000 && s.key !== key) {
+                console.debug(`[AudioManager] Stopping conflicting BGM: ${s.key}`);
+                s.stop();
+                s.destroy();
+            }
+        });
+
+        // 3. Look for existing playing instances of the TARGET track
+        const existing = this.scene.sound.getAllPlaying().find(s => s.key === key);
+        if (existing) {
+            console.debug(`[AudioManager] Adopting existing BGM instance for: ${key}`);
+            this.bgm = existing;
+            this.bgmKey = key;
+            return;
+        }
+
+        // 4. Otherwise, play it new
+        this.stopBGM();
+
+        const bgmConfig = {
+            loop: true,
+            volume: 0.35, // Lower than standard SFX
+            ...config
+        };
+
+        this.bgm = this.scene.sound.add(key, bgmConfig);
+        this.bgmKey = key;
+
+        // Ensure BGM doesn't count towards SFX channel limits
+        this.bgm.priority = 1000;
+
+        this.bgm.play();
+        console.debug(`[AudioManager] Playing BGM: ${key}`);
+    }
+
+    stopBGM() {
+        if (this.bgm) {
+            this.bgm.stop();
+            this.bgm.destroy();
+            this.bgm = null;
+            this.bgmKey = null;
+        }
+    }
+
+    stopAll(keepBGM = true) {
         if (this.scene && this.scene.sound) {
-            this.scene.sound.stopAll();
+            if (keepBGM) {
+                // Stop all sounds except current BGM
+                const all = this.scene.sound.getAllPlaying();
+                all.forEach(s => {
+                    // Priority >= 1000 is reserved for BGM. 
+                    // This ensures we don't stop BGM from another scene context.
+                    const isBGM = s === this.bgm || (s.priority !== undefined && s.priority >= 1000);
+                    if (!isBGM) {
+                        s.stop();
+                        s.destroy(); // Ensure cleanup of SFX
+                    }
+                });
+            } else {
+                this.scene.sound.stopAll();
+                this.bgm = null;
+                this.bgmKey = null;
+            }
         }
     }
 }

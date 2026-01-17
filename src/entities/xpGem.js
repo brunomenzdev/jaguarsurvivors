@@ -101,6 +101,7 @@ export class XPGem {
     collect() {
         if (!this.isActive) return;
 
+        this.scene.events.emit('xp-collected', this.value);
         this.scene.xpSystem.addXP(this.value);
         this.isActive = false;
         this.body.enable = false;

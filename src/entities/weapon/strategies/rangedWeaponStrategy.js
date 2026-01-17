@@ -152,7 +152,8 @@ export class RangedWeaponStrategy extends WeaponStrategy {
             },
             projectileSpeed: speed,
             isCritical,
-            knockbackMultiplier: this.weapon.player.stats.knockback
+            knockback: this.weapon.current.knockback,
+            knockbackDuration: this.weapon.current.knockbackDuration
         });
 
         projectile.visual.setData('parent', projectile);

@@ -77,8 +77,13 @@ export class PickupSystem {
 
         pickup.collect(player);
 
-        console.debug("EVENT_EMITTED", { eventName: 'pickup-collected', payload: pickup.type });
-        this.scene.events.emit('pickup-collected', pickup);
+        if (pickup.type === 'coin') {
+            console.debug("EVENT_EMITTED", { eventName: 'coin-collected', payload: pickup.type });
+            this.scene.events.emit('coin-collected', pickup);
+        } else {
+            console.debug("EVENT_EMITTED", { eventName: 'pickup-collected', payload: pickup.type });
+            this.scene.events.emit('pickup-collected', pickup);
+        }
     }
 
     /**

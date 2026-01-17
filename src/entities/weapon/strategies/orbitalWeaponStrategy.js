@@ -57,6 +57,8 @@ export class OrbitalWeaponStrategy extends WeaponStrategy {
             if (!proj.isActive) {
                 proj.damage = damage;
                 proj.isCritical = isCritical;
+                proj.knockback = current.knockback;
+                proj.knockbackDuration = current.knockbackDuration;
 
                 // Update config-based stats
                 proj.weapon = {

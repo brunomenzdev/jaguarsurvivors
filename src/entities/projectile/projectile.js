@@ -50,12 +50,14 @@ export class Projectile {
         weapon,
         projectileSpeed,
         isCritical,
-        knockbackMultiplier
+        knockback,
+        knockbackDuration
     }) {
         this.damage = damage;
         this.weapon = weapon;
         this.isCritical = isCritical;
-        this.knockbackMultiplier = knockbackMultiplier ?? 1;
+        this.knockback = knockback ?? 0;
+        this.knockbackDuration = knockbackDuration ?? 0;
         this.lifeTime = 0;
 
         this.visual.setPosition(x, y);
@@ -225,6 +227,10 @@ export class Projectile {
         if (!this.active) return;
 
         enemy.takeDamage(this.damage, this.isCritical, this.scene.player);
+
+        if (this.knockback > 0) {
+            enemy.applyKnockback(this.knockback, this.knockbackDuration);
+        }
 
         if (this.weapon.elementalEffect) {
             enemy.applyEffect(

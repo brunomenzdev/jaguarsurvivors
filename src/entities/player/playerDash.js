@@ -95,7 +95,7 @@ export class PlayerDash {
         }
 
         // Audio
-        this.scene.sound.play('dash_start', { volume: 0.5 });
+        this.scene.events.emit('dash-start');
 
         // Visuals - Initial Burst?
         this.player.view.createDashTrail();

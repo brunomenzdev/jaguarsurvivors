@@ -17,7 +17,11 @@ export class OrbitalProjectile extends Projectile {
     hit(enemy) {
         if (!this.isActive) return;
 
-        enemy.takeDamage(this.damage, this.isCritical);
+        enemy.takeDamage(this.damage, this.isCritical, this.scene.player);
+
+        if (this.knockback > 0) {
+            enemy.applyKnockback(this.knockback, this.knockbackDuration);
+        }
 
         if (this.weapon.elementalEffect) {
             enemy.applyEffect(

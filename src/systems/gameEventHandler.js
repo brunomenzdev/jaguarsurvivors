@@ -34,7 +34,6 @@ export class GameEventHandler {
 
     registerPlayerEvents() {
         this.events.on('player-damaged', (amount) => {
-            this.audio.play('hit');
 
             const ind = document.getElementById('damage-indicator');
             if (ind) {
@@ -51,7 +50,6 @@ export class GameEventHandler {
         });
 
         this.events.on('player-died', () => {
-            this.audio.play('gameover');
             this.playerManager?.onPlayerDied();
             this.uiFlow?.onPlayerDied();
         });
@@ -78,20 +76,11 @@ export class GameEventHandler {
     }
 
     registerCombatEvents() {
-        const playShoot = () => {
-            this.scene.sound.play('shoot', {
-                volume: 0.5,
-                detune: Phaser.Math.Between(-200, 200)
-            });
-        };
-
         this.events.on('weapon-attack', (key) => {
-            playShoot();
             this.events.emit('player-attacked');
         });
 
         this.events.on('weapon-shoot', (key) => {
-            playShoot();
             this.events.emit('player-attacked');
             this.combatSystem?.onWeaponShoot(key);
         });
@@ -131,7 +120,6 @@ export class GameEventHandler {
                 this.scene.hud.setBossWave(data.isBossWave, data.index);
             }
             if (data.isBossWave) {
-                this.audio.play('bosswarning');
                 if (this.bossFlow && this.scene.mapConfig.boss) {
                     this.bossFlow.spawn(this.scene.mapConfig.boss);
                 }
@@ -187,14 +175,12 @@ export class GameEventHandler {
                         enemy.takeDamage(999999, false, player);
                     });
                     this.scene.cameras.main.shake(500, 0.02);
-                    this.audio.play('explosion');
                     break;
                 case 'magnet':
                     // Attracts all gems on map
                     if (this.scene.xpSystem) {
                         this.scene.xpSystem.activateMagnet();
                     }
-                    this.audio.play('magic');
                     break;
                 case 'boots':
                     // Temporary movement speed boost via buff system

@@ -33,7 +33,6 @@ export class XPSystem {
 
         // Loop to handle multiple level-ups if amount is large
         while (this.currentXP >= this.xpToNextLevel) {
-            this.scene.audio.play('levelup');
             this.levelUp();
         }
 

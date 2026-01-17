@@ -28,15 +28,31 @@ export const AUDIO_CONFIG = {
     // COMBAT EVENTS
     // =========================================================================
 
-    // Weapon Swing / Fire (No Hit)
-    'weapon-fire': [
+    // Weapon Attack (Melee Swing / Ranged Fire)
+    'weapon-attack': [
         {
-            key: 'sfx_swing',
-            keys: ['sfx_swing_1', 'sfx_swing_2', 'sfx_swing_3'],
+            keys: ['knife', 'sword'],
             condition: () => true,
             priority: 40,
-            throttle: 80, // Prevent machine-gun layering
+            throttle: 100,
             config: { volume: 0.4 }
+        }
+    ],
+
+    'weapon-shoot': [
+        {
+            key: 'rifleshoot',
+            condition: (ctx) => ctx.rawArgs[0] && !ctx.rawArgs[0].includes('laser'),
+            priority: 45,
+            throttle: 80,
+            config: { volume: 0.4 }
+        },
+        {
+            key: 'laser',
+            condition: (ctx) => ctx.rawArgs[0] && ctx.rawArgs[0].includes('laser'),
+            priority: 45,
+            throttle: 100,
+            config: { volume: 0.15 }
         }
     ],
 
@@ -44,39 +60,49 @@ export const AUDIO_CONFIG = {
     'enemy-damaged': [
         // Standard Enemy Hit
         {
-            key: 'sfx_hit_flesh',
-            keys: ['sfx_hit_flesh_1', 'sfx_hit_flesh_2', 'sfx_hit_flesh_3'],
-            condition: (ctx) => !ctx.target?.isBoss && !ctx.isCritical,
-            priority: 50,
+            keys: ['hit1', 'hit2'],
+            condition: (ctx) => !ctx.isCritical,
+            priority: 55,
             throttle: 50,
             config: { volume: 0.5 }
         },
-        // Critical Hit (Overlay)
+        // Critical Hit (Distinct, Stronger)
         {
-            key: 'sfx_crit',
+            key: 'kill',
             condition: (ctx) => ctx.isCritical,
-            priority: 60,
-            throttle: 50,
-            config: { volume: 0.8, detune: 200 }
-        },
-        // Boss Hit
-        {
-            key: 'sfx_hit_boss',
-            condition: (ctx) => ctx.target?.isBoss,
             priority: 70,
             throttle: 50,
-            config: { volume: 0.7 }
+            config: { volume: 0.9 }
+        }
+    ],
+
+    'structure-damaged': [
+        {
+            keys: ['hit'],
+            condition: () => true,
+            priority: 50,
+            throttle: 60,
+            config: { volume: 0.6, rate: 1.4 } // Higher pitch for hard surface hit
         }
     ],
 
     'player-damaged': [
         {
-            key: 'sfx_player_hurt',
-            keys: ['sfx_player_hurt_1', 'sfx_player_hurt_2'],
+            keys: ['punch', 'slap'],
             condition: () => true,
-            priority: 80, // High priority so player feels damage
+            priority: 85,
+            throttle: 150,
+            config: { volume: 0.7 }
+        }
+    ],
+
+    'player-evaded': [
+        {
+            key: 'evasion',
+            condition: () => true,
+            priority: 80,
             throttle: 200,
-            config: { volume: 0.8 }
+            config: { volume: 0.6 }
         }
     ],
 
@@ -86,30 +112,29 @@ export const AUDIO_CONFIG = {
 
     'enemy-died': [
         {
-            key: 'sfx_enemy_die',
-            keys: ['sfx_enemy_die_1', 'sfx_enemy_die_2'],
+            keys: ['kill'],
             condition: (ctx) => !ctx.target?.isBoss,
             priority: 45,
-            throttle: 100,
-            chance: 0.8, // Not every death needs a sound in chaos
-            config: { volume: 0.4 }
+            throttle: 80,
+            chance: 0.7,
+            config: { volume: 0.35, rate: 1.2 }
         }
     ],
 
-    'boss-died': [
+    'boss-spawned': [
         {
-            key: 'sfx_boss_death',
+            key: 'bosswarning',
             condition: () => true,
             priority: 100,
             config: { volume: 1.0 }
         }
     ],
 
-    'boss-spawned': [
+    'boss-died': [
         {
-            key: 'sfx_boss_spawn',
+            key: 'bossdefeat',
             condition: () => true,
-            priority: 95,
+            priority: 100,
             config: { volume: 1.0 }
         }
     ],
@@ -120,79 +145,69 @@ export const AUDIO_CONFIG = {
 
     'xp-collected': [
         {
-            key: 'sfx_gem_collect',
+            keys: ['xp_collect'],
             condition: () => true,
-            priority: 30, // Low priority, background noise
+            priority: 35,
+            throttle: 20, // Very repeatable
+            config: { volume: 0.4, rate: 1.1 }
+        }
+    ],
+
+    'coin-collected': [
+        {
+            keys: ['coin', 'goldcoin', 'valuecoin'],
+            condition: () => true,
+            priority: 80,
             throttle: 40,
-            config: { volume: 0.25 }
+            config: { volume: 0.5 }
         }
     ],
 
     'pickup-collected': [
-        // Default pickup sound (for health, coin, etc.)
+        // Default pickup
         {
-            key: 'sfx_item_pickup',
-            condition: (ctx) => !['shield_core', 'rage_orb', 'time_freeze'].includes(ctx.type),
-            priority: 80,
-            config: { volume: 0.6 }
-        },
-        // Shield Core - magical shield activation
-        {
-            key: 'magic',
-            condition: (ctx) => ctx.type === 'shield_core',
+            key: 'pickup',
+            condition: (ctx) => !['shield_core', 'rage_orb', 'map_bomb'].includes(ctx.type),
             priority: 85,
-            config: { volume: 0.7, detune: 200 }
+            config: { volume: 0.7 }
         },
-        // Rage Orb - aggressive power-up sound
+        // Bomb Pickup
+        {
+            key: 'explosion',
+            condition: (ctx) => ctx.type === 'map_bomb',
+            priority: 95,
+            config: { volume: 0.8 }
+        },
+        // Special pickups
         {
             key: 'magic',
-            condition: (ctx) => ctx.type === 'rage_orb',
-            priority: 85,
-            config: { volume: 0.8, detune: -300 }
-        },
-        // Time Freeze - ethereal time manipulation
-        {
-            key: 'magic',
-            condition: (ctx) => ctx.type === 'time_freeze',
+            condition: (ctx) => ['shield_core', 'shield', 'magnet'].includes(ctx.type),
             priority: 90,
-            config: { volume: 0.9, detune: 500 }
+            config: { volume: 0.8 }
+        },
+        {
+            key: 'spell',
+            condition: (ctx) => ctx.type === 'rage_orb' || ctx.type === 'rage',
+            priority: 90,
+            config: { volume: 0.8, rate: 0.8 }
         }
     ],
 
     'level-up': [
         {
-            key: 'sfx_level_up',
+            key: 'levelup',
             condition: () => true,
-            priority: 90,
-            config: { volume: 0.8 }
+            priority: 95,
+            config: { volume: 0.9 }
         }
     ],
 
-    'buff-ended': [
+    'level-complete': [
         {
-            key: 'sfx_item_pickup', // Reuse pickup sound but lower pitch and volume
+            key: 'levelcomplete',
             condition: () => true,
-            priority: 60,
-            config: { volume: 0.4, detune: -600 }
-        }
-    ],
-
-    'structure-damaged': [
-        {
-            key: 'sfx_hit_flesh', // Reuse hit sound or dedicated
-            condition: () => true,
-            priority: 45,
-            throttle: 50,
-            config: { volume: 0.5, detune: 500 } // Higher pitch for wood/metal?
-        }
-    ],
-
-    'structure-destroyed': [
-        {
-            key: 'sfx_hit_flesh',
-            condition: () => true,
-            priority: 50,
-            config: { volume: 0.8, detune: -200 } // Lower pitch for break
+            priority: 100,
+            config: { volume: 1.0 }
         }
     ],
 
@@ -202,33 +217,69 @@ export const AUDIO_CONFIG = {
 
     'ui-click': [
         {
-            key: 'sfx_ui_click',
+            keys: ['uiclick'],
             condition: () => true,
             priority: 90,
-            throttle: 50,
             config: { volume: 0.6 }
         }
     ],
 
-    'ui-hover': [
+    'ui-popup': [
         {
-            key: 'sfx_ui_hover',
+            key: 'popup',
             condition: () => true,
-            priority: 20,
-            throttle: 50,
-            config: { volume: 0.2 }
+            priority: 85,
+            config: { volume: 0.6 }
+        }
+    ],
+
+    'shop-purchase': [
+        {
+            keys: ['purchase', 'shoppurchase'],
+            condition: () => true,
+            priority: 95,
+            config: { volume: 0.8 }
+        }
+    ],
+
+    'game-start': [
+        {
+            key: 'gamestart',
+            condition: () => true,
+            priority: 100,
+            config: { volume: 0.9 }
+        }
+    ],
+
+    'game-over': [
+        {
+            key: 'gameover',
+            condition: () => true,
+            priority: 100,
+            config: { volume: 1.0 }
         }
     ],
 
     // =========================================================================
-    // SYSTEM
+    // SYSTEMS
     // =========================================================================
-    'wave-changed': [
+    'dash-start': [
         {
-            key: 'sfx_wave_bell',
+            key: 'dash_start', // Key mapped to evasion.mp3 in audio.config.js
             condition: () => true,
-            priority: 85,
-            config: { volume: 0.7 }
+            priority: 70,
+            throttle: 300,
+            config: { volume: 0.5 }
+        }
+    ],
+
+    'reload': [
+        {
+            key: 'reloadgun',
+            condition: () => true,
+            priority: 60,
+            throttle: 500,
+            config: { volume: 0.6 }
         }
     ]
 };

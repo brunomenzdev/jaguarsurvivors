@@ -14,8 +14,9 @@ export const GameEvents = {
     goToCharSelect: () => {
         GameEvents.hideAllOverlays();
         if (GameEvents.gameInstance) {
-            GameEvents.gameInstance.sound.stopAll();
+            // Re-starting BootScene ensuresAudioManager is active and BGM is managed correctly
             GameEvents.gameInstance.scene.stop('GameScene');
+            GameEvents.gameInstance.scene.start('BootScene');
         }
         document.getElementById('pause-screen').classList.remove('active');
         document.getElementById('map-select').classList.remove('active');
@@ -25,8 +26,9 @@ export const GameEvents = {
     goToMainMenu: () => {
         GameEvents.hideAllOverlays();
         if (GameEvents.gameInstance) {
-            GameEvents.gameInstance.sound.stopAll();
+            // Re-starting BootScene ensures AudioManager is active and BGM is managed correctly
             GameEvents.gameInstance.scene.stop('GameScene');
+            GameEvents.gameInstance.scene.start('BootScene');
         }
         document.getElementById('pause-screen').classList.remove('active');
         document.getElementById('map-select').classList.remove('active');
@@ -34,11 +36,15 @@ export const GameEvents = {
     },
     goToShop: () => {
         GameEvents.hideAllOverlays();
+        const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
+        if (bootScene) bootScene.events.emit('ui-click');
         document.getElementById('meta-shop').classList.add('active');
         GameEvents.generateShop();
     },
     goToSettings: () => {
         GameEvents.hideAllOverlays();
+        const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
+        if (bootScene) bootScene.events.emit('ui-click');
         document.getElementById('settings-menu').classList.add('active');
         GameEvents.updateSettingsUI();
     },
@@ -54,6 +60,8 @@ export const GameEvents = {
     startGame: (charType) => {
         GameEvents.selectedChar = charType;
         GameEvents.hideAllOverlays();
+        const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
+        if (bootScene) bootScene.events.emit('ui-click');
         document.getElementById('weapon-select').classList.add('active');
         GameEvents.generateWeaponSelection();
     },
@@ -61,6 +69,8 @@ export const GameEvents = {
     selectWeapon: (weaponKey) => {
         GameEvents.selectedWeapon = weaponKey;
         GameEvents.hideAllOverlays();
+        const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
+        if (bootScene) bootScene.events.emit('ui-click');
         document.getElementById('map-select').classList.add('active');
         GameEvents.generateMapSelection();
     },
@@ -95,8 +105,8 @@ export const GameEvents = {
 
                 // Play sound if possible
                 const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
-                if (bootScene && bootScene.sound) {
-                    bootScene.sound.play('menuclick');
+                if (bootScene) {
+                    bootScene.events.emit('ui-click');
                 }
 
                 GameEvents.launchGame(map.id);
@@ -120,6 +130,9 @@ export const GameEvents = {
 
     resumeGame: () => {
         const gameScene = GameEvents.gameInstance.scene.getScene('GameScene');
+        const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
+        if (bootScene) bootScene.events.emit('ui-click');
+
         if (gameScene && gameScene.bootstrap && gameScene.bootstrap.uiFlow) {
             gameScene.bootstrap.uiFlow.togglePause();
         }
@@ -165,6 +178,9 @@ export const GameEvents = {
         const item = CONFIG.metaShop.find(x => x.id === id);
         if (!item) return;
 
+        const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
+        if (bootScene) bootScene.events.emit('ui-click');
+
         const currentRank = GameEvents.saveManager.getUpgradeRank(id) || 0;
         if (currentRank >= item.maxRank) return;
 
@@ -172,6 +188,8 @@ export const GameEvents = {
 
         if (GameEvents.saveManager.spendCoins(cost)) {
             GameEvents.saveManager.upgradeMeta(id);
+            const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
+            if (bootScene) bootScene.events.emit('shop-purchase');
             GameEvents.generateShop(); // Refresh UI
         }
     },
@@ -188,6 +206,8 @@ export const GameEvents = {
     setVolume: (val) => {
         const vol = val / 100;
         GameEvents.saveManager.setVolume(vol);
+        const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
+        if (bootScene) bootScene.events.emit('ui-click');
         // Apply instantly if GameScene is running or audio manager exists
         const scene = GameEvents.gameInstance.scene.getScene('BootScene');
         if (scene && scene.audio) {
@@ -197,10 +217,15 @@ export const GameEvents = {
     },
 
     toggleShake: () => {
+        const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
+        if (bootScene) bootScene.events.emit('ui-click');
         GameEvents.saveManager.toggleScreenShake();
     },
 
     toggleFullscreen: () => {
+        const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
+        if (bootScene) bootScene.events.emit('ui-click');
+
         const isFullscreen = !GameEvents.saveManager.data.settings.fullscreen;
         GameEvents.saveManager.data.settings.fullscreen = isFullscreen;
         GameEvents.saveManager.save();
@@ -223,6 +248,9 @@ export const GameEvents = {
     },
 
     setResolution: (val) => {
+        const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
+        if (bootScene) bootScene.events.emit('ui-click');
+
         GameEvents.saveManager.data.settings.resolution = val;
         GameEvents.saveManager.save();
         GameEvents.updateResolution();
@@ -300,8 +328,8 @@ export const GameEvents = {
 
                 // Play sound
                 const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
-                if (bootScene && bootScene.sound) {
-                    bootScene.sound.play('menuclick');
+                if (bootScene) {
+                    bootScene.events.emit('ui-click');
                 }
             };
 
@@ -377,7 +405,7 @@ export const GameEvents = {
             charCard.onclick = () => {
                 if (isUnlocked) {
                     const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
-                    if (bootScene && bootScene.sound) bootScene.sound.play('menuclick');
+                    if (bootScene) bootScene.events.emit('ui-click');
                     GameEvents.startGame(char.key);
                 }
             };

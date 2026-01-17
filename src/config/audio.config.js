@@ -8,6 +8,8 @@ export const audioConfig = {
     bgm: 'src/assets/audio/bgm_mariana.mp3',
     shoot: 'src/assets/audio/weapon_hammer.flac',
     hit: 'src/assets/audio/hit.wav',
+    hit1: 'src/assets/audio/hit1.mp3',
+    hit2: 'src/assets/audio/hit2.wav',
     levelup: 'src/assets/audio/levelup.mp3',
     gameover: 'src/assets/audio/gameover.wav',
     sword: 'src/assets/audio/sword.mp3',
@@ -17,10 +19,9 @@ export const audioConfig = {
     evasion: 'src/assets/audio/evasion.mp3',
     punch: 'src/assets/audio/punch.mp3',
     swooshsword: 'src/assets/audio/swooshsword.mp3',
-    bonk: 'src/assets/audio/bonk.mp3',
     reloadgun: 'src/assets/audio/reloadgun.mp3',
     bosswarning: 'src/assets/audio/bosswarning.mp3',
-    rifleshoot: 'src/assets/audio/rifleshoot.mp3',
+    rifleshoot: 'src/assets/audio/rifleshoot_short.mp3',
     slap: 'src/assets/audio/slap.mp3',
     gunshot: 'src/assets/audio/gunshot.mp3',
     shoppurchase: 'src/assets/audio/shoppurchase.mp3',
@@ -41,8 +42,6 @@ export const audioConfig = {
     pickup: 'src/assets/audio/pickup.mp3',
     coin: 'src/assets/audio/coin.mp3',
     laser: 'src/assets/audio/laser.mp3',
-    cinematic1: 'src/assets/audio/cinematic1.mp3',
-    cinematic2: 'src/assets/audio/cinematic2.mp3',
-    cinematic3: 'src/assets/audio/cinematic3.mp3',
-    dash_start: 'src/assets/audio/evasion.mp3'
+    dash_start: 'src/assets/audio/evasion.mp3',
+    xp_collect: 'src/assets/audio/xp_collect.wav'
 };
