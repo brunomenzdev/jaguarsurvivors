@@ -1,57 +1,112 @@
+/**
+ * DamageTextPool - DOM-Based version
+ * 
+ * Replaces Phaser-based damage numbers with standard HTML elements.
+ * Improved positioning using camera to screen conversion.
+ */
 export class DamageTextPool {
     constructor(scene, initialSize = 30) {
         this.scene = scene;
         this.pool = [];
+        this.activeWrappers = new Set();
+
+        this.container = document.getElementById('damage-container');
+        if (!this.container) {
+            this.container = document.createElement('div');
+            this.container.id = 'damage-container';
+            document.getElementById('game-wrapper').appendChild(this.container);
+        }
+
         this.create(initialSize);
+
+        // Sync container with camera scroll
+        this.scene.events.on('prerender', this.updateContainerTransform, this);
+        this.scene.events.on('shutdown', () => {
+            this.scene.events.off('prerender', this.updateContainerTransform, this);
+        }, this);
     }
 
-    /** Cria objetos de texto e os coloca na pool (invisíveis) */
+    updateContainerTransform() {
+        const cam = this.scene.cameras.main;
+        // Invert camera scroll to keep elements fixed to world
+        this.container.style.transform = `translate(${-cam.scrollX}px, ${-cam.scrollY}px)`;
+    }
+
     create(count) {
         for (let i = 0; i < count; i++) {
-            const text = this.scene.add.text(0, 0, '', {
-                fontSize: '18px',
-                fontFamily: 'monospace',
-                stroke: '#000000',
-                strokeThickness: 3,
-                shadow: {
-                    offsetX: 1,
-                    offsetY: 1,
-                    color: '#000000',
-                    blur: 1,
-                    fill: true
-                }
-            }).setOrigin(0.5).setVisible(false); // Esconde inicialmente
+            const el = document.createElement('div');
+            el.className = 'damage-popup';
+            el.style.display = 'none';
+            this.container.appendChild(el);
 
-            this.pool.push(text);
+            const wrapper = {
+                el: el,
+                setText: (val) => { el.textContent = val; },
+                setPosition: (x, y) => {
+                    // We now use world coordinates because the container handles camera scroll
+                    wrapper._x = x;
+                    wrapper._y = y;
+                    el.style.left = `${x}px`;
+                    el.style.top = `${y}px`;
+                },
+                setStyle: (style) => {
+                    if (style.fill) el.style.color = style.fill;
+                },
+                setAlpha: (val) => { el.style.opacity = val; },
+                setScale: (val) => { el.style.transform = `scale(${val})`; },
+                setOrigin: () => wrapper,
+                setVisible: (val) => { el.style.display = val ? 'block' : 'none'; },
+                setActive: (val) => { },
+                _x: 0,
+                _y: 0
+            };
+
+            // Tweenable properties
+            Object.defineProperty(wrapper, 'alpha', {
+                get: () => parseFloat(el.style.opacity) || 1,
+                set: (val) => { el.style.opacity = val; }
+            });
+            Object.defineProperty(wrapper, 'y', {
+                get: () => wrapper._y,
+                set: (val) => {
+                    wrapper._y = val;
+                    el.style.top = `${val}px`;
+                }
+            });
+            Object.defineProperty(wrapper, 'x', {
+                get: () => wrapper._x,
+                set: (val) => {
+                    wrapper._x = val;
+                    el.style.left = `${val}px`;
+                }
+            });
+
+            this.pool.push(wrapper);
         }
     }
 
-    /** Pega um objeto da pool, o configura e o ativa */
     get(x, y, damage) {
-        let text;
+        let wrapper;
 
         if (this.pool.length > 0) {
-            text = this.pool.pop(); // Pega o último objeto
+            wrapper = this.pool.pop();
         } else {
-            // Se a pool estiver vazia, cria um novo (expansão dinâmica)
-            console.warn('DamageTextPool: Criando novo objeto. Considere aumentar initialSize.');
-            this.create(1);
-            text = this.pool.pop();
+            this.create(5);
+            wrapper = this.pool.pop();
         }
 
-        // Reseta as propriedades para o novo uso
-        text.setPosition(x, y - 10); // Posiciona um pouco acima
-        text.setAlpha(1);
-        text.setVisible(true);
-        text.setActive(true);
+        wrapper.setPosition(x, y - 30);
+        wrapper.setAlpha(1);
+        wrapper.setScale(1);
+        wrapper.setVisible(true);
+        this.activeWrappers.add(wrapper);
 
-        return text;
+        return wrapper;
     }
 
-    /** Retorna o objeto para a pool */
-    return(text) {
-        text.setVisible(false);
-        text.setActive(false);
-        this.pool.push(text);
+    return(wrapper) {
+        wrapper.setVisible(false);
+        this.activeWrappers.delete(wrapper);
+        this.pool.push(wrapper);
     }
 }

@@ -130,7 +130,7 @@ export class GameScene extends Phaser.Scene {
 
         this.tweens.add({
             targets: text,
-            y: y - 100,
+            y: text.y - 100,
             alpha: 0,
             duration: 800,
             ease: 'Cubic.out',

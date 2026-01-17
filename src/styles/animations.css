@@ -311,20 +311,168 @@
     }
 
     50% {
-        box-shadow: 0 0 18px rgba(136, 0, 255, 0.6);
+        transform: scale(1.05) translateX(-2px);
+        box-shadow: 0 0 14px rgba(0, 255, 255, 0.7);
     }
 }
 
-@keyframes buff-pulse-speed {
+/* --- HUD FEEDBACK ANIMATIONS --- */
+@keyframes health-damage-shake {
 
     0%,
     100% {
-        transform: scale(1) translateX(0);
-        box-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+        transform: none;
+    }
+
+    20% {
+        transform: translate(-4px, 2px);
+    }
+
+    40% {
+        transform: translate(4px, -2px);
+    }
+
+    60% {
+        transform: translate(-2px, -2px);
+    }
+
+    80% {
+        transform: translate(2px, 2px);
+    }
+}
+
+@keyframes health-damage-flash {
+    0% {
+        filter: brightness(1) drop-shadow(0 0 0px red);
     }
 
     50% {
-        transform: scale(1.05) translateX(-2px);
-        box-shadow: 0 0 14px rgba(0, 255, 255, 0.7);
+        filter: brightness(2) drop-shadow(0 0 10px red);
+    }
+
+    100% {
+        filter: brightness(1) drop-shadow(0 0 0px red);
+    }
+}
+
+@keyframes health-heal-flash {
+    0% {
+        filter: brightness(1) drop-shadow(0 0 0px green);
+    }
+
+    50% {
+        filter: brightness(2) drop-shadow(0 0 15px lime);
+    }
+
+    100% {
+        filter: brightness(1) drop-shadow(0 0 0px green);
+    }
+}
+
+@keyframes xp-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.02);
+        filter: brightness(1.2);
+    }
+}
+
+@keyframes level-up-shine {
+    0% {
+        box-shadow: 0 0 0px rgba(255, 215, 0, 0);
+    }
+
+    50% {
+        box-shadow: 0 0 40px rgba(255, 215, 0, 0.8), inset 0 0 20px rgba(255, 215, 0, 0.5);
+    }
+
+    100% {
+        box-shadow: 0 0 0px rgba(255, 215, 0, 0);
+    }
+}
+
+@keyframes critical-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 5px red);
+    }
+
+    50% {
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 20px red) brightness(1.5);
+    }
+}
+
+@keyframes ui-entrance {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.flash-damage {
+    animation: health-damage-flash 0.2s ease-out;
+}
+
+.flash-heal {
+    animation: health-heal-flash 0.3s ease-out;
+}
+
+.shake-damage {
+    animation: health-damage-shake 0.2s ease-out;
+}
+
+.pulse-xp {
+    animation: xp-pulse 0.2s ease-out;
+}
+
+.shine-levelup {
+    animation: level-up-shine 0.8s ease-out;
+}
+
+.buff-entrance {
+    animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.buff-exit {
+    animation: popOut 0.3s ease-in forwards;
+}
+
+.buff-expiring {
+    animation: blink-fast 0.5s infinite alternate;
+}
+
+.low-health-critical {
+    animation: critical-pulse 1s infinite alternate;
+}
+
+@keyframes popOut {
+    to {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+}
+
+@keyframes blink-fast {
+    from {
+        opacity: 1;
+        filter: brightness(1.5);
+    }
+
+    to {
+        opacity: 0.4;
+        filter: brightness(1);
     }
 }

@@ -60,10 +60,41 @@ export class HUDManager {
 
     updateHealth(current, max, shield = 0) {
         const percent = Math.max(0, (current / max) * 100);
+        const prevPercent = parseFloat(this.elements.healthFill.style.width) || 100;
+
         if (this.elements.healthFill) {
             this.elements.healthFill.style.width = `${percent}%`;
 
-            // Color logic
+            // Visual Feedback for damage/heal
+            if (percent < prevPercent) {
+                // Damage
+                this.elements.healthFill.classList.remove('flash-damage', 'shake-damage');
+                void this.elements.healthFill.offsetWidth;
+                this.elements.healthFill.classList.add('flash-damage', 'shake-damage');
+
+                // Shake the container too
+                const container = document.getElementById('health-bar-container');
+                if (container) {
+                    container.classList.remove('shake-damage');
+                    void container.offsetWidth;
+                    container.classList.add('shake-damage');
+                }
+            } else if (percent > prevPercent) {
+                // Heal
+                this.elements.healthFill.classList.remove('flash-heal');
+                void this.elements.healthFill.offsetWidth;
+                this.elements.healthFill.classList.add('flash-heal');
+            }
+
+            // Low health critical state
+            if (percent < 30) {
+                this.elements.healthFill.classList.add('low-health-critical');
+            } else {
+                this.elements.healthFill.classList.remove('low-health-critical');
+            }
+
+            // Color logic (Premium)
+            // Using a gradient in CSS, but we can hit some specific highlights here
             if (percent > 50) {
                 this.elements.healthFill.style.backgroundColor = '#4CAF50';
             } else if (percent > 25) {
@@ -77,10 +108,6 @@ export class HUDManager {
         if (this.elements.shieldFill) {
             const shieldPercent = Math.max(0, (shield / max) * 100);
             this.elements.shieldFill.style.width = `${shieldPercent}%`;
-            // Position it to overlap from the left (matching health start)
-            // If we want it to 'stack' on top of current health, we'd need more complex logic.
-            // But per request "visually represented as a gray shield layer on the health bar",
-            // overlapping from the left is fine as long as it's distinguishable.
         }
 
         if (this.elements.healthText) {
@@ -91,10 +118,37 @@ export class HUDManager {
 
     updateXP(current, nextLevelXP, level) {
         const percent = Math.min(100, Math.max(0, (current / nextLevelXP) * 100));
+        const prevPercent = parseFloat(this.elements.xpFill.style.width) || 0;
+
         if (this.elements.xpFill) {
             this.elements.xpFill.style.width = `${percent}%`;
+
+            // Pulse on XP gain
+            if (percent > prevPercent) {
+                this.elements.xpFill.classList.remove('pulse-xp');
+                void this.elements.xpFill.offsetWidth;
+                this.elements.xpFill.classList.add('pulse-xp');
+            }
+
+            // Near level up glow
+            if (percent > 85) {
+                this.elements.xpFill.classList.add('near-levelup');
+            } else {
+                this.elements.xpFill.classList.remove('near-levelup');
+            }
         }
+
         if (this.elements.xpText) {
+            const oldLevel = this.elements.xpText.textContent.replace('NÍVEL ', '');
+            if (parseInt(oldLevel) < level) {
+                // Level Up!
+                const container = document.getElementById('xp-bar-container');
+                if (container) {
+                    container.classList.remove('shine-levelup');
+                    void container.offsetWidth;
+                    container.classList.add('shine-levelup');
+                }
+            }
             this.elements.xpText.textContent = `NÍVEL ${level}`;
         }
     }

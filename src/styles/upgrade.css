@@ -85,6 +85,8 @@
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     padding: 20px;
+    min-width: 0;
+    width: 260px;
 }
 
 .upgrade-card::before {
@@ -140,7 +142,7 @@
     letter-spacing: 1px;
     font-family: 'Anton', sans-serif;
     text-transform: uppercase;
-    text-wrap-mode: nowrap;
+    width: 100%;
 }
 
 .upgrade-card p {
@@ -149,6 +151,9 @@
     line-height: 1.5;
     flex-grow: 1;
     margin-bottom: 20px;
+    width: 100%;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 .upgrade-description {

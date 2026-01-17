@@ -128,6 +128,21 @@
     background: var(--cor-primaria);
     width: 0%;
     transition: width 0.2s ease;
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+
+#xp-bar-fill.near-levelup {
+    animation: xp-near-levelup 1s infinite alternate;
+}
+
+@keyframes xp-near-levelup {
+    from {
+        box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+    }
+
+    to {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), inset 0 0 10px rgba(255, 255, 255, 0.5);
+    }
 }
 
 #xp-bar-text {
@@ -154,23 +169,25 @@
     pointer-events: none;
 }
 
-#damage-indicator {
+#damage-container {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #fff;
-    font-family: 'Anton', sans-serif;
-    font-size: 48px;
-    -webkit-text-stroke: 1px #000;
-    opacity: 0;
+    inset: 0;
     pointer-events: none;
-    z-index: 999;
-    transition: opacity 0.3s;
+    z-index: 500;
+    overflow: hidden;
 }
 
-#damage-indicator.show {
-    opacity: 1;
+.damage-popup {
+    position: absolute;
+    font-family: 'Anton', sans-serif;
+    font-size: 24px;
+    color: #fff;
+    text-shadow: 2px 2px 0 #000;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 501;
+    user-select: none;
+    will-change: transform, opacity;
 }
 
 /* --- LOADOUT UI (Ingame) --- */

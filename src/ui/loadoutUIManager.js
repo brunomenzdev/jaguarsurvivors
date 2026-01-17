@@ -14,6 +14,10 @@ export class LoadoutUIManager {
             return;
         }
 
+        // Clear any existing loadout-ui if present (to avoid duplication)
+        const existing = document.getElementById('loadout-ui');
+        if (existing) existing.remove();
+
         this.createUI();
         this.setupEventListeners();
     }
@@ -170,11 +174,19 @@ export class LoadoutUIManager {
         slotToFill.level.innerText = '1';
         slotToFill.isEmpty = false;
         slotToFill.weaponKey = key;
+
+        // Feedback
+        slotToFill.el.classList.add('pulse-xp');
+        setTimeout(() => slotToFill.el.classList.remove('pulse-xp'), 300);
     }
 
     onWeaponLeveled(key, level) {
         const slot = this.weaponSlots.find(s => s.weaponKey === key);
-        if (slot) slot.level.innerText = level;
+        if (slot) {
+            slot.level.innerText = level;
+            slot.el.classList.add('pulse-xp');
+            setTimeout(() => slot.el.classList.remove('pulse-xp'), 300);
+        }
     }
 
     onItemEquipped(id) {
@@ -187,11 +199,19 @@ export class LoadoutUIManager {
         slot.level.innerText = '1';
         slot.isEmpty = false;
         slot.itemId = id;
+
+        // Feedback
+        slot.el.classList.add('pulse-xp');
+        setTimeout(() => slot.el.classList.remove('pulse-xp'), 300);
     }
 
     onItemLeveled(id, level) {
         const slot = this.itemSlots.find(s => s.itemId === id);
-        if (slot) slot.level.innerText = level;
+        if (slot) {
+            slot.level.innerText = level;
+            slot.el.classList.add('pulse-xp');
+            setTimeout(() => slot.el.classList.remove('pulse-xp'), 300);
+        }
     }
 
     onLegendaryObtained(config) {

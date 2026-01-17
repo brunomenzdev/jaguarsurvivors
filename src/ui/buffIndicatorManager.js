@@ -72,29 +72,29 @@ export class BuffIndicatorManager {
         img.alt = buffType;
         icon.appendChild(img);
 
-        // Entry animation
-        icon.style.opacity = '0';
-        icon.style.transform = 'scale(0.5)';
         this.container.appendChild(icon);
 
-        // Trigger animation
-        requestAnimationFrame(() => {
-            icon.style.transition = 'opacity 0.2s ease-out, transform 0.2s ease-out';
-            icon.style.opacity = '1';
-            icon.style.transform = 'scale(1)';
-        });
+        // Entry animation via class
+        icon.classList.add('buff-entrance');
 
         this.activeIcons.set(buffType, icon);
+
+        // Set up expiration pulse if it has duration
+        if (config && config.duration) {
+            setTimeout(() => {
+                if (this.activeIcons.has(buffType)) {
+                    icon.classList.add('buff-expiring');
+                }
+            }, config.duration - 2000); // Pulse last 2 seconds
+        }
     }
 
     hideIcon(buffType) {
         const icon = this.activeIcons.get(buffType);
         if (!icon) return;
 
-        // Exit animation
-        icon.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
-        icon.style.opacity = '0';
-        icon.style.transform = 'scale(0.5)';
+        // Exit animation via class
+        icon.classList.add('buff-exit');
 
         setTimeout(() => {
             if (icon.parentNode) {
