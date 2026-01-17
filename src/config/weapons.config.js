@@ -106,7 +106,7 @@ export const weaponsConfig = [
 
         strategyStats: {
             behaviorType: 'AREA_360',
-            meleeHitbox: { width: 180, height: 200 },
+            meleeHitbox: { width: 220, height: 220 },
             meleeAnimDuration: 250,
             frontalAttack: false,
             meleeOffsetHitbox: { x: 0, y: 40 },

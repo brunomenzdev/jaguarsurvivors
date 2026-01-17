@@ -110,7 +110,8 @@ export class LoadoutUIManager {
 
     createSlot(type) {
         const el = document.createElement('div');
-        el.className = `loadout-slot ${type}`;
+        el.className = `loadout-slot ${type} empty`;
+
 
         const img = document.createElement('img');
         img.src = 'src/assets/images/pickup_bomb.png';
@@ -133,7 +134,8 @@ export class LoadoutUIManager {
 
     createLegendaryPlaceholderSlot() {
         const el = document.createElement('div');
-        el.className = 'loadout-slot legendary';
+        el.className = 'loadout-slot legendary empty';
+
 
         const img = document.createElement('img');
         img.style.display = 'none';
@@ -173,7 +175,9 @@ export class LoadoutUIManager {
         slotToFill.img.style.display = 'block';
         slotToFill.level.innerText = '1';
         slotToFill.isEmpty = false;
+        slotToFill.el.classList.remove('empty');
         slotToFill.weaponKey = key;
+
 
         // Feedback
         slotToFill.el.classList.add('pulse-xp');
@@ -198,7 +202,9 @@ export class LoadoutUIManager {
         slot.img.style.display = 'block';
         slot.level.innerText = '1';
         slot.isEmpty = false;
+        slot.el.classList.remove('empty');
         slot.itemId = id;
+
 
         // Feedback
         slot.el.classList.add('pulse-xp');
@@ -235,7 +241,9 @@ export class LoadoutUIManager {
 
         // Mark as filled
         emptySlot.isEmpty = false;
+        emptySlot.el.classList.remove('empty');
         emptySlot.legendaryId = config.id;
+
 
         // Add entrance animation
         emptySlot.el.style.animation = 'legendarySlotEntrance 0.4s ease-out';

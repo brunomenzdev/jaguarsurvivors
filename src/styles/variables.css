@@ -3,8 +3,21 @@
     /* Amarelo Ouro/Jaguar */
     --cor-secundaria: #000000;
     /* Preto */
-    --cor-fundo: #1a1a1a;
-    /* Cinza Escuro */
+    --cor-fundo: #0a0a0a;
+    /* Cinza Ultra Escuro */
     --cor-texto: #ffffff;
+    --cor-texto-muted: #aaaaaa;
     --cor-perigo: #ff3333;
+    --cor-sucesso: #00ff88;
+    --cor-info: #00d4ff;
+
+    /* Glassmorphism */
+    --glass-bg: rgba(20, 20, 20, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-blur: blur(12px);
+
+    /* Shadows & Glows */
+    --shadow-premium: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --glow-primaria: 0 0 15px rgba(255, 215, 0, 0.4);
+    --glow-perigo: 0 0 15px rgba(255, 51, 51, 0.4);
 }

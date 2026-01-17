@@ -172,7 +172,8 @@ export class RangedWeaponStrategy extends WeaponStrategy {
         const recoverDuration = 150;
 
         // Calculate recoil vector (opposite to fire angle)
-        const rx = -Math.cos(angle) * recoilDistance;
+        const facing = this.weapon.player.facingRight ? 1 : -1;
+        const rx = (-Math.cos(angle) * recoilDistance) * facing; // Multiplied by facing because WeaponManager applies it again
         const ry = -Math.sin(angle) * recoilDistance;
 
         // Kill any existing recoil tweens on this specific animOffset
@@ -198,7 +199,6 @@ export class RangedWeaponStrategy extends WeaponStrategy {
 
         // Subtle kick rotation
         const kickRotation = 0.15; // rads
-        const facing = this.weapon.player.facingRight ? 1 : -1;
 
         // Kill existing rotation tweens
         this.scene.tweens.killTweensOf(this.weapon);

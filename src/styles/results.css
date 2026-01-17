@@ -1,0 +1,193 @@
+/* --- RESULTS SCREENS (GAME OVER & VICTORY) --- */
+.result-screen {
+    background: radial-gradient(circle at center, rgba(10, 10, 10, 0.8) 0%, rgba(0, 0, 0, 0.98) 100%) !important;
+    backdrop-filter: blur(8px);
+    transition: opacity 0.5s ease;
+}
+
+.results-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 50px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    border-radius: 40px;
+    position: relative;
+    animation: result-card-entrance 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    gap: 20px;
+    overflow-y: auto;
+}
+
+
+.glass-morphism {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8),
+        inset 0 0 40px rgba(255, 255, 255, 0.02);
+}
+
+/* --- GAME OVER SPECIFIC --- */
+#game-over-title {
+    font-size: 80px !important;
+    color: var(--cor-perigo) !important;
+    margin-bottom: 5px !important;
+    text-shadow: 0 0 20px rgba(255, 51, 51, 0.4), 4px 4px 0 #000 !important;
+    position: relative;
+}
+
+
+/* Glitch Effect Removed */
+
+
+/* --- VICTORY SPECIFIC --- */
+.victory-title {
+    font-size: 100px !important;
+    color: var(--cor-primaria) !important;
+    margin-bottom: 20px !important;
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.6), 4px 4px 0 #000 !important;
+    letter-spacing: 4px;
+}
+
+.victory-card {
+    border-color: rgba(255, 215, 0, 0.3);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 1), 0 0 40px rgba(255, 215, 0, 0.15) !important;
+}
+
+.pulse-victory {
+    animation: victory-glow 2s infinite ease-in-out;
+}
+
+.victory-time-banner {
+    background: var(--cor-primaria) !important;
+    color: #000 !important;
+    font-size: 42px !important;
+    padding: 10px 40px !important;
+    transform: skewX(-15deg) !important;
+    box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.5);
+    margin-bottom: 30px !important;
+}
+
+/* --- STATS STYLING --- */
+.stats-card {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 15px 30px;
+    margin-bottom: 0px;
+}
+
+
+.stat-main-title {
+    font-size: 32px !important;
+    color: var(--cor-texto-muted) !important;
+    background: none !important;
+    transform: none !important;
+    padding: 0 !important;
+    margin-bottom: 20px !important;
+    letter-spacing: 2px;
+}
+
+.stat-main-title span {
+    color: #fff;
+}
+
+.stat-line {
+    font-size: 24px;
+    margin: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 10px;
+}
+
+.stat-value {
+    color: #fff;
+    font-weight: bold;
+    animation: number-pop 0.5s 0.5s both;
+}
+
+.highlight-text {
+    color: var(--cor-primaria) !important;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+}
+
+.endless-record {
+    border: 1px dashed var(--cor-primaria);
+    background: rgba(255, 215, 0, 0.05);
+}
+
+.endless-title {
+    color: var(--cor-primaria) !important;
+    font-size: 24px !important;
+    background: none !important;
+    padding: 0 !important;
+    transform: none !important;
+    margin-bottom: 15px !important;
+}
+
+/* --- PREMIUM BUTTONS --- */
+.button-group-premium {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    justify-content: center;
+}
+
+.btn-premium {
+    background: linear-gradient(135deg, var(--cor-primaria) 0%, #ffc400 100%);
+    color: #000;
+    padding: 18px 45px;
+    border-radius: 12px;
+    border: none;
+    font-family: 'Anton', sans-serif;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
+}
+
+.btn-premium:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(255, 215, 0, 0.4);
+}
+
+.btn-premium.secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: none;
+}
+
+.btn-premium.secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #fff;
+}
+
+.btn-label {
+    position: relative;
+    z-index: 1;
+}
+
+.victory-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.level-display {
+    justify-content: center !important;
+    border: none !important;
+    font-size: 28px !important;
+    color: var(--cor-texto-muted);
+}

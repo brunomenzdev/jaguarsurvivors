@@ -156,13 +156,25 @@ export class Weapon {
             this.player.x, this.player.y, target.x, target.y
         );
 
-        const desired = this.player.facingRight ? angle : -angle;
-        // Access visual config safely
+        let desired;
+        if (this.player.facingRight) {
+            // Standard angle
+            desired = Phaser.Math.Angle.Wrap(angle);
+        } else {
+            // Correct for flipped sprite: base is now PI
+            // We calculate relative rotation from the flipped base (pointing Left)
+            desired = Phaser.Math.Angle.Wrap(angle - Math.PI);
+        }
+
+        // Clamp rotation to prevent upside-down flipping
+        // Safe range is +/- 90 degrees from the baseline to stay upright
+        const limit = Math.PI * 0.45; // ~81 degrees for a natural look
+        desired = Phaser.Math.Clamp(desired, -limit, limit);
+
         const visual = this.config.visual || {};
         const smoothing = visual.rotationSmoothing ?? 0.2;
 
-        // We store the rotation on config.rotation temporarily for visual consistency if needed
-        // But better to store on 'current' or instance
+        // Since we are clamped to +/-90, Linear is safe and avoids wrap-around jumps
         this.baseRotation = Phaser.Math.Linear(
             this.baseRotation || 0,
             desired,
