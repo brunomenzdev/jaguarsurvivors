@@ -1,0 +1,205 @@
+/* ================================================================ */
+/* WEAPON SELECTION SCREEN */
+/* ================================================================ */
+
+.weapon-selection-layout {
+    display: flex;
+    width: 95%;
+    flex: 1 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: 520px !important;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+#weapon-list-pane {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    padding: 15px;
+}
+
+#weapon-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.weapon-card-mini {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(30, 30, 30, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.weapon-card-mini:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 215, 0, 0.3);
+    transform: translateX(8px);
+}
+
+.weapon-card-mini.active {
+    background: linear-gradient(90deg, rgba(255, 215, 0, 0.15) 0%, transparent 100%);
+    border-color: var(--cor-primaria);
+    transform: translateX(12px);
+    box-shadow: -5px 0 15px rgba(255, 215, 0, 0.1);
+}
+
+.weapon-card-mini img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+}
+
+.mini-info h4 {
+    margin: 0;
+    font-family: 'Anton', sans-serif;
+    font-size: 18px;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.mini-info .mini-type {
+    font-size: 10px;
+    color: var(--cor-primaria);
+    font-weight: 800;
+}
+
+#weapon-detail-pane {
+    flex: 1.6;
+    background: rgba(15, 15, 15, 0.98);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 24px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow-y: auto;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+}
+
+.detail-header {
+    width: 100%;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.detail-visual-bg {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 70%);
+    animation: pulseGlow 3s infinite;
+}
+
+.detail-visual img {
+    height: 160px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.4));
+    z-index: 2;
+}
+
+.detail-info {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.detail-info h2 {
+    margin: 0 auto !important;
+    background: none !important;
+    color: var(--cor-primaria) !important;
+    font-size: 42px !important;
+    transform: none !important;
+    padding: 0 !important;
+}
+
+.detail-description {
+    font-size: 16px;
+    color: #ccc;
+    line-height: 1.5;
+    font-style: italic;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.detail-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    width: 100%;
+}
+
+.detail-stat-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-stat-card .label {
+    font-size: 11px;
+    color: #666;
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+.detail-stat-card .value {
+    font-size: 24px;
+    color: #fff;
+    font-family: 'Anton', sans-serif;
+}
+
+.selection-footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+    padding-bottom: 10px;
+}
+
+.detail-placeholder {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #444;
+    font-family: 'Anton', sans-serif;
+    font-size: 24px;
+    text-align: center;
+}
+
+.weapon-type-badge.type-melee {
+    background: #e74c3c;
+    color: #fff;
+}
+
+.weapon-type-badge.type-ranged {
+    background: #3498db;
+    color: #fff;
+}
+
+.weapon-type-badge.type-trail {
+    background: #9b59b6;
+    color: #fff;
+}

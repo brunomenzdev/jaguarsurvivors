@@ -1,0 +1,62 @@
+/* --- BOSS UI --- */
+#boss-health-container {
+    position: absolute;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    z-index: 1000;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+#boss-health-container.active {
+    opacity: 1;
+}
+
+.boss-name {
+    color: #ff3333;
+    font-family: 'Anton', sans-serif;
+    font-size: 28px;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+    text-shadow: 3px 3px 0 #000;
+    text-transform: uppercase;
+}
+
+.boss-bar-bg {
+    width: 100%;
+    height: 30px;
+    background: #000;
+    border: 3px solid #ff3333;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.boss-bar-fill {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #880000 0%, #ff3333 50%, #880000 100%);
+    background-size: 200% 100%;
+    animation: bloodFlow 3s infinite linear;
+    transition: width 0.2s ease-out;
+}
+
+.boss-health-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+    text-shadow: 2px 2px 2px #000;
+    z-index: 5;
+}

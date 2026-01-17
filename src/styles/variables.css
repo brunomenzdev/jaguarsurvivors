@@ -1,0 +1,10 @@
+:root {
+    --cor-primaria: #FFD700;
+    /* Amarelo Ouro/Jaguar */
+    --cor-secundaria: #000000;
+    /* Preto */
+    --cor-fundo: #1a1a1a;
+    /* Cinza Escuro */
+    --cor-texto: #ffffff;
+    --cor-perigo: #ff3333;
+}

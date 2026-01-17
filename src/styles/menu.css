@@ -1,0 +1,198 @@
+/* --- REDESIGNED MAIN MENU --- */
+#main-menu {
+    overflow: hidden;
+    background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%) !important;
+}
+
+.menu-background-effect {
+    position: absolute;
+    inset: 0;
+    background: url('src/assets/images/logo_small.png') no-repeat center;
+    background-size: 80%;
+    opacity: 0.05;
+    filter: blur(20px);
+    z-index: 1;
+}
+
+.menu-content-wrapper {
+    display: flex;
+    width: 90%;
+    max-width: 1100px;
+    height: 80%;
+    gap: 60px;
+    z-index: 10;
+}
+
+.menu-left-panel {
+    flex: 1.2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-wrapper {
+    position: relative;
+    padding: 30px;
+    padding-top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
+}
+
+.main-logo {
+    width: 400px;
+    height: auto;
+    filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.4));
+    animation:
+        logo-heavy-pulse 2s infinite alternate ease-in-out;
+    position: relative;
+    z-index: 5;
+}
+
+.menu-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 400px;
+}
+
+/* --- CONTROLS PANEL --- */
+.menu-right-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.controls-summary {
+    background: rgba(20, 20, 20, 0.8);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 24px;
+    padding: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(255, 215, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.controls-summary::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.03) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.controls-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 38px;
+    letter-spacing: 6px;
+    margin-bottom: 40px;
+    color: var(--cor-primaria);
+    text-shadow: 3px 3px 0 #000;
+}
+
+.controls-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    width: 100%;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.key-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 140px;
+}
+
+.key-row {
+    display: flex;
+    gap: 8px;
+}
+
+.key {
+    width: 45px;
+    height: 45px;
+    background: #2a2a2a;
+    border: 2px solid #444;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Anton', sans-serif;
+    font-size: 20px;
+    color: #fff;
+    box-shadow: 0 5px 0 #111;
+    transition: all 0.1s;
+    text-shadow: 1px 1px 0 #000;
+}
+
+.key:hover {
+    transform: translateY(2px);
+    box-shadow: 0 3px 0 #111;
+    border-color: var(--cor-primaria);
+}
+
+.control-label {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    color: #eee;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 0 #000;
+}
+
+.control-separator {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+    width: 100%;
+}
+
+.key-double-tap {
+    display: flex;
+    gap: 15px;
+    position: relative;
+    padding: 10px;
+}
+
+.key-tap {
+    width: 50px;
+    height: 50px;
+    background: #2a2a2a;
+    border: 2px solid var(--cor-primaria);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Anton', sans-serif;
+    font-weight: bold;
+    font-size: 22px;
+    color: var(--cor-primaria);
+    box-shadow: 0 5px 0 #111;
+    text-shadow: 1px 1px 0 #000;
+}
+
+.controls-footer {
+    margin-top: 40px;
+    font-size: 16px;
+    color: #666;
+    letter-spacing: 1px;
+    font-weight: bold;
+    text-transform: uppercase;
+}

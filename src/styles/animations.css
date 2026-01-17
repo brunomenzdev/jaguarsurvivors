@@ -1,0 +1,330 @@
+@keyframes shine {
+    0% {
+        left: -100%;
+    }
+
+    20% {
+        left: 150%;
+    }
+
+    100% {
+        left: 150%;
+    }
+}
+
+@keyframes logo-heavy-pulse {
+    0% {
+        filter: brightness(1) drop-shadow(0 0 5px rgba(255, 215, 0, 1));
+    }
+
+    100% {
+        filter: brightness(1.2) drop-shadow(0 0 15px rgba(255, 215, 0, 1));
+    }
+}
+
+@keyframes tapEffect {
+
+    0%,
+    20%,
+    100% {
+        transform: translateY(0) scale(1);
+        background: #2a2a2a;
+        color: var(--cor-primaria);
+        box-shadow: 0 5px 0 #111;
+    }
+
+    5%,
+    15% {
+        transform: translateY(3px) scale(0.95);
+        background: var(--cor-primaria);
+        color: #000;
+        box-shadow: 0 2px 0 #111;
+        text-shadow: none;
+    }
+}
+
+.animate-tap {
+    animation: tapEffect 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.animate-tap2 {
+    animation: tapEffect 2.1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes bossPulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+    }
+}
+
+@keyframes bloodFlow {
+    0% {
+        background-position: 100% 0;
+    }
+
+    100% {
+        background-position: -100% 0;
+    }
+}
+
+@keyframes legendaryFadeIn {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0);
+    }
+
+    to {
+        opacity: 1;
+        backdrop-filter: blur(5px);
+    }
+}
+
+@keyframes legendaryPulse {
+    from {
+        filter: brightness(1) drop-shadow(0 0 10px rgba(255, 69, 0, 0.6));
+    }
+
+    to {
+        filter: brightness(1.2) drop-shadow(0 0 25px rgba(255, 69, 0, 0.9));
+    }
+}
+
+@keyframes cardEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(50px) rotateX(15deg) scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0) scale(1);
+    }
+}
+
+@keyframes cardSelect {
+    0% {
+        transform: scale(1.05);
+    }
+
+    50% {
+        transform: scale(1.12);
+    }
+
+    100% {
+        transform: scale(1.08);
+    }
+}
+
+@keyframes legendarySlotEntrance {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+        filter: brightness(2);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+        filter: brightness(1);
+    }
+}
+
+@keyframes endlessSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+        filter: blur(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes dangerBlink {
+    from {
+        opacity: 1;
+        text-shadow: 0 0 5px #ff3333;
+    }
+
+    to {
+        opacity: 0.7;
+        text-shadow: 0 0 20px #ff3333;
+    }
+}
+
+@keyframes pulseGlow {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1.3);
+        opacity: 0.8;
+    }
+}
+
+@keyframes announcementFadeIn {
+    0% {
+        opacity: 0;
+        pointer-events: none;
+        display: flex;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    85% {
+        opacity: 1;
+        filter: blur(0px);
+    }
+
+    100% {
+        opacity: 0;
+        filter: blur(20px);
+        pointer-events: none;
+    }
+}
+
+@keyframes lineGrow {
+    to {
+        transform: scaleX(1);
+    }
+}
+
+@keyframes slideUpFade {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes popIn {
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes floatChar {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+@keyframes slideDownIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes buff-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4),
+            inset 0 0 10px rgba(255, 255, 255, 0.05),
+            0 0 8px rgba(255, 215, 0, 0.3);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4),
+            inset 0 0 10px rgba(255, 255, 255, 0.05),
+            0 0 15px rgba(255, 215, 0, 0.5);
+    }
+}
+
+@keyframes buff-pulse-shield {
+
+    0%,
+    100% {
+        box-shadow: 0 0 8px rgba(0, 170, 255, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 16px rgba(0, 170, 255, 0.7);
+    }
+}
+
+@keyframes buff-pulse-rage {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 8px rgba(255, 68, 0, 0.5);
+    }
+
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 16px rgba(255, 68, 0, 0.8);
+    }
+}
+
+@keyframes buff-pulse-freeze {
+
+    0%,
+    100% {
+        box-shadow: 0 0 10px rgba(136, 0, 255, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 18px rgba(136, 0, 255, 0.6);
+    }
+}
+
+@keyframes buff-pulse-speed {
+
+    0%,
+    100% {
+        transform: scale(1) translateX(0);
+        box-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+    }
+
+    50% {
+        transform: scale(1.05) translateX(-2px);
+        box-shadow: 0 0 14px rgba(0, 255, 255, 0.7);
+    }
+}

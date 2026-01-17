@@ -1,0 +1,280 @@
+/* ================================================================ */
+/* LEGENDARY SELECTION SCREEN - PREMIUM REDESIGN */
+/* ================================================================ */
+
+.legendary-selection-screen {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center,
+            rgba(40, 15, 10, 0.8) 0%,
+            rgba(10, 0, 0, 0.89) 100%);
+    backdrop-filter: blur(4px);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    overflow: hidden;
+}
+
+.legendary-selection-screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('src/assets/images/legend_blade.png') no-repeat center;
+    background-size: 60%;
+    opacity: 0.03;
+    filter: blur(30px);
+    pointer-events: none;
+}
+
+.legendary-selection-screen.active {
+    display: flex;
+    animation: legendaryFadeIn 0.5s ease-out;
+}
+
+.legendary-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 52px;
+    color: #FFD700;
+    text-transform: uppercase;
+    letter-spacing: 8px;
+    margin: 0;
+    text-shadow:
+        0 0 20px rgba(255, 69, 0, 0.8),
+        0 0 40px rgba(255, 69, 0, 0.4),
+        4px 4px 0 #000;
+    animation: legendaryPulse 2s infinite alternate;
+}
+
+.legendary-subtitle {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #FF8C00;
+    letter-spacing: 3px;
+    margin: 10px 0 40px 0;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+.legendary-cards-container {
+    display: flex;
+    gap: 30px;
+    perspective: 1000px;
+}
+
+.legendary-card {
+    width: 330px;
+    height: 450px;
+    background: linear-gradient(180deg,
+            rgba(50, 20, 15, 0.95) 0%,
+            rgba(25, 8, 5, 0.98) 100%);
+    border: 2px solid rgba(255, 215, 0, 0.25);
+    border-radius: 16px;
+    padding: 24px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(255, 69, 0, 0.1),
+        inset 0 1px 0 rgba(255, 215, 0, 0.1);
+    animation: cardEntrance 0.6s ease-out backwards;
+}
+
+.legendary-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.legendary-card:nth-child(2) {
+    animation-delay: 0.22s;
+}
+
+.legendary-card:nth-child(3) {
+    animation-delay: 0.34s;
+}
+
+.legendary-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle,
+            rgba(255, 215, 0, 0.08) 0%,
+            transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+}
+
+.legendary-card:hover {
+    transform: translateY(-15px) scale(1.05);
+    border-color: #FFD700;
+    box-shadow:
+        0 25px 50px rgba(0, 0, 0, 0.6),
+        0 0 40px rgba(255, 215, 0, 0.3),
+        0 0 80px rgba(255, 69, 0, 0.15);
+}
+
+.legendary-card:hover::before {
+    opacity: 1;
+}
+
+.legendary-card.selected {
+    transform: scale(1.08);
+    border-color: #FFF;
+    box-shadow: 0 0 60px rgba(255, 215, 0, 0.6);
+    animation: cardSelect 0.3s ease-out;
+}
+
+.legendary-icon {
+    width: 200px;
+    height: 200px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 16px;
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.5));
+    transition: transform 0.3s;
+}
+
+.legendary-card:hover .legendary-icon {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.7));
+}
+
+.legendary-emoji {
+    font-size: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.legendary-type-badge {
+    background: linear-gradient(90deg, #FF4500, #FF8C00);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 5px 14px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 10px rgba(255, 69, 0, 0.3);
+}
+
+.legendary-card-name {
+    font-size: 30px !important;
+    margin: 10px 0 !important;
+    background: none !important;
+    color: #fff !important;
+    transform: none !important;
+    padding: 0 !important;
+    letter-spacing: 1px;
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    text-wrap-mode: nowrap;
+}
+
+.legendary-card-description {
+    color: #ccc;
+    font-size: 14px;
+    line-height: 1.5;
+    flex-grow: 1;
+    display: flex;
+}
+
+.legendary-rarity-glow {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg,
+            transparent,
+            #FFD700 30%,
+            #FF4500 50%,
+            #FFD700 70%,
+            transparent);
+    opacity: 0.7;
+}
+
+/* ================================================================ */
+/* LOADOUT UI - LEGENDARY SLOTS */
+/* ================================================================ */
+
+.loadout-title.legendary {
+    color: #FF4500;
+    text-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+}
+
+.loadout-slot.legendary {
+    border-color: #FF4500;
+    background: radial-gradient(circle,
+            rgba(255, 69, 0, 0.15) 0%,
+            rgba(0, 0, 0, 0.6) 100%);
+    box-shadow: 0 0 8px rgba(255, 69, 0, 0.3);
+    position: relative;
+}
+
+.loadout-slot.legendary:hover {
+    box-shadow: 0 0 15px rgba(255, 69, 0, 0.5);
+    border-color: #FFD700;
+}
+
+.loadout-slot.legendary.empty {
+    opacity: 0.4;
+    border-color: #4a2a1a;
+    background: radial-gradient(circle,
+            rgba(50, 25, 15, 0.3) 0%,
+            rgba(0, 0, 0, 0.5) 100%);
+    box-shadow: none;
+}
+
+.legendary-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(20, 5, 5, 0.98);
+    border: 1px solid #FF4500;
+    border-radius: 8px;
+    padding: 10px 14px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s, visibility 0.2s;
+    z-index: 100;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.loadout-slot.legendary:hover .legendary-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+.legendary-tooltip h4 {
+    color: #FFD700;
+    font-family: 'Anton', sans-serif;
+    font-size: 13px;
+    margin: 0 0 4px 0;
+    letter-spacing: 1px;
+}
+
+.legendary-tooltip p {
+    color: #aaa;
+    font-size: 11px;
+    margin: 0;
+    max-width: 180px;
+    white-space: normal;
+}

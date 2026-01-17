@@ -1,0 +1,371 @@
+/* --- HUD --- */
+#debug-info {
+    display: none;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #fff;
+    font-size: 14px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px;
+    border-left: 3px solid var(--cor-primaria);
+    font-family: 'Roboto', monospace;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+#health-bar-container {
+    width: 200px;
+    height: 25px;
+    position: absolute;
+    top: 40px;
+    left: 10px;
+    z-index: 10;
+}
+
+#health-bar-bg {
+    width: 100%;
+    height: 100%;
+    background-color: #333;
+    border: 2px solid #555;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+}
+
+#health-bar-fill {
+    height: 100%;
+    width: 100%;
+    background-color: var(--cor-perigo);
+    border-radius: 3px;
+    transition: width 0.3s ease-out;
+}
+
+#shield-bar-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: rgba(200, 200, 255, 0.6);
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
+    border-radius: 3px;
+    transition: width 0.2s ease-out;
+    pointer-events: none;
+    z-index: 1;
+}
+
+#health-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    z-index: 2;
+}
+
+#wave-info {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+    font-family: 'Anton', sans-serif;
+    z-index: 10;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 18px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.icon-box {
+    margin-right: 8px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#wave-display.boss-wave {
+    background: rgba(139, 0, 0, 0.8);
+    border: 1px solid #ff4444;
+    animation: bossPulse 1.5s infinite;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+}
+
+#xp-bar-container {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+#xp-bar-bg {
+    width: 100%;
+    height: 20px;
+    background: #000;
+    border: 2px solid #333;
+    position: relative;
+}
+
+#xp-bar-fill {
+    height: 100%;
+    background: var(--cor-primaria);
+    width: 0%;
+    transition: width 0.2s ease;
+}
+
+#xp-bar-text {
+    position: absolute;
+    top: -25px;
+    width: 100%;
+    text-align: center;
+    color: var(--cor-primaria);
+    font-family: 'Anton', sans-serif;
+    font-size: 20px;
+    text-shadow: 2px 2px 0 #000;
+}
+
+#game-timer {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-family: 'Anton', sans-serif;
+    font-size: 48px;
+    z-index: 1000;
+    text-shadow: 3px 3px 0 #000;
+    pointer-events: none;
+}
+
+#damage-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-family: 'Anton', sans-serif;
+    font-size: 48px;
+    -webkit-text-stroke: 1px #000;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 999;
+    transition: opacity 0.3s;
+}
+
+#damage-indicator.show {
+    opacity: 1;
+}
+
+/* --- LOADOUT UI (Ingame) --- */
+#loadout-ui {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 50;
+    pointer-events: none;
+    font-family: 'Roboto', sans-serif;
+}
+
+.loadout-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.loadout-title {
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.loadout-title.weapon {
+    color: #FFD700;
+}
+
+.loadout-title.item {
+    color: #00FF88;
+}
+
+.loadout-slots {
+    display: flex;
+    gap: 6px;
+}
+
+.loadout-slot {
+    width: 44px;
+    height: 44px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid #666;
+    position: relative;
+    border-radius: 4px;
+}
+
+.loadout-slot.weapon {
+    border-color: #FFD700;
+}
+
+.loadout-slot.item {
+    border-color: #00FF88;
+}
+
+.loadout-slot img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.slot-level {
+    position: absolute;
+    bottom: 2px;
+    right: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 1px 4px;
+    border-radius: 3px;
+    color: #fff;
+}
+
+/* --- WAVE ANNOUNCEMENT --- */
+#wave-announcement {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    z-index: 5000;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+}
+
+#wave-announcement.show {
+    animation: announcementFadeIn 4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+.announcement-content {
+    text-align: center;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 215, 0, 0.15) 50%, transparent 100%);
+    padding: 60px 0;
+    width: 100%;
+    position: relative;
+    backdrop-filter: blur(4px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.announcement-content::before,
+.announcement-content::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--cor-primaria), transparent);
+    box-shadow: 0 0 20px var(--cor-primaria);
+}
+
+.announcement-content::before {
+    top: 0;
+    transform: scaleX(0);
+}
+
+.announcement-content::after {
+    bottom: 0;
+    transform: scaleX(0);
+}
+
+#wave-announcement.show .announcement-content::before {
+    animation: lineGrow 0.8s 0.2s forwards;
+}
+
+#wave-announcement.show .announcement-content::after {
+    animation: lineGrow 0.8s 0.2s forwards;
+}
+
+.wave-number {
+    font-family: 'Anton', sans-serif;
+    font-size: 32px;
+    color: var(--cor-primaria);
+    letter-spacing: 12px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+    transform: translateY(20px);
+    opacity: 0;
+}
+
+#wave-announcement.show .wave-number {
+    animation: slideUpFade 0.6s 0.4s forwards;
+}
+
+.wave-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 72px;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-shadow: 0 0 40px rgba(255, 255, 255, 0.4), 6px 6px 0 #000;
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+}
+
+#wave-announcement.show .wave-name {
+    animation: popIn 0.8s 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* --- BUFF INDICATOR BAR --- */
+#buff-indicators {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.buff-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255, 215, 0, 0.5);
+    padding: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4),
+        inset 0 0 10px rgba(255, 255, 255, 0.05);
+    animation: buff-pulse 1.5s ease-in-out infinite;
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.buff-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.3));
+}

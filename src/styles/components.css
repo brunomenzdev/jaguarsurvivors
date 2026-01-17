@@ -1,0 +1,114 @@
+/* --- BUTTONS --- */
+.btn {
+    font-family: 'Anton', sans-serif;
+    padding: 20px 60px;
+    font-size: 28px;
+    background: var(--cor-primaria);
+    border: none;
+    color: var(--cor-secundaria);
+    cursor: pointer;
+    transition: all 0.2s;
+    margin: 10px;
+    text-transform: uppercase;
+    clip-path: polygon(10% 0, 100% 0, 100% 80%, 90% 100%, 0 100%, 0 20%);
+    /* Formato recortado moderno */
+}
+
+.btn:hover {
+    background: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.btn-premium {
+    position: relative;
+    width: 100% !important;
+    margin: 0 !important;
+    text-align: center !important;
+    padding: 22px 50px !important;
+    font-size: 24px !important;
+    overflow: hidden;
+    background: linear-gradient(90deg, var(--cor-primaria) 0%, #e6c200 100%) !important;
+    clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%) !important;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    border: none;
+    color: #000;
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.btn-premium.secondary {
+    background: linear-gradient(90deg, #333 0%, #222 100%) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.btn-premium:hover {
+    transform: translateX(20px) scale(1.02);
+    box-shadow: -15px 0 30px rgba(255, 215, 0, 0.3);
+    background: #fff !important;
+}
+
+.btn-premium.secondary:hover {
+    background: linear-gradient(90deg, #555 0%, #444 100%) !important;
+    box-shadow: -15px 0 30px rgba(255, 255, 255, 0.1);
+}
+
+.btn-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: skewX(-20deg);
+    animation: shine 3s infinite;
+    pointer-events: none;
+}
+
+.btn-equip {
+    margin: 25px auto 10px auto;
+    width: 90%;
+    background: var(--cor-primaria);
+    color: #000;
+    font-size: 20px !important;
+    padding: 12px !important;
+    font-weight: 900;
+    flex-shrink: 0;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.btn-equip:hover {
+    transform: scale(1.05);
+    background: #fff;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+/* --- TAGS --- */
+.beta-tag {
+    background: #ff4757;
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 8px;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 0;
+    vertical-align: middle;
+}
+
+.stat-group {
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%;
+    padding: 0 40px;
+}
+
+.button-group {
+    display: flex;
+    gap: 15px;
+}

@@ -1,0 +1,49 @@
+/* --- SETTINGS STYLES --- */
+.settings-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 400px;
+}
+
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.setting-row label {
+    color: #fff;
+    font-size: 18px;
+}
+
+input[type=range] {
+    width: 200px;
+    accent-color: var(--cor-primaria);
+}
+
+input[type=checkbox] {
+    width: 24px;
+    height: 24px;
+    accent-color: var(--cor-primaria);
+    cursor: pointer;
+}
+
+.setting-row select {
+    background: #2a2a2a;
+    color: #fff;
+    border: 1px solid #444;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-family: 'Roboto', sans-serif;
+    outline: none;
+    cursor: pointer;
+    width: 200px;
+}
+
+.setting-row select:hover {
+    border-color: var(--cor-primaria);
+}
