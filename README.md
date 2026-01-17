@@ -1,58 +1,215 @@
 # 🐆 Jaguar Survivors (BETA)
+**Phaser 3 • JavaScript • Bullet Heaven / Roguelite**
 
-![Phaser 3](https://img.shields.io/badge/Engine-Phaser%203-blue?style=for-the-badge&logo=phaser)
-![JavaScript](https://img.shields.io/badge/Language-JavaScript%20ES6-yellow?style=for-the-badge&logo=javascript)
-![Status](https://img.shields.io/badge/Status-Beta-orange?style=for-the-badge)
+⏱️ *O relógio corre, a horda ruge. O quanto você consegue aguentar?*
 
-> **O relógio corre, a horda ruge. O quanto você consegue aguentar?**
+**Jaguar Survivors** é um **RPG de ação roguelite no estilo Bullet Heaven**, inspirado em jogos como **Vampire Survivors** e **Brotato**, com forte foco em **performance**, **progressão**, **feedback visual e sonoro**, e **sátira política** como temática central.
 
-**Jaguar Survivors** é um RPG de ação *roguelite* no estilo "Bullet Heaven" (inspirado em clássicos como Vampire Survivors). Enfrente centenas de inimigos simultâneos, colete gemas de experiência, evolua seu arsenal e derrote chefes colossais antes que o tempo se esgote.
+Este repositório contém **todo o código-fonte e assets do jogo**, desenvolvido com **Phaser 3**, utilizando **canvas para gameplay** e **DOM (HTML/CSS)** para toda a interface.
 
 ---
 
 ## 🎮 O Jogo
 
-Em um mundo onde a sobrevivência é a única regra, você controla heróis únicos em uma missão contra o tempo. Cada partida dura 10 minutos (configurável), culminando em uma batalha épica contra chefes. Se o tempo zerar... prepare-se para o modo **Sudden Death**.
+Em Jaguar Survivors, você controla heróis únicos em partidas intensas contra centenas de inimigos simultâneos.  
+Cada run é baseada em **tempo, progressão de dificuldade e decisões estratégicas**.
 
-### ⚔️ Mecânicas Principais
-- **Progressão Dinâmica:** Escolha upgrades a cada nível para criar builds únicas.
-- **Sistema de Status (Debuffs):** Aplique **Queimadura**, **Congelamento (Slow)**, **Choque** e **Veneno** nos inimigos.
-- **Loot de Boss:** Derrote chefes para ganhar itens lendários como **Magnetos de XP**, **Bombas de Mapa** e **Kits de Cura**.
-- **Sustentabilidade:** Melhore seus atributos de **Life Steal (Roubo de Vida)** e **Regeneração de HP** para sobreviver às ondas finais.
+- Duração padrão da run: **10 minutos (configurável)**
+- O tempo culmina em **batalhas épicas contra bosses**
+- Após completar o mapa, o jogo entra em **Endless Mode**
+- Se o tempo acabar… prepare-se para o **Sudden Death**
 
+---
 
+## 🧍 Personagens
+
+- **5 personagens jogáveis**
+- Cada personagem possui:
+  - Stats iniciais distintos
+  - Tendência de playstyle diferente
+- Seleção de personagem ocorre antes do início da run
+
+---
+
+## 🗺️ Mapas & Temática
+
+O jogo possui mapas com **temática de sátira política**, cada um com identidade própria:
+
+1. **Favela** – Luta contra o crime organizado  
+2. **Congresso Nacional** – Luta contra o centrão político  
+3. **Manifestações** – Luta contra alienação em massa  
+4. **Faculdade Pública** – Luta contra doutrinação ideológica  
+
+Cada mapa contém:
+- Enemies exclusivos
+- Elites
+- Bosses
+- Progressão dinâmica de waves
+- Endless Mode após a conclusão
+
+---
+
+## 👾 Inimigos & IA
+
+- Sistema de IA **data-driven**
+- Behaviors configuráveis e combináveis:
+  - Chase
+  - Zig-Zag
+  - Charge
+  - Orbit
+  - Flee
+- Dificuldade escala progressivamente:
+  - Vida
+  - Velocidade
+  - Dano
+  - Densidade de spawn
+
+---
+
+## ⚔️ Sistema de Armas
+
+### Tipos de Armas
+- **Melee**
+  - Swing
+  - Thrust
+  - Área / Wave
+- **Ranged**
+  - Projéteis com aparência própria
+  - Sistema de recarga e fire rate
+- **Trail**
+  - Rastros de dano
+  - Minas e armadilhas persistentes
+
+### Slots
+- O player pode equipar:
+  - **1 arma primária**
+  - **1 arma secundária**
+- Armas evoluem por **nível**, não por empilhamento infinito
+
+---
+
+## ⭐ Legendary Rewards
+
+Recompensas especiais obtidas principalmente ao derrotar bosses.
+
+Tipos:
+- **Companions** (seguem o player)
+- **Gadgets** (torres, totens, armadilhas)
+- **Procs** (efeitos ao atacar)
+- **Áreas** (campos, explosões, novas)
+
+Funcionalidades:
+- Tela dedicada de seleção de lendários
+- Forte uso de VFX e áudio
+- Exibição no Loadout UI
+
+---
+
+## 🎒 Itens & Progressão
+
+- Itens substituem antigos passive/synergy upgrades
+- Cada item possui upgrades únicos
+- Slots de itens são limitados
+- Builds são criadas através de decisões estratégicas
+
+---
+
+## 💎 Pickups
+
+Drops de inimigos e estruturas:
+
+- XP Gems – progressão de nível
+- Coin – moeda persistente entre runs
+- Health Kit – cura
+- Magnet – atrai XP
+- Bomb – limpa o mapa
+- Boots – aumenta velocidade
+- Shield Core – escudo temporário
+- Rage Orb – bônus de dano
+- Time Freeze – congela inimigos
+
+Pickups ativos possuem **feedback visual e sonoro claro**.
+
+---
+
+## 🏃 Sistema de Dash
+
+- Dash ativado por **duplo toque direcional**
+- Player fica **invulnerável durante o dash**
+- Cooldown visível na HUD
+- Movimento fluido (não trava direção)
+- Forte uso de VFX para sensação de impacto
+
+---
+
+## ♾️ Endless Mode
+
+- Ativado após derrotar o último boss
+- Não espera waves terminarem:
+  - Enemies spawnam continuamente
+- Dificuldade escala infinitamente
+- Objetivo: sobreviver o máximo possível
+- Game Over exibe:
+  - Inimigos mortos
+  - Tempo sobrevivido
+
+---
+
+## 🧱 Estruturas
+
+- Estruturas sólidas e destrutíveis
+- Bloqueiam movimentação
+- Atacadas automaticamente
+- Dropam XP ou pickups
+- Sons e efeitos diferentes de inimigos
+
+---
+
+## 🖥️ HUD & UI
+
+- UI construída **100% em DOM**
+- Estilo moderno, impactante e responsivo
+- Inclui:
+  - Barra de vida
+  - Barra de XP
+  - Wave atual
+  - Timer
+  - Inimigos ativos e mortos
+  - Loadout (armas, itens, lendários)
+- UI reage visualmente a buffs, shields, freezes e efeitos
+
+---
+
+## 🔊 Sistema de Áudio
+
+- BGM contínua desde o menu até o gameplay
+- Volume balanceado entre música e efeitos
+- Sons distintos para:
+  - Hit vs miss
+  - Crítico
+  - Estruturas vs inimigos
+  - Pickups
+  - UI
+  - Dash
+  - Boss events
+- Foco em **clareza, impacto e satisfação**
 
 ---
 
 ## 🚀 Diferenciais Técnicos
 
-Este projeto não é apenas um jogo, mas um estudo de performance em ambientes de alta densidade de objetos usando **Phaser 3**.
+Este projeto também é um **estudo de performance** em Phaser 3:
 
 ### 🏗️ Arquitetura
-- **Object Pooling System:** Sistema customizado de reciclagem de memória para Projéteis e Inimigos. Isso permite centenas de entidades na tela sem quedas de FPS, evitando o *Garbage Collection* pesado.
-- **Data-Driven Design:** Todo o balanceamento de armas, inimigos e waves é controlado via `config.js`, permitindo ajustes rápidos sem mexer na lógica central.
-- **Event-Driven UI:** A interface do usuário é atualizada via eventos, garantindo que a lógica do jogo e a visualização estejam desacopladas.
+- **Object Pooling System**
+  - Reciclagem de inimigos e projéteis
+  - Evita Garbage Collection pesado
+- **Data-Driven Design**
+  - Armas, inimigos e waves controlados via configs
+- **Event-Driven UI**
+  - UI desacoplada da lógica do jogo
 
 ### ⏱️ Sistema de Fases
-- O cronômetro agora é regressivo, criando uma curva de tensão mais clara.
-- Eventos disparados por tempo (Timers) controlam quando os Bosses surgem e quando o ambiente muda visualmente.
-
-
-
----
-
-## 🛠️ Como Executar
-
-Como o projeto utiliza módulos ES6, ele precisa ser servido via protocolo HTTP.
-
-
----
-
-## 🎨 Créditos e Tecnologias
-- **Engine:** Phaser 3
-- **Lógica:** JavaScript Puro (ES6+)
-- **Design de Sistemas:** Inspirado na estrutura de jogos Survivors-like.
-
----
-
-> **Desenvolvido por [Bruno Menz]. Se você gostou do projeto ou quer acompanhar a evolução, deixe uma ⭐ no repositório!**
+- Cronômetro regressivo
+- Eventos baseados em tempo
+- Bosses e mudanças de ambiente disparadas por timers
