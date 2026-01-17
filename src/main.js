@@ -14,6 +14,9 @@ export const GameEvents = {
     goToCharSelect: () => {
         GameEvents.hideAllOverlays();
         if (GameEvents.gameInstance) {
+            const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
+            if (bootScene) bootScene.events.emit('ui-click');
+
             // Re-starting BootScene ensuresAudioManager is active and BGM is managed correctly
             GameEvents.gameInstance.scene.stop('GameScene');
             GameEvents.gameInstance.scene.start('BootScene');
@@ -26,6 +29,9 @@ export const GameEvents = {
     goToMainMenu: () => {
         GameEvents.hideAllOverlays();
         if (GameEvents.gameInstance) {
+            const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
+            if (bootScene) bootScene.events.emit('ui-click');
+
             // Re-starting BootScene ensures AudioManager is active and BGM is managed correctly
             GameEvents.gameInstance.scene.stop('GameScene');
             GameEvents.gameInstance.scene.start('BootScene');
@@ -346,7 +352,7 @@ export const GameEvents = {
                 </div>
             `;
 
-            miniCard.onclick = () => {
+            miniCard.onclick = (e) => {
                 // Select visual feedback
                 document.querySelectorAll('.weapon-card-mini').forEach(c => c.classList.remove('active'));
                 miniCard.classList.add('active');
@@ -354,10 +360,10 @@ export const GameEvents = {
                 // Show detailed preview
                 GameEvents.showWeaponDetail(weapon);
 
-                // Play sound
-                const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
-                if (bootScene) {
-                    bootScene.events.emit('ui-click');
+                // Play sound only on user interaction
+                if (e.isTrusted) {
+                    const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
+                    if (bootScene) bootScene.events.emit('ui-click');
                 }
             };
 
@@ -432,8 +438,6 @@ export const GameEvents = {
 
             charCard.onclick = () => {
                 if (isUnlocked) {
-                    const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
-                    if (bootScene) bootScene.events.emit('ui-click');
                     GameEvents.startGame(char.key);
                 }
             };

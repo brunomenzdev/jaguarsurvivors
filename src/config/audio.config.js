@@ -5,7 +5,7 @@
  */
 
 export const audioConfig = {
-    bgm: 'src/assets/audio/bgm_mariana.mp3',
+    bgm: 'src/assets/audio/bgm.mp3',
     shoot: 'src/assets/audio/weapon_hammer.flac',
     hit: 'src/assets/audio/hit.wav',
     hit1: 'src/assets/audio/hit1.mp3',
