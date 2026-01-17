@@ -174,20 +174,11 @@ export class WispCompanion extends CompanionLegendary {
             (projectile, enemySprite) => {
                 const enemy = enemySprite.getData('parent');
                 if (enemy && enemy.isActive) {
-                    enemy.takeDamage(damage);
+                    enemy.takeDamage(damage, false, this.scene.player);
 
-                    // Apply slow effect
-                    if (enemy.applySlow) {
-                        enemy.applySlow(slowAmount, slowDuration);
-                    } else if (enemy.speedMultiplier !== undefined) {
-                        // Fallback slow implementation
-                        const originalSpeed = enemy.speedMultiplier || 1;
-                        enemy.speedMultiplier = originalSpeed * (1 - slowAmount);
-                        this.scene.time.delayedCall(slowDuration, () => {
-                            if (enemy.isActive) {
-                                enemy.speedMultiplier = originalSpeed;
-                            }
-                        });
+                    // Apply freeze status using the standardized system (same as Nova Gélida)
+                    if (enemy.applyEffect) {
+                        enemy.applyEffect('freeze', 0, slowDuration);
                     }
 
                     // Freeze VFX - simple fade at impact point

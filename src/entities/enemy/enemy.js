@@ -102,7 +102,7 @@ export class Enemy {
             return;
         }
 
-        if (this.status.isStunned() || this.combat.isBlockingMovement()) {
+        if (this.status.isStunned() || this.status.isFrozen() || this.combat.isBlockingMovement()) {
             this.movement.move(null, delta);
         } else {
             let moveVector = null;

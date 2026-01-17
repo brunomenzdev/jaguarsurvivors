@@ -9,6 +9,7 @@ export class HUDManager {
             killCount: document.getElementById('kill-count'),
             waveDisplay: document.getElementById('wave-display'),
             healthFill: document.getElementById('health-bar-fill'),
+            shieldFill: document.getElementById('shield-bar-fill'),
             healthText: document.getElementById('health-text'),
             xpFill: document.getElementById('xp-bar-fill'),
             xpText: document.getElementById('xp-bar-text'),
@@ -45,7 +46,7 @@ export class HUDManager {
         this.hide();
         this.updateTimer(this.scene.mapConfig ? this.scene.mapConfig.duration : 0);
         this.updateWaveInfo(1, 0, 0);
-        this.updateHealth(100, 100);
+        this.updateHealth(100, 100, 0);
         this.updateXP(0, 100, 1);
 
         // Reset UI visibility
@@ -57,7 +58,7 @@ export class HUDManager {
         }
     }
 
-    updateHealth(current, max) {
+    updateHealth(current, max, shield = 0) {
         const percent = Math.max(0, (current / max) * 100);
         if (this.elements.healthFill) {
             this.elements.healthFill.style.width = `${percent}%`;
@@ -71,8 +72,20 @@ export class HUDManager {
                 this.elements.healthFill.style.backgroundColor = '#FF3333';
             }
         }
+
+        // Update shield bar
+        if (this.elements.shieldFill) {
+            const shieldPercent = Math.max(0, (shield / max) * 100);
+            this.elements.shieldFill.style.width = `${shieldPercent}%`;
+            // Position it to overlap from the left (matching health start)
+            // If we want it to 'stack' on top of current health, we'd need more complex logic.
+            // But per request "visually represented as a gray shield layer on the health bar",
+            // overlapping from the left is fine as long as it's distinguishable.
+        }
+
         if (this.elements.healthText) {
-            this.elements.healthText.textContent = `${Math.ceil(current)}/${max}`;
+            const totalText = shield > 0 ? `${Math.ceil(current)} (+${Math.ceil(shield)}) / ${max}` : `${Math.ceil(current)}/${max}`;
+            this.elements.healthText.textContent = totalText;
         }
     }
 

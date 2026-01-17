@@ -150,7 +150,7 @@ export class MineGadget extends GadgetLegendary {
         enemies.forEach(enemy => {
             const dist = Phaser.Math.Distance.Between(mine.x, mine.y, enemy.x, enemy.y);
             if (dist <= radius) {
-                enemy.takeDamage(damage);
+                enemy.takeDamage(damage, false, this.scene.player);
             }
         });
 

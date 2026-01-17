@@ -70,7 +70,7 @@ export class OrbitalBladeGadget extends GadgetLegendary {
         // Check per-enemy cooldown
         if (!this.lastHitTime[enemyId] || now - this.lastHitTime[enemyId] > hitCooldown) {
             const damage = this.config.damage || 50;
-            enemy.takeDamage(damage);
+            enemy.takeDamage(damage, false, this.scene.player);
             this.lastHitTime[enemyId] = now;
         }
     }

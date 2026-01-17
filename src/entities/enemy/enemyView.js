@@ -80,10 +80,14 @@ export class EnemyView {
         this.setFacing(true);
 
         this.animTimer = Math.random() * 1000; // Random offset
+        this.clearStatusTint();
     }
 
     update(delta, isMoving) {
-        if (isMoving) {
+        // Apply status tint
+        this.applyStatusTint();
+
+        if (isMoving && !this.enemy.status.isFrozen()) {
             // Animation logic (swing legs)
             // Speed of swing: 0.015 per ms
             this.animTimer += delta * 0.015;
@@ -98,6 +102,23 @@ export class EnemyView {
             this.leftLeg.setRotation(0);
             this.rightLeg.setRotation(0);
         }
+    }
+
+    applyStatusTint() {
+        const tint = this.enemy.status.getVisualTint();
+        if (tint !== null) {
+            this.sprite.setTint(tint);
+            this.leftLeg.setTint(tint);
+            this.rightLeg.setTint(tint);
+        } else {
+            this.clearStatusTint();
+        }
+    }
+
+    clearStatusTint() {
+        this.sprite.clearTint();
+        this.leftLeg.clearTint();
+        this.rightLeg.clearTint();
     }
 
     setFacing(isRight) {

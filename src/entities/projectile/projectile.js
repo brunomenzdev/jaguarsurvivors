@@ -224,7 +224,7 @@ export class Projectile {
     hit(enemy) {
         if (!this.active) return;
 
-        enemy.takeDamage(this.damage, this.isCritical);
+        enemy.takeDamage(this.damage, this.isCritical, this.scene.player);
 
         if (this.weapon.elementalEffect) {
             enemy.applyEffect(

@@ -47,8 +47,8 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 101%;
+    height: 101%;
     background: rgba(0, 0, 0, 0.92);
     /* Fundo quase sólido */
     display: none;
@@ -849,6 +849,20 @@ h2 {
     background-color: var(--cor-perigo);
     border-radius: 3px;
     transition: width 0.3s ease-out;
+}
+
+#shield-bar-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: rgba(200, 200, 255, 0.6);
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
+    border-radius: 3px;
+    transition: width 0.2s ease-out;
+    pointer-events: none;
+    z-index: 1;
 }
 
 #health-text {

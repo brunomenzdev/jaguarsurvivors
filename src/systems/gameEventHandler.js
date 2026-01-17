@@ -63,6 +63,15 @@ export class GameEventHandler {
                 this.bossFlow?.onBossDamaged(enemy);
             }
 
+            // Life Steal logic
+            const player = this.playerManager?.player;
+            if (attacker === player && player && player.stats.lifeSteal > 0) {
+                const healAmount = amount * player.stats.lifeSteal;
+                if (healAmount > 0) {
+                    player.heal(healAmount);
+                }
+            }
+
             // Route to proc manager
             this.procManager?.onEnemyDamaged(enemy);
         });
@@ -260,9 +269,9 @@ export class GameEventHandler {
                     const enemies = this.scene.enemySpawner?.enemies?.filter(e => e.isActive) || [];
                     enemies.forEach(enemy => {
                         if (enemy.applyEffect) {
-                            enemy.applyEffect('stun', 0, freezeDuration);
+                            enemy.applyEffect('freeze', 0, freezeDuration);
                         } else if (enemy.status) {
-                            enemy.status.apply('stun', { duration: freezeDuration, damage: 0 });
+                            enemy.status.apply('freeze', { duration: freezeDuration, damage: 0 });
                         }
                     });
 

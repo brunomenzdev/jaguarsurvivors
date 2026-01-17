@@ -98,7 +98,7 @@ export class SacredNovaProc extends ProcLegendary {
         enemies.forEach(enemy => {
             const dist = Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y);
             if (dist <= radius) {
-                enemy.takeDamage(damage);
+                enemy.takeDamage(damage, false, this.scene.player);
             }
         });
     }

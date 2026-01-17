@@ -152,7 +152,7 @@ export const weaponsConfig = [
 
         strategyStats: {
             behaviorType: 'THRUST',
-            meleeHitbox: { width: 200, height: 40 },
+            meleeHitbox: { width: 400, height: 40 },
             meleeAnimDuration: 250,
             frontalAttack: true,
             meleeOffsetHitbox: { x: 0, y: 0 }
@@ -455,56 +455,56 @@ export const weaponsConfig = [
     },
 
     // ==================== TRAIL ====================
-    {
-        key: 'weapon_handbag',
-        name: 'Mala de Dinheiro',
-        type: 'trail',
-        image: 'src/assets/images/weapon_handbag.png',
-        slotType: 'secondary',
+    // {
+    //     key: 'weapon_handbag',
+    //     name: 'Mala de Dinheiro',
+    //     type: 'trail',
+    //     image: 'src/assets/images/weapon_handbag.png',
+    //     slotType: 'secondary',
 
-        baseStats: {
-            damage: 10,
-            cooldown: 300,
-            knockback: 10,
-            knockbackDuration: 30
-        },
+    //     baseStats: {
+    //         damage: 10,
+    //         cooldown: 300,
+    //         knockback: 10,
+    //         knockbackDuration: 30
+    //     },
 
-        strategyStats: {
-            behaviorType: 'MINE',
-            lifetimeMs: 800,
-            trailSpeed: 0,
-            trailSize: 14
-        },
+    //     strategyStats: {
+    //         behaviorType: 'MINE',
+    //         lifetimeMs: 800,
+    //         trailSpeed: 0,
+    //         trailSize: 14
+    //     },
 
-        projectileVisuals: {
-            spriteKey: 'proj_bunch_money',
-            scale: 0.5,
-            animations: [
-                { type: 'pulse', scaleMax: 0.5, duration: 2000 }
-            ]
-        },
+    //     projectileVisuals: {
+    //         spriteKey: 'proj_bunch_money',
+    //         scale: 0.5,
+    //         animations: [
+    //             { type: 'pulse', scaleMax: 0.5, duration: 2000 }
+    //         ]
+    //     },
 
-        visual: {
-            scale: 0.45,
-            offset: { x: -25, y: 50 },
-            origin: { x: 0.3, y: 0.5 },
-            gripOrigin: { x: 0.5, y: 1.5 },
-            angleOrigin: 0,
-            angleAttack: 180,
-            rotationSmoothing: 0.2
-        },
+    //     visual: {
+    //         scale: 0.45,
+    //         offset: { x: -25, y: 50 },
+    //         origin: { x: 0.3, y: 0.5 },
+    //         gripOrigin: { x: 0.5, y: 1.5 },
+    //         angleOrigin: 0,
+    //         angleAttack: 180,
+    //         rotationSmoothing: 0.2
+    //     },
 
-        effects: {
-            elemental: 'none',
-            dotDamage: 0,
-            dotDuration: 0
-        },
+    //     effects: {
+    //         elemental: 'none',
+    //         dotDamage: 0,
+    //         dotDuration: 0
+    //     },
 
-        audio: {
-            soundKey: 'weapon_sword',
-            hitSoundKey: 'hit'
-        }
-    },
+    //     audio: {
+    //         soundKey: 'weapon_sword',
+    //         hitSoundKey: 'hit'
+    //     }
+    // },
     {
         key: 'weapon_fire_glass',
         name: 'Rastro de Fogo',

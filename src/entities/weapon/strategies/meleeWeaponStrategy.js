@@ -118,7 +118,7 @@ export class MeleeWeaponStrategy extends WeaponStrategy {
         const isFlipped = facing === -1;
 
         // Thrust forward (relatively)
-        const thrustDistance = 60;
+        const thrustDistance = 220;
 
         // Important: We target the weapon's animOffset property
         this.scene.tweens.add({

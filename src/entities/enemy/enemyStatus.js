@@ -98,7 +98,7 @@ export class EnemyStatus {
         let multiplier = 1.0;
 
         if (this.activeEffects.has('freeze')) {
-            multiplier *= 0.4;
+            multiplier = 0;
         }
 
         if (this.isEnraged) {
@@ -110,6 +110,18 @@ export class EnemyStatus {
 
     isStunned() {
         return this.activeEffects.has('stun');
+    }
+
+    isFrozen() {
+        return this.activeEffects.has('freeze');
+    }
+
+    getVisualTint() {
+        if (this.activeEffects.has('freeze')) return 0x00FFFF;
+        if (this.activeEffects.has('poison')) return 0x00FF00;
+        if (this.activeEffects.has('burn')) return 0xFFAA00;
+        if (this.isStunned()) return 0xFFFF00;
+        return null;
     }
 
     onDeath() {

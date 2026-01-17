@@ -81,7 +81,7 @@ export const equipableItemsConfig = [
         desc: '+5% Life Steal por nível',
         maxLevel: 5,
         levelEffects: [
-            { stat: 'lifeStealStat', operation: 'addFlat', value: 0.5 }
+            { stat: 'lifeStealStat', operation: 'addFlat', value: 0.05 }
         ]
     },
     {
@@ -239,7 +239,7 @@ export const legendaryConfig = [
         cooldown: 3000
     },
 
-    // // ========== PROCS ==========
+    // ========== PROCS ==========
     {
         id: 'legend_chain',
         name: 'Cadeia de Raios',
@@ -261,11 +261,11 @@ export const legendaryConfig = [
         name: 'Nova Gélida',
         type: 'proc',
         category: 'Proc',
-        description: '20% de chance de congelar inimigos em área ao acertar.',
+        description: '50% de chance de congelar inimigos em área ao acertar.',
         icon: '❄️',
         rarity: 'legendary',
         sprite: 'legend_ice',
-        chance: 0.20,
+        chance: 0.50,
         damage: 20,
         radius: 250,
         freezeDuration: 4000,
@@ -311,7 +311,7 @@ export const legendaryConfig = [
         rarity: 'legendary',
         sprite: 'legend_espinhos',
         chance: 0.25,
-        damageMultiplier: 2.0,
+        damageMultiplier: 3.0,
         radius: 180,
         color: 0x8B4513,
         cooldown: 1000

@@ -291,6 +291,64 @@ export const bossPhaseConfig = {
             }
         ]
     },
+    // ==================== BOSS: FUNKEIRO ====================
+    boss_funkeiro: {
+        phases: [
+            {
+                id: 'phase1_drive_by',
+                name: 'Drive-By',
+                trigger: { type: 'immediate' },
+                behaviors: [
+                    {
+                        key: 'charge',
+                        duration: 3000,
+                        params: {
+                            chargeUpTime: 200,
+                            chargeSpeed: 4.5,
+                            chargeDuration: 300,
+                            cooldownTime: 400,
+                            idleSpeed: 0.1,
+                            lockDirection: true
+                        }
+                    },
+                    {
+                        key: 'zigzag',
+                        duration: 3000,
+                        params: {
+                            baseSpeed: 1.2,
+                            amplitude: 1000,
+                            frequency: 1.5
+                        }
+                    }
+                ],
+                loop: true
+            }
+        ]
+    },
+    // ==================== BOSS: MILICIA ====================
+    boss_milicia: {
+        phases: [
+            {
+                id: 'phase1_drive_by',
+                name: 'Drive-By',
+                trigger: { type: 'immediate' },
+                behaviors: [
+                    {
+                        key: 'rhythmic_area',
+                        params: {
+                            pulseInterval: 1000,
+                            orbitDuration: 1500,
+                            dashDuration: 800,
+                            dashSpeed: 3.0,
+                            orbitSpeed: 1.0,
+                            orbitDirection: 1
+                        }
+                    }
+                ],
+                loop: true
+            }
+        ]
+    },
     // ==================== DEFAULT BOSS PHASES ====================
     // Used for bosses without specific phase configuration
     default: {

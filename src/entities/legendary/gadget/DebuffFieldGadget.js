@@ -112,7 +112,7 @@ export class DebuffFieldGadget extends GadgetLegendary {
         this.damageTimer += delta;
         if (this.damageTimer >= 1000) { // Every second
             currentlyAffected.forEach(enemy => {
-                enemy.takeDamage(damagePerSecond);
+                enemy.takeDamage(damagePerSecond, false, this.scene.player);
             });
             this.damageTimer = 0;
         }

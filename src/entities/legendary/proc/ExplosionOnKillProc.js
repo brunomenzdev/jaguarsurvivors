@@ -95,7 +95,7 @@ export class ExplosionOnKillProc extends ProcLegendary {
             const dist = Phaser.Math.Distance.Between(x, y, enemy.x, enemy.y);
 
             if (dist <= radius) {
-                enemy.takeDamage(damage);
+                enemy.takeDamage(damage, false, this.scene.player);
 
                 // Push back effect
                 const angle = Phaser.Math.Angle.Between(x, y, enemy.x, enemy.y);

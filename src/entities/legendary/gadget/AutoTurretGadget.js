@@ -97,7 +97,7 @@ export class AutoTurretGadget extends GadgetLegendary {
             (projectile, enemySprite) => {
                 const enemy = enemySprite.getData('parent');
                 if (enemy && enemy.isActive) {
-                    enemy.takeDamage(damage);
+                    enemy.takeDamage(damage, false, this.scene.player);
                     projectile.destroy();
                 }
             }

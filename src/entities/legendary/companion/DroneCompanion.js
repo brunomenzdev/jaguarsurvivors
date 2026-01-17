@@ -30,9 +30,6 @@ export class DroneCompanion extends CompanionLegendary {
 
         this.sprite.setScale(this.config.scale || 0.6);
         this.sprite.setDepth(player.depth + 1);
-
-        // Add glow effect
-        this.glowGraphics = this.scene.add.graphics();
     }
 
     updatePosition(delta) {
@@ -49,17 +46,6 @@ export class DroneCompanion extends CompanionLegendary {
 
         this.sprite.x = Phaser.Math.Linear(this.sprite.x, targetX, 0.1);
         this.sprite.y = Phaser.Math.Linear(this.sprite.y, targetY, 0.1);
-
-        // Update glow position
-        this.updateGlow();
-    }
-
-    updateGlow() {
-        if (!this.glowGraphics) return;
-
-        this.glowGraphics.clear();
-        this.glowGraphics.fillStyle(0x00FFFF, 0.2);
-        this.glowGraphics.fillCircle(this.sprite.x, this.sprite.y + 5, 15);
     }
 
     updateBehavior(delta) {
@@ -198,12 +184,6 @@ export class DroneCompanion extends CompanionLegendary {
             if (proj.active) proj.destroy();
         });
         this.projectiles = [];
-
-        // Clean up glow
-        if (this.glowGraphics) {
-            this.glowGraphics.destroy();
-            this.glowGraphics = null;
-        }
 
         super.destroy();
     }

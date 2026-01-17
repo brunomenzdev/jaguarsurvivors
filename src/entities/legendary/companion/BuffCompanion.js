@@ -103,13 +103,17 @@ export class BuffCompanion extends CompanionLegendary {
         this.buffDurationTimer = 0;
 
         const attackSpeedBonus = this.config.attackSpeedBonus || 0.3;
+        const moveSpeedBonus = this.config.moveSpeedBonus || 0.3; // Default 30% speed boost
         const shieldAmount = this.config.shieldAmount || 50;
 
         // Apply attack speed buff
         player.stats.attackSpeedStat.addMultiplier(attackSpeedBonus);
 
-        // Apply shield (temporary health)
-        player.health = Math.min(player.health + shieldAmount, player.stats.maxHealth + shieldAmount);
+        // Apply move speed buff
+        player.stats.moveSpeedStat.addMultiplier(moveSpeedBonus);
+
+        // Apply shield (temporary health layer)
+        player.shield += shieldAmount;
 
         // Visual feedback on companion
         if (this.aura) {
@@ -139,6 +143,7 @@ export class BuffCompanion extends CompanionLegendary {
 
         console.debug('Buff Companion: Activated buff', {
             attackSpeed: attackSpeedBonus,
+            moveSpeed: moveSpeedBonus,
             shield: shieldAmount
         });
     }
@@ -161,9 +166,16 @@ export class BuffCompanion extends CompanionLegendary {
         this.buffCooldownTimer = 0;
 
         const attackSpeedBonus = this.config.attackSpeedBonus || 0.3;
+        const moveSpeedBonus = this.config.moveSpeedBonus || 0.3;
 
         // Remove attack speed buff
         player.stats.attackSpeedStat.addMultiplier(-attackSpeedBonus);
+
+        // Remove move speed buff
+        player.stats.moveSpeedStat.addMultiplier(-moveSpeedBonus);
+
+        // Clear remaining shield from this source (for simplicity, we clear all shield)
+        player.shield = 0;
 
         // Hide aura
         if (this.aura) {

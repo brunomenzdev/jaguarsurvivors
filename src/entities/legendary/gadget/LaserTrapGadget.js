@@ -96,7 +96,7 @@ export class LaserTrapGadget extends GadgetLegendary {
                 const enemyId = enemy.container?.id || enemy.id || 'unknown';
 
                 if (!this.lastHitTime[enemyId] || now - this.lastHitTime[enemyId] > hitCooldown) {
-                    enemy.takeDamage(damage);
+                    enemy.takeDamage(damage, false, this.scene.player);
                     this.lastHitTime[enemyId] = now;
                 }
             }

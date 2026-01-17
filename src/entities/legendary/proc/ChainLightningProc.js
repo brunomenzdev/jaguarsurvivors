@@ -60,7 +60,7 @@ export class ChainLightningProc extends ProcLegendary {
 
             if (nearest) {
                 // Deal damage
-                nearest.takeDamage(damage);
+                nearest.takeDamage(damage, false, this.scene.player);
 
                 chainPositions.push({ x: nearest.x, y: nearest.y });
 

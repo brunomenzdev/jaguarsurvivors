@@ -81,14 +81,13 @@ export const mapsConfig = [
             interval: 5000,
             buffPercent: 0.15
         },
-        boss: 'boss_milicia',
+        boss: 'boss_bandido',
         duration: 600,
         events: [
             { time: 540, type: 'boss_spawn', key: 'boss_bandido_moto' },
             { time: 420, type: 'boss_spawn', key: 'boss_funkeiro' },
             { time: 300, type: 'boss_spawn', key: 'boss_milicia' },
-            { time: 180, type: 'boss_spawn', key: 'boss_bandido' },
-            { time: 60, type: 'final_hour' }
+            { time: 180, type: 'boss_spawn', key: 'boss_bandido' }
         ]
     },
     {

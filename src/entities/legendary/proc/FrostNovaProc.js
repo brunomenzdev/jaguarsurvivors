@@ -92,12 +92,14 @@ export class FrostNovaProc extends ProcLegendary {
 
             if (dist <= radius) {
                 // Deal damage
-                enemy.takeDamage(damage);
+                enemy.takeDamage(damage, false, this.scene.player);
 
-                // Apply freeze (slow)
-                this.freezeEnemy(enemy, freezeDuration);
+                // Apply freeze status using the standardized system
+                if (enemy.applyEffect) {
+                    enemy.applyEffect('freeze', 0, freezeDuration);
+                }
 
-                // Individual freeze VFX
+                // Individual freeze VFX (on-hit flash)
                 this.createFreezeEffect(enemy.x, enemy.y);
             }
         });
@@ -149,78 +151,6 @@ export class FrostNovaProc extends ProcLegendary {
             alpha: 0,
             duration: 300,
             onComplete: () => freezeGfx.destroy()
-        });
-    }
-
-    freezeEnemy(enemy, duration) {
-        if (!enemy.enemy) return;
-
-        const originalSpeed = enemy.enemy.speed;
-
-        // Stop the enemy
-        enemy.enemy.speed = 0;
-
-        // Visual tint
-        if (enemy.sprite) {
-            enemy.sprite.setTint(0x66AAFF);
-        }
-
-        // Add freeze overlay crystals
-        const iceOverlay = this.scene.add.graphics();
-        this.drawIceOverlay(iceOverlay, enemy);
-
-        // Timer for persistent ice particles
-        const iceTimer = this.scene.time.addEvent({
-            delay: 200,
-            callback: () => {
-                if (enemy.isActive) {
-                    this.createIceDrip(enemy.x, enemy.y);
-                }
-            },
-            repeat: Math.floor(duration / 200)
-        });
-
-        // Restore after duration
-        this.scene.time.delayedCall(duration, () => {
-            if (iceOverlay) iceOverlay.destroy();
-            iceTimer.remove();
-
-            if (enemy.isActive && enemy.enemy) {
-                enemy.enemy.speed = originalSpeed;
-
-                if (enemy.sprite) {
-                    enemy.sprite.clearTint();
-                }
-            }
-        });
-    }
-
-    drawIceOverlay(graphics, enemy) {
-        graphics.clear();
-        graphics.fillStyle(0xAADDFF, 0.4);
-
-        const bounds = enemy.sprite ? enemy.sprite.getBounds() : { x: enemy.x - 20, y: enemy.y - 20, width: 40, height: 40 };
-
-        // Draw some "ice blocks" over the enemy
-        for (let i = 0; i < 3; i++) {
-            const ix = enemy.x + Phaser.Math.Between(-15, 15);
-            const iy = enemy.y + Phaser.Math.Between(-15, 15);
-            const size = Phaser.Math.Between(10, 20);
-            graphics.fillRoundedRect(ix - size / 2, iy - size / 2, size, size, 4);
-        }
-    }
-
-    createIceDrip(x, y) {
-        const p = this.scene.add.graphics();
-        p.fillStyle(0xCCEEFF, 0.8);
-        p.fillCircle(x + Phaser.Math.Between(-15, 15), y + Phaser.Math.Between(-10, 10), 3);
-
-        this.scene.tweens.add({
-            targets: p,
-            y: '+=15',
-            alpha: 0,
-            duration: 600,
-            onComplete: () => p.destroy()
         });
     }
 }

@@ -75,7 +75,7 @@ export class ThornsBurstProc extends ProcLegendary {
             );
 
             if (dist <= radius) {
-                enemy.takeDamage(reflectDamage);
+                enemy.takeDamage(reflectDamage, false, this.scene.player);
             }
         });
 

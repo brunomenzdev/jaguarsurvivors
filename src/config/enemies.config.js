@@ -43,8 +43,7 @@ export const enemiesConfig = [
                 amplitude: 500,
                 frequency: 3.0
             }
-        },
-        scalingProfile: 'swarm'
+        }
     },
     {
         key: 'enemy_favela',
@@ -154,8 +153,7 @@ export const enemiesConfig = [
                 speed: 0.8,
                 trackingSpeed: 0.4
             }
-        },
-        scalingProfile: 'aggressive'
+        }
     },
     {
         key: 'enemy_bolsa_familia',
@@ -190,8 +188,7 @@ export const enemiesConfig = [
                 speed: 0.8,
                 trackingSpeed: 0.4
             }
-        },
-        scalingProfile: 'aggressive'
+        }
     },
     {
         key: 'enemy_elite_bandido',
@@ -233,8 +230,7 @@ export const enemiesConfig = [
                 idleSpeed: 0.3,
                 lockDirection: true
             }
-        },
-        scalingProfile: 'ranged'
+        }
     },
     {
         key: 'enemy_bandido_moto',
@@ -276,8 +272,7 @@ export const enemiesConfig = [
                 idleSpeed: 0.3,
                 lockDirection: true
             }
-        },
-        scalingProfile: 'aggressive'
+        }
     },
     {
         key: 'enemy_milicia',
@@ -431,10 +426,10 @@ export const enemiesConfig = [
             behaviorKey: 'charge',
             behaviorParams: {
                 chargeUpTime: 1000,
-                chargeSpeed: 2.5,
-                chargeDuration: 600,
+                chargeSpeed: 3.5,
+                chargeDuration: 1000,
                 cooldownTime: 2000,
-                idleSpeed: 0.4
+                idleSpeed: 0.2
             }
         }
     },
@@ -470,7 +465,7 @@ export const enemiesConfig = [
         ai: {
             behaviorKey: 'burst_pursuit',
             behaviorParams: {
-                pursuitSpeed: 1.6,
+                pursuitSpeed: 1.2,
                 pursuitDuration: 1000,
                 pauseDuration: 500,
                 pauseSpeed: 0.1
@@ -507,13 +502,12 @@ export const enemiesConfig = [
         ai: {
             behaviorKey: 'burst_pursuit',
             behaviorParams: {
-                pursuitSpeed: 1.5,
+                pursuitSpeed: 1.2,
                 pursuitDuration: 1000,
                 pauseDuration: 800,
                 pauseSpeed: 0
             }
-        },
-        scalingProfile: 'swarm'
+        }
     },
     {
         key: 'enemy_cria',
@@ -868,8 +862,7 @@ export const enemiesConfig = [
                 idleSpeed: 0.3,
                 lockDirection: true
             }
-        },
-        scalingProfile: 'aggressive'
+        }
     },
     {
         key: 'enemy_boss_bandido',
@@ -877,8 +870,8 @@ export const enemiesConfig = [
         enemy_legs_image: 'src/assets/images/enemy_favela_legs.png',
         speed: 50,
         size: 64,
-        damage: 20,
-        health: 1000,
+        damage: 15,
+        health: 800,
         canShoot: true,
         projectileSpeed: 400,
         shootInterval: 100,
@@ -905,8 +898,8 @@ export const enemiesConfig = [
         enemy_legs_image: 'src/assets/images/enemy_milicia_legs.png',
         speed: 120,
         size: 64,
-        damage: 25,
-        health: 1000,
+        damage: 20,
+        health: 700,
         canShoot: false,
         projectileSpeed: 0,
         shootInterval: 0,
@@ -934,8 +927,8 @@ export const enemiesConfig = [
         enemy_legs_image: 'src/assets/images/enemy_funkeiro_legs.png',
         speed: 150,
         size: 64,
-        damage: 20,
-        health: 1000,
+        damage: 15,
+        health: 600,
         canShoot: false,
         xpValue: 150,
         bodyScale: 0.7,
@@ -943,14 +936,11 @@ export const enemiesConfig = [
         legOffset: { x: 0, y: 90 },
         hitbox: { width: 150, height: 190 },
         ai: {
-            behaviorKey: 'rhythmic_area',
+            behaviorKey: 'zigzag',
             behaviorParams: {
-                pulseInterval: 2800,
-                orbitDuration: 2500,
-                dashDuration: 400,
-                dashSpeed: 4.0,
-                orbitSpeed: 1.2,
-                orbitDirection: 1
+                baseSpeed: 1.2,
+                amplitude: 1000,
+                frequency: 1.5
             }
         }
     },
@@ -991,8 +981,7 @@ export const enemiesConfig = [
                 orbitDirection: 1,
                 distanceTolerance: 30
             }
-        },
-        scalingProfile: 'ranged'
+        }
     },
     {
         key: 'enemy_bolsonarista2',
@@ -1438,7 +1427,7 @@ export const bossesConfig = [
         name: 'Chefe do Tráfico',
         baseEnemy: 'enemy_boss_bandido',
         healthMultiplier: 1.5,
-        damageMultiplier: 1.5,
+        damageMultiplier: 1.2,
         speedMultiplier: 1.0,
         sizeMultiplier: 1.0,
         xpDropChance: 1.0,
@@ -1455,8 +1444,8 @@ export const bossesConfig = [
         name: 'Comandante da Milícia',
         baseEnemy: 'enemy_boss_milicia',
         healthMultiplier: 1.5,
-        damageMultiplier: 2,
-        speedMultiplier: 1.1,
+        damageMultiplier: 1.2,
+        speedMultiplier: 1.0,
         sizeMultiplier: 1.0,
         xpDropChance: 1.0,
         xpValue: 600,
@@ -1472,8 +1461,8 @@ export const bossesConfig = [
         name: 'MC Latrocínio',
         baseEnemy: 'enemy_boss_funkeiro',
         healthMultiplier: 1.5,
-        damageMultiplier: 1.5,
-        speedMultiplier: 1.2,
+        damageMultiplier: 1.2,
+        speedMultiplier: 1.0,
         sizeMultiplier: 1.2,
         xpDropChance: 1.0,
         xpValue: 700,
@@ -1487,9 +1476,9 @@ export const bossesConfig = [
     {
         key: 'boss_teste',
         name: 'MC Latrocínio',
-        baseEnemy: 'enemy_boss_funkeiro',
+        baseEnemy: 'enemy_boss_milicia',
         healthMultiplier: 0.1,
-        damageMultiplier: 1.5,
+        damageMultiplier: 1.2,
         speedMultiplier: 1.2,
         sizeMultiplier: 1.2,
         xpDropChance: 1.0,

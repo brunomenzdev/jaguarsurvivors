@@ -16,6 +16,7 @@ export class Player {
 
 
         this._health = this.stats.maxHealth;
+        this._shield = 0;
         this.isInvulnerable = false;
         this.invTimer = 0;
         this.regenTimer = 0;
@@ -61,6 +62,25 @@ export class Player {
             return; // Damage fully absorbed
         }
 
+        // Check for amount-based shield (absorbs damage value)
+        if (this._shield > 0) {
+            const absorbed = Math.min(this._shield, amount);
+            this._shield -= absorbed;
+            amount -= absorbed;
+
+            console.debug('[Player] Shield absorbed damage:', absorbed, 'Remaining shield:', this._shield);
+
+            // Emit health change even if only shield changed to update UI
+            this.scene.events.emit('player-health-changed', this._health, this.stats.maxHealth, this._shield);
+
+            if (amount <= 0) {
+                // Damage fully absorbed by shield
+                this.isInvulnerable = true;
+                this.invTimer = 200;
+                return;
+            }
+        }
+
         if (Math.random() < this.stats.evasion) {
             console.debug("EVENT_EMITTED", { eventName: 'player-evaded', payload: null });
             this.scene.events.emit('player-evaded');
@@ -77,8 +97,8 @@ export class Player {
 
         console.debug("EVENT_EMITTED", { eventName: 'player-damaged', payload: amount });
         this.scene.events.emit('player-damaged', amount);
-        console.debug("EVENT_EMITTED", { eventName: 'player-health-changed', payload: { health: this._health, maxHealth: this.stats.maxHealth } });
-        this.scene.events.emit('player-health-changed', this._health, this.stats.maxHealth);
+        console.debug("EVENT_EMITTED", { eventName: 'player-health-changed', payload: { health: this._health, maxHealth: this.stats.maxHealth, shield: this._shield } });
+        this.scene.events.emit('player-health-changed', this._health, this.stats.maxHealth, this._shield);
 
         if (this._health <= 0) {
             console.debug("EVENT_EMITTED", { eventName: 'player-died', payload: null });
@@ -89,8 +109,8 @@ export class Player {
     heal(amount) {
         if (amount <= 0 || this._health >= this.stats.maxHealth) return;
         this._health = Math.min(this._health + amount, this.stats.maxHealth);
-        console.debug("EVENT_EMITTED", { eventName: 'player-health-changed', payload: { health: this._health, maxHealth: this.stats.maxHealth } });
-        this.scene.events.emit('player-health-changed', this._health, this.stats.maxHealth);
+        console.debug("EVENT_EMITTED", { eventName: 'player-health-changed', payload: { health: this._health, maxHealth: this.stats.maxHealth, shield: this._shield } });
+        this.scene.events.emit('player-health-changed', this._health, this.stats.maxHealth, this._shield);
     }
 
     _updateInvulnerability(delta) {
@@ -120,8 +140,15 @@ export class Player {
     get health() { return this._health; }
     set health(value) {
         this._health = value;
-        console.debug("EVENT_EMITTED", { eventName: 'player-health-changed', payload: { health: this._health, maxHealth: this.stats.maxHealth } });
-        this.scene.events.emit('player-health-changed', this._health, this.stats.maxHealth);
+        console.debug("EVENT_EMITTED", { eventName: 'player-health-changed', payload: { health: this._health, maxHealth: this.stats.maxHealth, shield: this._shield } });
+        this.scene.events.emit('player-health-changed', this._health, this.stats.maxHealth, this._shield);
+    }
+
+    get shield() { return this._shield; }
+    set shield(value) {
+        this._shield = Math.max(0, value);
+        console.debug("EVENT_EMITTED", { eventName: 'player-health-changed', payload: { health: this._health, maxHealth: this.stats.maxHealth, shield: this._shield } });
+        this.scene.events.emit('player-health-changed', this._health, this.stats.maxHealth, this._shield);
     }
     get weaponSprite() { return this.view.weapon; }
     get facingRight() { return this.movement.facingRight !== false; } // Default to true
