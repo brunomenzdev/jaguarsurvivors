@@ -11,8 +11,32 @@ export class AudioManager {
         this.bgm = null;             // Reference to current background music
         this.bgmKey = null;          // Key of currently playing music
 
+        // Initial volume levels from SaveManager
+        this.updateVolumesFromSave();
+
         // Initialize
         this.init();
+    }
+
+    updateVolumesFromSave() {
+        const sm = this.getSaveManager();
+        if (sm && sm.data.settings) {
+            this.masterVolume = sm.data.settings.volume ?? 1.0;
+            this.bgmVolumeFactor = sm.data.settings.bgmVolume ?? 0.8;
+            this.sfxVolumeFactor = sm.data.settings.sfxVolume ?? 0.8;
+        } else {
+            this.masterVolume = 1.0;
+            this.bgmVolumeFactor = 0.8;
+            this.sfxVolumeFactor = 0.8;
+        }
+    }
+
+    getSaveManager() {
+        // Safe access to SaveManager
+        if (window.GameEvents && window.GameEvents.saveManager) {
+            return window.GameEvents.saveManager;
+        }
+        return null;
     }
 
     init() {
@@ -152,12 +176,6 @@ export class AudioManager {
         }
 
         this.lastPlayed.set(key, now); // Update happens on play?
-        // Actually, if we return false here, we MIGHT play. 
-        // But if we fail channel check later, we updated throttle for nothing?
-        // Better to update timestamp only on ACTUAL play.
-        // HOWEVER, to prevent logic spam, we can treat "attempt" as activity.
-        // Let's reset the map entry only if we actually play.
-        // Refactoring: move set() to playContextual.
         return false;
     }
 
@@ -165,8 +183,6 @@ export class AudioManager {
         if (!key) return false;
         if (this.scene.cache.audio.exists(key)) return true;
 
-        // Log once per session ideally, but debug is fine
-        // console.debug(`[AudioManager] Missing Asset: ${key}`);
         return false;
     }
 
@@ -195,8 +211,6 @@ export class AudioManager {
         if (candidate && priority > lowestPriority) {
             // Cut off the weak sound
             candidate.stop();
-            // candidate.destroy() happens via complete/stop event listeners usually?
-            // Phaser sounds don't auto-destroy on stop unless configured?
             return true;
         }
 
@@ -221,8 +235,9 @@ export class AudioManager {
 
     _playInternal(key, config = {}, priority = 50) {
         try {
-            // Ensure volume is clamped
-            const volume = Phaser.Math.Clamp(config.volume !== undefined ? config.volume : 1.0, 0, 2);
+            // Ensure volume is clamped and multi-plied by master and sfx factors
+            const baseVol = config.volume !== undefined ? config.volume : 1.0;
+            const volume = Phaser.Math.Clamp(baseVol * this.masterVolume * this.sfxVolumeFactor, 0, 2);
 
             const soundConfig = {
                 ...config,
@@ -286,9 +301,10 @@ export class AudioManager {
         // 4. Otherwise, play it new
         this.stopBGM();
 
+        const baseBGMVol = config.volume !== undefined ? config.volume : 0.35;
         const bgmConfig = {
             loop: true,
-            volume: 0.35, // Lower than standard SFX
+            volume: Phaser.Math.Clamp(baseBGMVol * this.masterVolume * this.bgmVolumeFactor, 0, 1),
             ...config
         };
 
@@ -300,6 +316,29 @@ export class AudioManager {
 
         this.bgm.play();
         console.debug(`[AudioManager] Playing BGM: ${key}`);
+    }
+
+    setMasterVolume(vol) {
+        this.masterVolume = vol;
+        this.refreshActiveVolumes();
+    }
+
+    setBGMVolume(vol) {
+        this.bgmVolumeFactor = vol;
+        this.refreshActiveVolumes();
+    }
+
+    setSFXVolume(vol) {
+        this.sfxVolumeFactor = vol;
+        this.refreshActiveVolumes();
+    }
+
+    refreshActiveVolumes() {
+        // Update current BGM if playing
+        if (this.bgm) {
+            const baseBGMVol = 0.35; // Default reference
+            this.bgm.setVolume(Phaser.Math.Clamp(baseBGMVol * this.masterVolume * this.bgmVolumeFactor, 0, 1));
+        }
     }
 
     stopBGM() {

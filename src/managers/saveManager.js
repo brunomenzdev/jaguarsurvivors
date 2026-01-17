@@ -16,6 +16,8 @@ export class SaveManager {
             },
             settings: {
                 volume: 1.0,
+                bgmVolume: 0.8,
+                sfxVolume: 0.8,
                 screenShake: true,
                 fullscreen: false,
                 resolution: '1280x720'
@@ -105,6 +107,16 @@ export class SaveManager {
     // == SETTINGS ==
     setVolume(vol) {
         this.data.settings.volume = Math.max(0, Math.min(1, vol));
+        this.save();
+    }
+
+    setBGMVolume(vol) {
+        this.data.settings.bgmVolume = Math.max(0, Math.min(1, vol));
+        this.save();
+    }
+
+    setSFXVolume(vol) {
+        this.data.settings.sfxVolume = Math.max(0, Math.min(1, vol));
         this.save();
     }
 

@@ -96,7 +96,17 @@
                 <div class="setting-row">
                     <label>Volume Principal</label>
                     <input type="range" id="setting-volume" min="0" max="100" value="100"
-                        onchange="GameEvents.setVolume(this.value)">
+                        oninput="GameEvents.setVolume(this.value)">
+                </div>
+                <div class="setting-row">
+                    <label>Volume Música (BGM)</label>
+                    <input type="range" id="setting-volume-bgm" min="0" max="100" value="80"
+                        oninput="GameEvents.setBGMVolume(this.value)">
+                </div>
+                <div class="setting-row">
+                    <label>Volume Efeitos (SFX)</label>
+                    <input type="range" id="setting-volume-sfx" min="0" max="100" value="80"
+                        oninput="GameEvents.setSFXVolume(this.value)">
                 </div>
                 <div class="setting-row">
                     <label>Tremor de Tela</label>

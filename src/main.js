@@ -197,7 +197,9 @@ export const GameEvents = {
     // == SETTINGS LOGIC ==
     updateSettingsUI: () => {
         const s = GameEvents.saveManager.data.settings;
-        document.getElementById('setting-volume').value = s.volume * 100;
+        document.getElementById('setting-volume').value = (s.volume ?? 1.0) * 100;
+        document.getElementById('setting-volume-bgm').value = (s.bgmVolume ?? 0.8) * 100;
+        document.getElementById('setting-volume-sfx').value = (s.sfxVolume ?? 0.8) * 100;
         document.getElementById('setting-shake').checked = s.screenShake;
         document.getElementById('setting-fullscreen').checked = !!s.fullscreen;
         document.getElementById('setting-resolution').value = s.resolution || 'auto';
@@ -207,12 +209,38 @@ export const GameEvents = {
         const vol = val / 100;
         GameEvents.saveManager.setVolume(vol);
         const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
-        if (bootScene) bootScene.events.emit('ui-click');
-        // Apply instantly if GameScene is running or audio manager exists
-        const scene = GameEvents.gameInstance.scene.getScene('BootScene');
-        if (scene && scene.audio) {
-            // Updating global volume logic would go here
-            // scene.audio.setGlobalVolume(vol);
+        if (bootScene && bootScene.audio) {
+            bootScene.audio.setMasterVolume(vol);
+        }
+        const gameScene = GameEvents.gameInstance.scene.getScene('GameScene');
+        if (gameScene && gameScene.audio) {
+            gameScene.audio.setMasterVolume(vol);
+        }
+    },
+
+    setBGMVolume: (val) => {
+        const vol = val / 100;
+        GameEvents.saveManager.setBGMVolume(vol);
+        const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
+        if (bootScene && bootScene.audio) {
+            bootScene.audio.setBGMVolume(vol);
+        }
+        const gameScene = GameEvents.gameInstance.scene.getScene('GameScene');
+        if (gameScene && gameScene.audio) {
+            gameScene.audio.setBGMVolume(vol);
+        }
+    },
+
+    setSFXVolume: (val) => {
+        const vol = val / 100;
+        GameEvents.saveManager.setSFXVolume(vol);
+        const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
+        if (bootScene && bootScene.audio) {
+            bootScene.audio.setSFXVolume(vol);
+        }
+        const gameScene = GameEvents.gameInstance.scene.getScene('GameScene');
+        if (gameScene && gameScene.audio) {
+            gameScene.audio.setSFXVolume(vol);
         }
     },
 
