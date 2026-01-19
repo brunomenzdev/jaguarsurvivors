@@ -23,7 +23,7 @@ export const equipableItemsConfig = [
         name: 'Luva do Brasil',
         spriteKey: 'item_luva',
         image: 'src/assets/images/item_luva.png',
-        desc: '+30% Repulsão por nível',
+        desc: '+30% Empurrão por nível',
         maxLevel: 5,
         levelEffects: [
             { stat: 'knockbackStat', operation: 'addMultiplier', value: 0.30 }
