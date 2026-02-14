@@ -1,18 +1,32 @@
-#game-wrapper {
+#viewport {
     position: relative;
-    width: 1280px;
-    height: 720px;
-    box-shadow: 0 0 50px rgba(255, 215, 0, 0.2);
-    /* Brilho amarelo suave */
-    background-color: var(--cor-secundaria);
-    border: 2px solid #333;
-    transform-origin: center center;
-    flex-shrink: 0;
-}
-
-#game-container {
     width: 100%;
     height: 100%;
+    overflow: hidden;
+}
+
+#game-wrapper {
+    position: absolute;
+    width: 1280px;
+    height: 720px;
+    transform-origin: top left;
+}
+
+#game-container canvas {
+    display: block;
+}
+
+#hud-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1280px;
+    height: 720px;
+    pointer-events: none;
+}
+
+#hud-container>* {
+    pointer-events: auto;
 }
 
 /* --- UI COMUM --- */

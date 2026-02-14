@@ -76,7 +76,7 @@ export const playersConfig = [
         bodyOffset: -10,
         bodyWidth: 60,
         bodyHeight: 130,
-        legs: { x: -6, y: 16, originX: 0.4, originY: -0.85 },
+        legs: { x: -6, y: 6, originX: 0.4, originY: -0.85 },
         hand: { x: 22, y: -5 },
         animation: {
             walkSwingSpeed: 0.015,
@@ -91,10 +91,21 @@ export const playersConfig = [
         },
 
         stats: {
-            moveSpeed: 0.8,
-            knockbackResistance: 1.2,
+            moveSpeed: 1.0,
             maxHealth: 1.0,
-            thorns: 0.1
+            damage: 1.0,
+            attackSpeed: 1.0,
+            area: 1.0,
+            knockbackResistance: 1.0,
+            elementalDamage: 1.0,
+            critChance: 0.05,
+            criticalDamage: 1.5,
+            evasion: 0.0,
+            thorns: 0.0,
+            knockback: 1.0,
+            hpRegen: 0.0,
+            lifeSteal: 0.0,
+            dashSpeed: 1.2
         },
         traits: [
             { text: 'TANQUE', good: true },
@@ -119,7 +130,7 @@ export const playersConfig = [
         bodyOffset: -10,
         bodyWidth: 60,
         bodyHeight: 130,
-        legs: { x: -6, y: 16, originX: 0.5, originY: -0.9 },
+        legs: { x: -6, y: 6, originX: 0.5, originY: -0.9 },
         hand: { x: 22, y: -5 },
         animation: {
             walkSwingSpeed: 0.015,
@@ -134,11 +145,21 @@ export const playersConfig = [
         },
 
         stats: {
-            moveSpeed: 1.3,
-            attackSpeed: 1.3,
+            moveSpeed: 1.0,
             maxHealth: 1.0,
-            critChance: 0.2,
-            criticalDamage: 2.0
+            damage: 1.0,
+            attackSpeed: 1.0,
+            area: 1.0,
+            knockbackResistance: 1.0,
+            elementalDamage: 1.0,
+            critChance: 0.05,
+            criticalDamage: 1.5,
+            evasion: 0.0,
+            thorns: 0.0,
+            knockback: 1.0,
+            hpRegen: 0.0,
+            lifeSteal: 0.0,
+            dashSpeed: 1.2
         },
         traits: [
             { text: 'VELOZ', good: true },
@@ -158,12 +179,12 @@ export const playersConfig = [
         size: 40,
         health: 60,
         invulnerableTime: 500,
-        bodyScale: 0.3,
-        legsScale: 0.3,
+        bodyScale: 0.2,
+        legsScale: 0.4,
         bodyOffset: -10,
         bodyWidth: 60,
         bodyHeight: 130,
-        legs: { x: 0, y: 16, originX: 0.4, originY: -0.6 },
+        legs: { x: -2, y: 16, originX: 0.5, originY: -1.3 },
         hand: { x: 25, y: -8 },
         animation: {
             walkSwingSpeed: 0.015,
@@ -178,10 +199,21 @@ export const playersConfig = [
         },
 
         stats: {
-            damage: 1.5,
-            projectileSpeed: 1.2,
-            evasion: 0.1,
-            dashSpeed: 1.5
+            moveSpeed: 1.0,
+            maxHealth: 1.0,
+            damage: 1.0,
+            attackSpeed: 1.0,
+            area: 1.0,
+            knockbackResistance: 1.0,
+            elementalDamage: 1.0,
+            critChance: 0.05,
+            criticalDamage: 1.5,
+            evasion: 0.0,
+            thorns: 0.0,
+            knockback: 1.0,
+            hpRegen: 0.0,
+            lifeSteal: 0.0,
+            dashSpeed: 1.2
         },
         traits: [
             { text: 'DANO ALTO', good: true },
@@ -201,12 +233,12 @@ export const playersConfig = [
         size: 40,
         health: 75,
         invulnerableTime: 500,
-        bodyScale: 0.3,
-        legsScale: 0.3,
+        bodyScale: 0.4,
+        legsScale: 0.4,
         bodyOffset: -10,
         bodyWidth: 60,
         bodyHeight: 130,
-        legs: { x: -6, y: 16, originX: 0.2, originY: -1.3 },
+        legs: { x: -6, y: 16, originX: 0.2, originY: -1.1 },
         hand: { x: 22, y: -5 },
         animation: {
             walkSwingSpeed: 0.015,
@@ -221,9 +253,21 @@ export const playersConfig = [
         },
 
         stats: {
-            elementalDamage: 1.4,
-            area: 1.2,
-            critChance: 0.1
+            moveSpeed: 1.0,
+            maxHealth: 1.0,
+            damage: 1.0,
+            attackSpeed: 1.0,
+            area: 1.0,
+            knockbackResistance: 1.0,
+            elementalDamage: 1.0,
+            critChance: 0.05,
+            criticalDamage: 1.5,
+            evasion: 0.0,
+            thorns: 0.0,
+            knockback: 1.0,
+            hpRegen: 0.0,
+            lifeSteal: 0.0,
+            dashSpeed: 1.2
         },
         traits: [
             { text: 'ELEMENTAL', good: true },

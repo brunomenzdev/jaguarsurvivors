@@ -15,348 +15,342 @@
 </head>
 
 <body>
-    <div id="game-wrapper">
-        <div id="main-menu" class="overlay-screen active">
-            <div class="menu-background-effect"></div>
+    <div id="viewport">
+        <div id="game-wrapper">
+            <div id="game-container"></div>
+            <div id="hud-container">
+                <div id="main-menu" class="overlay-screen active">
+                    <div class="menu-background-effect"></div>
 
-            <div class="menu-content-wrapper">
-                <div class="menu-left-panel">
-                    <div class="logo-wrapper">
-                        <img src="src/assets/images/logo_small.png" alt="Jaguar Survivors" class="main-logo">
-                    </div>
-
-                    <div class="menu-nav">
-                        <button class="btn btn-premium" onclick="GameEvents.goToCharSelect()">
-                            <span class="btn-shine"></span>
-                            <span class="btn-label">INICIAR MISSÃO</span>
-                        </button>
-                        <button class="btn btn-premium secondary" onclick="GameEvents.goToShop()">
-                            <span class="btn-label">LOJA & UPGRADES</span>
-                        </button>
-                        <button class="btn btn-premium secondary" onclick="GameEvents.goToSettings()">
-                            <span class="btn-label">AJUSTES</span>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="menu-right-panel">
-                    <div class="controls-summary">
-                        <h3 class="controls-title">CONTROLES</h3>
-                        <div class="controls-grid">
-                            <div class="control-group">
-                                <div class="key-layout">
-                                    <div class="key">W</div>
-                                    <div class="key-row">
-                                        <div class="key">A</div>
-                                        <div class="key">S</div>
-                                        <div class="key">D</div>
-                                    </div>
-                                </div>
-                                <span class="control-label">MOVIMENTO</span>
+                    <div class="menu-content-wrapper">
+                        <div class="menu-left-panel">
+                            <div class="logo-wrapper">
+                                <img src="src/assets/images/logo_small.png" alt="Jaguar Survivors" class="main-logo">
                             </div>
 
-                            <div class="control-separator"></div>
-
-                            <div class="control-group">
-                                <div class="key-layout">
-                                    <div class="key-double-tap">
-                                        <div class="key-tap animate-tap">W</div>
-                                        <div class="key-tap animate-tap2">W</div>
-                                    </div>
-                                </div>
-                                <span class="control-label">DASH (TAP DUPLO)</span>
+                            <div class="menu-nav">
+                                <button class="btn btn-premium" onclick="GameEvents.goToCharSelect()">
+                                    <span class="btn-shine"></span>
+                                    <span class="btn-label">INICIAR MISSÃO</span>
+                                </button>
+                                <button class="btn btn-premium secondary" onclick="GameEvents.goToShop()">
+                                    <span class="btn-label">LOJA & UPGRADES</span>
+                                </button>
+                                <button class="btn btn-premium secondary" onclick="GameEvents.goToSettings()">
+                                    <span class="btn-label">AJUSTES</span>
+                                </button>
                             </div>
                         </div>
-                        <div class="controls-footer">
-                            Também suporta as Setas do teclado
+
+                        <div class="menu-right-panel">
+                            <div class="controls-summary">
+                                <h3 class="controls-title">CONTROLES</h3>
+                                <div class="controls-grid">
+                                    <div class="control-group">
+                                        <div class="key-layout">
+                                            <div class="key">W</div>
+                                            <div class="key-row">
+                                                <div class="key">A</div>
+                                                <div class="key">S</div>
+                                                <div class="key">D</div>
+                                            </div>
+                                        </div>
+                                        <span class="control-label">MOVIMENTO</span>
+                                    </div>
+
+                                    <div class="control-separator"></div>
+
+                                    <div class="control-group">
+                                        <div class="key-layout">
+                                            <div class="key-double-tap">
+                                                <div class="key-tap animate-tap">W</div>
+                                                <div class="key-tap animate-tap2">W</div>
+                                            </div>
+                                        </div>
+                                        <span class="control-label">DASH (TAP DUPLO)</span>
+                                    </div>
+                                </div>
+                                <div class="controls-footer">
+                                    Também suporta as Setas do teclado
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="meta-shop" class="overlay-screen">
+                    <h1>LOJA DE SUPRIMENTOS</h1>
+                    <div id="shop-header">
+                        <span id="shop-coins-display">Moedas: 0</span>
+                    </div>
+
+                    <div id="shop-container">
+                        <!-- Shop items injected via JS -->
+                    </div>
+
+                    <button class="btn" style="margin-top: 20px; background: #555;"
+                        onclick="GameEvents.goToMainMenu()">Voltar</button>
+                </div>
+
+                <div id="settings-menu" class="overlay-screen">
+                    <h1>CONFIGURAÇÕES</h1>
+
+                    <div class="settings-rows">
+                        <div class="setting-row">
+                            <label>Volume Principal</label>
+                            <input type="range" id="setting-volume" min="0" max="100" value="100"
+                                oninput="GameEvents.setVolume(this.value)">
+                        </div>
+                        <div class="setting-row">
+                            <label>Volume Música (BGM)</label>
+                            <input type="range" id="setting-volume-bgm" min="0" max="100" value="80"
+                                oninput="GameEvents.setBGMVolume(this.value)">
+                        </div>
+                        <div class="setting-row">
+                            <label>Volume Efeitos (SFX)</label>
+                            <input type="range" id="setting-volume-sfx" min="0" max="100" value="80"
+                                oninput="GameEvents.setSFXVolume(this.value)">
+                        </div>
+                        <div class="setting-row">
+                            <label>Tremor de Tela</label>
+                            <input type="checkbox" id="setting-shake" onchange="GameEvents.toggleShake()" checked>
+                        </div>
+                        <div class="setting-row">
+                            <label>Tela Cheia</label>
+                            <input type="checkbox" id="setting-fullscreen" onchange="GameEvents.toggleFullscreen()">
+                        </div>
+                    </div>
+                    <button class="btn" style="margin-top: 20px; background: #555;"
+                        onclick="GameEvents.goToMainMenu()">Voltar</button>
+                </div>
+
+                <div id="char-select" class="overlay-screen">
+                    <h1>QUEM VAI LIDERAR?</h1>
+                    <div id="char-container">
+                    </div>
+                    <button class="btn" style="background: #333; font-size: 18px; padding: 15px 40px;"
+                        onclick="GameEvents.goToMainMenu()">VOLTAR</button>
+                </div>
+
+                <div id="weapon-select" class="overlay-screen">
+                    <h1>ARSENAL DE COMBATE</h1>
+                    <div class="weapon-selection-layout">
+                        <div id="weapon-list-pane">
+                            <div id="weapon-container">
+                            </div>
+                        </div>
+                        <div id="weapon-detail-pane">
+                            <!-- Detalhes da arma selecionada -->
+                        </div>
+                    </div>
+                    <div class="selection-footer">
+                        <button class="btn" style="background: #333; font-size: 18px; padding: 15px 40px;"
+                            onclick="GameEvents.goToCharSelect()">VOLTAR</button>
+                    </div>
+                </div>
+
+                <div id="map-select" class="overlay-screen">
+                    <h1>ONDE SERÁ A BATALHA?</h1>
+                    <div id="map-container">
+                        <!-- Map cards injected via JS -->
+                    </div>
+                    <button class="btn" style="background: #555;" onclick="GameEvents.goToCharSelect()">Voltar</button>
+                </div>
+
+                <div id="game-over" class="overlay-screen result-screen">
+                    <div class="results-container glass-morphism">
+                        <h1 id="game-over-title">MISSÃO FALHOU</h1>
+
+                        <!-- Overall Stats -->
+                        <div class="stat-group stats-card">
+                            <h2 class="stat-main-title">TEMPO TOTAL: <span id="survival-time">00:00</span></h2>
+                            <div class="stat-line">INIMIGOS DERROTADOS: <span id="enemies-defeated"
+                                    class="stat-value">0</span>
+                            </div>
+                            <div class="stat-line">NÍVEL ALCANÇADO: <span id="final-level"
+                                    class="stat-value highlight-text">1</span></div>
+                        </div>
+
+                        <!-- Endless Mode Stats (Hidden by default) -->
+                        <div id="endless-mode-stats" class="stat-group stats-card endless-record"
+                            style="display: none;">
+                            <h2 class="endless-title">MODO ENDLESS ALCANÇADO</h2>
+                            <div class="stat-line">TEMPO EM ENDLESS: <span id="endless-survival-time"
+                                    class="stat-value highlight-text">00:00</span></div>
+                        </div>
+
+                        <div class="button-group-premium">
+                            <button class="btn btn-premium" onclick="GameEvents.goToCharSelect()">
+                                <span class="btn-label">TENTAR NOVAMENTE</span>
+                            </button>
+                            <button class="btn btn-premium secondary" onclick="GameEvents.goToMainMenu()">
+                                <span class="btn-label">MENU</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="map-completed" class="overlay-screen result-screen victory">
+                    <div class="results-container glass-morphism victory-card">
+                        <h1 class="victory-title pulse-victory">MAPA CONCLUÍDO</h1>
+                        <div class="victory-stats">
+                            <h2 class="victory-time-banner">TEMPO: <span id="final-survival-time">00:00</span></h2>
+                            <div class="stat-line level-display">
+                                NÍVEL ALCANÇADO: <span id="final-level-completed" class="highlight-text">1</span>
+                            </div>
+                        </div>
+
+                        <div class="button-group-premium">
+                            <button class="btn btn-premium" id="start-endless-mode">
+                                <span class="btn-label">INICIAR MODO ENDLESS</span>
+                            </button>
+                            <button class="btn btn-premium secondary" onclick="GameEvents.goToMainMenu()">
+                                <span class="btn-label">MENU</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="pause-screen" class="overlay-screen">
+                    <div class="pause-container">
+                        <div class="pause-header">
+                            <h1 class="pause-title">MISSÃO PAUSADA</h1>
+                        </div>
+
+                        <div class="pause-content">
+                            <!-- Left: Character Preview -->
+                            <div class="pause-char-section">
+                                <div class="pause-char-visual">
+                                    <img id="pause-char-img" src="" alt="Jaguar">
+                                </div>
+                                <h3 id="pause-char-name">NOME DO JAGUAR</h3>
+                            </div>
+
+                            <!-- Middle: Stats (Reuse Upgrade Stats Style) -->
+                            <div class="pause-stats-section">
+                                <div class="pause-section-title">STATUS DO JAGUAR</div>
+                                <div id="pause-stats-list" class="stats-list">
+                                    <!-- Stats entries injected here -->
+                                </div>
+                            </div>
+
+                            <!-- Right: Equipped Loadout -->
+                            <div class="pause-loadout-section">
+                                <div class="pause-section-title">EQUIPAMENTOS</div>
+                                <div class="loadout-group">
+                                    <h4>ARMAS</h4>
+                                    <div id="pause-weapons-grid" class="pause-grid"></div>
+                                </div>
+                                <div class="loadout-group">
+                                    <h4>ITENS</h4>
+                                    <div id="pause-items-grid" class="pause-grid"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pause-footer">
+                            <button class="btn btn-premium" onclick="GameEvents.resumeGame()">CONTINUAR</button>
+                            <button class="btn btn-premium secondary" onclick="GameEvents.goToMainMenu()">ABANDONAR
+                                MISSÃO</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="upgrade-screen" class="overlay-screen">
+                    <div class="upgrade-container">
+                        <div class="upgrade-header">
+                            <h1 class="upgrade-title">REFORÇO DISPONÍVEL</h1>
+                            <div class="level-badge">NÍVEL <span id="upgrade-level-num">1</span></div>
+                        </div>
+
+                        <div class="upgrade-main-layout">
+                            <div id="upgrade-options" class="upgrade-options-grid">
+                                <!-- Upgrades will be Injected here -->
+                            </div>
+
+                            <div class="player-stats-panel">
+                                <div id="upgrade-stats-list" class="stats-list">
+                                    <!-- Stats entries injected here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="game-ui" style="display: none;">
+                    <div id="game-timer">00:00</div>
+
+                    <!-- Standard UI (Waves) -->
+                    <div id="standard-ui">
+                        <div id="wave-info">
+                            <div class="info-item" id="wave-display">
+                                <div class="icon-box">🌊</div>
+                                <span>ONDA <span id="wave-count">1</span></span>
+                            </div>
+                            <div class="info-item" id="enemies-display">
+                                <div class="icon-box">👾</div>
+                                <span id="enemy-count">0</span>
+                            </div>
+                            <div class="info-item" id="kills-display">
+                                <div class="icon-box">💀</div>
+                                <span id="kill-count">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Endless UI (Premium) -->
+                    <div id="endless-ui" style="display: none;">
+                        <div id="endless-stats">
+                            <div class="endless-item skull-counter">
+                                <span class="label">ELIMINAÇÕES</span>
+                                <div class="value-container">
+                                    <span class="icon">💀</span>
+                                    <span id="endless-kill-count" class="value">0</span>
+                                </div>
+                            </div>
+                            <div class="endless-item danger-level">
+                                <span class="label">NÍVEL DE PERIGO</span>
+                                <div class="value-container">
+                                    <span class="icon">👑</span>
+                                    <span id="endless-danger-value" class="value">CRÍTICO</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="health-bar-container">
+                        <div id="health-bar-bg">
+                            <div id="health-bar-fill"></div>
+                            <div id="shield-bar-fill"></div>
+                            <div id="health-text">100/100</div>
+                        </div>
+                    </div>
+
+                    <div id="xp-bar-container">
+                        <div id="xp-bar-text">NÍVEL 1</div>
+                        <div id="xp-bar-bg">
+                            <div id="xp-bar-fill"></div>
+                        </div>
+                    </div>
+
+                    <!-- Active Buff Icons -->
+                    <div id="buff-indicators"></div>
+
+                    <!-- Damage Popups Container -->
+                    <div id="damage-container"></div>
+
+                    <!-- Wave Announcement Overlay -->
+                    <div id="wave-announcement" class="hidden">
+                        <div class="announcement-content">
+                            <div class="wave-number">ONDA 1</div>
+                            <div class="wave-name">NOME DA ONDA</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div id="meta-shop" class="overlay-screen">
-            <h1>LOJA DE SUPRIMENTOS</h1>
-            <div id="shop-header">
-                <span id="shop-coins-display">Moedas: 0</span>
-            </div>
-
-            <div id="shop-container">
-                <!-- Shop items injected via JS -->
-            </div>
-
-            <button class="btn" style="margin-top: 20px; background: #555;"
-                onclick="GameEvents.goToMainMenu()">Voltar</button>
-        </div>
-
-        <div id="settings-menu" class="overlay-screen">
-            <h1>CONFIGURAÇÕES</h1>
-
-            <div class="settings-rows">
-                <div class="setting-row">
-                    <label>Volume Principal</label>
-                    <input type="range" id="setting-volume" min="0" max="100" value="100"
-                        oninput="GameEvents.setVolume(this.value)">
-                </div>
-                <div class="setting-row">
-                    <label>Volume Música (BGM)</label>
-                    <input type="range" id="setting-volume-bgm" min="0" max="100" value="80"
-                        oninput="GameEvents.setBGMVolume(this.value)">
-                </div>
-                <div class="setting-row">
-                    <label>Volume Efeitos (SFX)</label>
-                    <input type="range" id="setting-volume-sfx" min="0" max="100" value="80"
-                        oninput="GameEvents.setSFXVolume(this.value)">
-                </div>
-                <div class="setting-row">
-                    <label>Tremor de Tela</label>
-                    <input type="checkbox" id="setting-shake" onchange="GameEvents.toggleShake()" checked>
-                </div>
-                <div class="setting-row">
-                    <label>Tela Cheia</label>
-                    <input type="checkbox" id="setting-fullscreen" onchange="GameEvents.toggleFullscreen()">
-                </div>
-                <div class="setting-row">
-                    <label>Resolução</label>
-                    <select id="setting-resolution" onchange="GameEvents.setResolution(this.value)">
-                        <option value="auto">Auto (Ajustar)</option>
-                        <option value="1280x720">1280 x 720</option>
-                        <option value="1600x900">1600 x 900</option>
-                        <option value="1920x1080">1920 x 1080</option>
-                        <option value="2560x1440">2560 x 1440</option>
-                    </select>
-                </div>
-            </div>
-
-            <button class="btn" style="margin-top: 20px; background: #555;"
-                onclick="GameEvents.goToMainMenu()">Voltar</button>
-        </div>
-
-        <div id="char-select" class="overlay-screen">
-            <h1>QUEM VAI LIDERAR?</h1>
-            <div id="char-container">
-            </div>
-            <button class="btn" style="background: #333; font-size: 18px; padding: 15px 40px;"
-                onclick="GameEvents.goToMainMenu()">VOLTAR</button>
-        </div>
-
-        <div id="weapon-select" class="overlay-screen">
-            <h1>ARSENAL DE COMBATE</h1>
-            <div class="weapon-selection-layout">
-                <div id="weapon-list-pane">
-                    <div id="weapon-container">
-                    </div>
-                </div>
-                <div id="weapon-detail-pane">
-                    <!-- Detalhes da arma selecionada -->
-                </div>
-            </div>
-            <div class="selection-footer">
-                <button class="btn" style="background: #333; font-size: 18px; padding: 15px 40px;"
-                    onclick="GameEvents.goToCharSelect()">VOLTAR</button>
-            </div>
-        </div>
-
-        <div id="map-select" class="overlay-screen">
-            <h1>ONDE SERÁ A BATALHA?</h1>
-            <div id="map-container">
-                <!-- Map cards injected via JS -->
-            </div>
-            <button class="btn" style="background: #555;" onclick="GameEvents.goToCharSelect()">Voltar</button>
-        </div>
-
-        <div id="game-over" class="overlay-screen result-screen">
-            <div class="results-container glass-morphism">
-                <h1 id="game-over-title">MISSÃO FALHOU</h1>
-
-                <!-- Overall Stats -->
-                <div class="stat-group stats-card">
-                    <h2 class="stat-main-title">TEMPO TOTAL: <span id="survival-time">00:00</span></h2>
-                    <div class="stat-line">INIMIGOS DERROTADOS: <span id="enemies-defeated" class="stat-value">0</span>
-                    </div>
-                    <div class="stat-line">NÍVEL ALCANÇADO: <span id="final-level"
-                            class="stat-value highlight-text">1</span></div>
-                </div>
-
-                <!-- Endless Mode Stats (Hidden by default) -->
-                <div id="endless-mode-stats" class="stat-group stats-card endless-record" style="display: none;">
-                    <h2 class="endless-title">MODO ENDLESS ALCANÇADO</h2>
-                    <div class="stat-line">TEMPO EM ENDLESS: <span id="endless-survival-time"
-                            class="stat-value highlight-text">00:00</span></div>
-                </div>
-
-                <div class="button-group-premium">
-                    <button class="btn btn-premium" onclick="GameEvents.goToCharSelect()">
-                        <span class="btn-label">TENTAR NOVAMENTE</span>
-                    </button>
-                    <button class="btn btn-premium secondary" onclick="GameEvents.goToMainMenu()">
-                        <span class="btn-label">MENU</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-
-        <div id="map-completed" class="overlay-screen result-screen victory">
-            <div class="results-container glass-morphism victory-card">
-                <h1 class="victory-title pulse-victory">MAPA CONCLUÍDO</h1>
-                <div class="victory-stats">
-                    <h2 class="victory-time-banner">TEMPO: <span id="final-survival-time">00:00</span></h2>
-                    <div class="stat-line level-display">
-                        NÍVEL ALCANÇADO: <span id="final-level-completed" class="highlight-text">1</span>
-                    </div>
-                </div>
-
-                <div class="button-group-premium">
-                    <button class="btn btn-premium" id="start-endless-mode">
-                        <span class="btn-label">INICIAR MODO ENDLESS</span>
-                    </button>
-                    <button class="btn btn-premium secondary" onclick="GameEvents.goToMainMenu()">
-                        <span class="btn-label">MENU</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-
-        <div id="pause-screen" class="overlay-screen">
-            <div class="pause-container">
-                <div class="pause-header">
-                    <h1 class="pause-title">MISSÃO PAUSADA</h1>
-                </div>
-
-                <div class="pause-content">
-                    <!-- Left: Character Preview -->
-                    <div class="pause-char-section">
-                        <div class="pause-char-visual">
-                            <img id="pause-char-img" src="" alt="Jaguar">
-                        </div>
-                        <h3 id="pause-char-name">NOME DO JAGUAR</h3>
-                    </div>
-
-                    <!-- Middle: Stats (Reuse Upgrade Stats Style) -->
-                    <div class="pause-stats-section">
-                        <div class="pause-section-title">STATUS DO JAGUAR</div>
-                        <div id="pause-stats-list" class="stats-list">
-                            <!-- Stats entries injected here -->
-                        </div>
-                    </div>
-
-                    <!-- Right: Equipped Loadout -->
-                    <div class="pause-loadout-section">
-                        <div class="pause-section-title">EQUIPAMENTOS</div>
-                        <div class="loadout-group">
-                            <h4>ARMAS</h4>
-                            <div id="pause-weapons-grid" class="pause-grid"></div>
-                        </div>
-                        <div class="loadout-group">
-                            <h4>ITENS</h4>
-                            <div id="pause-items-grid" class="pause-grid"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pause-footer">
-                    <button class="btn btn-premium" onclick="GameEvents.resumeGame()">CONTINUAR</button>
-                    <button class="btn btn-premium secondary" onclick="GameEvents.goToMainMenu()">ABANDONAR
-                        MISSÃO</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="upgrade-screen" class="overlay-screen">
-            <div class="upgrade-container">
-                <div class="upgrade-header">
-                    <h1 class="upgrade-title">REFORÇO DISPONÍVEL</h1>
-                    <div class="level-badge">NÍVEL <span id="upgrade-level-num">1</span></div>
-                </div>
-
-                <div class="upgrade-main-layout">
-                    <div id="upgrade-options" class="upgrade-options-grid">
-                        <!-- Upgrades will be Injected here -->
-                    </div>
-
-                    <div class="player-stats-panel">
-                        <div id="upgrade-stats-list" class="stats-list">
-                            <!-- Stats entries injected here -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="game-ui" style="display: none;">
-            <div id="game-timer">00:00</div>
-
-            <!-- Standard UI (Waves) -->
-            <div id="standard-ui">
-                <div id="wave-info">
-                    <div class="info-item" id="wave-display">
-                        <div class="icon-box">🌊</div>
-                        <span>ONDA <span id="wave-count">1</span></span>
-                    </div>
-                    <div class="info-item" id="enemies-display">
-                        <div class="icon-box">👾</div>
-                        <span id="enemy-count">0</span>
-                    </div>
-                    <div class="info-item" id="kills-display">
-                        <div class="icon-box">💀</div>
-                        <span id="kill-count">0</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Endless UI (Premium) -->
-            <div id="endless-ui" style="display: none;">
-                <div id="endless-stats">
-                    <div class="endless-item skull-counter">
-                        <span class="label">ELIMINAÇÕES</span>
-                        <div class="value-container">
-                            <span class="icon">💀</span>
-                            <span id="endless-kill-count" class="value">0</span>
-                        </div>
-                    </div>
-                    <div class="endless-item danger-level">
-                        <span class="label">NÍVEL DE PERIGO</span>
-                        <div class="value-container">
-                            <span class="icon">👑</span>
-                            <span id="endless-danger-value" class="value">CRÍTICO</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="health-bar-container">
-                <div id="health-bar-bg">
-                    <div id="health-bar-fill"></div>
-                    <div id="shield-bar-fill"></div>
-                    <div id="health-text">100/100</div>
-                </div>
-            </div>
-
-            <div id="xp-bar-container">
-                <div id="xp-bar-text">NÍVEL 1</div>
-                <div id="xp-bar-bg">
-                    <div id="xp-bar-fill"></div>
-                </div>
-            </div>
-
-            <!-- Active Buff Icons -->
-            <div id="buff-indicators"></div>
-
-            <!-- Damage Popups Container -->
-            <div id="damage-container"></div>
-
-            <!-- Wave Announcement Overlay -->
-            <div id="wave-announcement" class="hidden">
-                <div class="announcement-content">
-                    <div class="wave-number">ONDA 1</div>
-                    <div class="wave-name">NOME DA ONDA</div>
-                </div>
-            </div>
-        </div>
-
-        <div id="game-container"></div>
     </div>
 
     <script type="module" src="src/main.js"></script>

@@ -208,7 +208,6 @@ export const GameEvents = {
         document.getElementById('setting-volume-sfx').value = (s.sfxVolume ?? 0.8) * 100;
         document.getElementById('setting-shake').checked = s.screenShake;
         document.getElementById('setting-fullscreen').checked = !!s.fullscreen;
-        document.getElementById('setting-resolution').value = s.resolution || 'auto';
     },
 
     setVolume: (val) => {
@@ -257,66 +256,39 @@ export const GameEvents = {
     },
 
     toggleFullscreen: () => {
-        const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
+        const bootScene = GameEvents.gameInstance?.scene.getScene('BootScene');
         if (bootScene) bootScene.events.emit('ui-click');
 
-        const isFullscreen = !GameEvents.saveManager.data.settings.fullscreen;
-        GameEvents.saveManager.data.settings.fullscreen = isFullscreen;
-        GameEvents.saveManager.save();
+        const el = document.getElementById('viewport');
+        if (!el) return;
 
-        if (isFullscreen) {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-                    GameEvents.saveManager.data.settings.fullscreen = false;
-                    GameEvents.saveManager.save();
-                    document.getElementById('setting-fullscreen').checked = false;
-                });
-            }
+        if (!document.fullscreenElement) {
+            el.requestFullscreen().catch(err => {
+                console.error(`Fullscreen error: ${err.message}`);
+            });
         } else {
-            if (document.fullscreenElement) {
-                document.exitFullscreen();
-            }
+            document.exitFullscreen();
         }
-        GameEvents.updateResolution();
-    },
-
-    setResolution: (val) => {
-        const bootScene = GameEvents.gameInstance.scene.getScene('BootScene');
-        if (bootScene) bootScene.events.emit('ui-click');
-
-        GameEvents.saveManager.data.settings.resolution = val;
-        GameEvents.saveManager.save();
-        GameEvents.updateResolution();
     },
 
     updateResolution: () => {
+        const viewport = document.getElementById('viewport');
         const wrapper = document.getElementById('game-wrapper');
-        const targetWidth = 1280;
-        const targetHeight = 720;
-        const windowWidth = window.innerWidth;
-        const windowHeight = window.innerHeight;
 
-        const resSetting = GameEvents.saveManager.data.settings.resolution || 'auto';
+        if (!viewport || !wrapper) return;
 
-        let scale;
-        if (resSetting === 'auto' || document.fullscreenElement) {
-            const scaleX = windowWidth / targetWidth;
-            const scaleY = windowHeight / targetHeight;
-            scale = Math.min(scaleX, scaleY);
-        } else {
-            const [w, h] = resSetting.split('x').map(Number);
-            scale = w / targetWidth;
+        const baseWidth = 1280;
+        const baseHeight = 720;
 
-            // Check if it fits in window, if not, fallback to auto scale
-            if (w > windowWidth || h > windowHeight) {
-                const scaleX = windowWidth / targetWidth;
-                const scaleY = windowHeight / targetHeight;
-                scale = Math.min(scaleX, scaleY);
-            }
-        }
+        const scaleX = viewport.clientWidth / baseWidth;
+        const scaleY = viewport.clientHeight / baseHeight;
 
-        wrapper.style.transform = `scale(${scale})`;
+        const scale = Math.min(scaleX, scaleY);
+
+        const offsetX = (viewport.clientWidth - baseWidth * scale) / 2;
+        const offsetY = (viewport.clientHeight - baseHeight * scale) / 2;
+
+        wrapper.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
     },
 
     generateWeaponSelection: () => {
@@ -428,7 +400,7 @@ export const GameEvents = {
         const charContainer = document.getElementById('char-container');
         charContainer.innerHTML = '';
 
-        const unlocked = GameEvents.saveManager?.data?.unlockedChars || CONFIG.player.map(p => p.key);
+        const unlocked = CONFIG.player.map(p => p.key);
 
         CONFIG.player.forEach((char) => {
             const isUnlocked = unlocked.includes(char.key);
@@ -520,18 +492,22 @@ window.onload = () => {
 
     GameEvents.generateCharacterSelection();
 
-    // Listen for resize and fullscreen changes
+    // Listen for resize
     window.addEventListener('resize', GameEvents.updateResolution);
+
+    // Fullscreen change listener
     document.addEventListener('fullscreenchange', () => {
-        if (!document.fullscreenElement) {
+        if (document.fullscreenElement) {
+            GameEvents.saveManager.data.settings.fullscreen = true;
+        } else {
             GameEvents.saveManager.data.settings.fullscreen = false;
-            GameEvents.saveManager.save();
-            const checkbox = document.getElementById('setting-fullscreen');
-            if (checkbox) checkbox.checked = false;
         }
+        GameEvents.saveManager.save();
+        const checkbox = document.getElementById('setting-fullscreen');
+        if (checkbox) checkbox.checked = !!document.fullscreenElement;
         GameEvents.updateResolution();
     });
 
-    // Initial scale
+    // Initial scaling
     GameEvents.updateResolution();
 };

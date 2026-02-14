@@ -5,13 +5,18 @@
     user-select: none;
 }
 
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: black;
+}
+
 body {
     background: #0d0d0d;
-    /* Fundo da página fora do jogo */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    height: 100%;
     font-family: 'Roboto', sans-serif;
     overflow: hidden;
 }

@@ -103,7 +103,7 @@ export const mapsConfig = [
         music: 'cinematic2',
         waves: [
             { interval: 3000, enemiesPerWave: 2, enemyTypes: ['enemy_centrao'], totalEnemies: 20, bossPerWave: 0, spawnDistance: 700, maxOnScreen: 50 },
-            { interval: 2500, enemiesPerWave: 3, enemyTypes: ['enemy_centrao', 'enemy_common_2'], totalEnemies: 40, bossPerWave: 0, spawnDistance: 700, maxOnScreen: 50 },
+            { interval: 2500, enemiesPerWave: 3, enemyTypes: ['enemy_centrao'], totalEnemies: 40, bossPerWave: 0, spawnDistance: 700, maxOnScreen: 50 },
             { interval: 2000, enemiesPerWave: 3, enemyTypes: ['enemy_centrao', 'enemy_politico', 'enemy_elite_congresso_1'], totalEnemies: 50, bossPerWave: 1, spawnDistance: 700, maxOnScreen: 50 },
             { interval: 1500, enemiesPerWave: 4, enemyTypes: ['enemy_politico', 'enemy_common_2', 'enemy_elite_congresso_3'], totalEnemies: 60, bossPerWave: 0, spawnDistance: 700, maxOnScreen: 50 },
             { interval: 1000, enemiesPerWave: 5, enemyTypes: ['enemy_politico', 'enemy_centrao', 'enemy_elite_congresso_2'], totalEnemies: 80, bossPerWave: 1, spawnDistance: 700, maxOnScreen: 50 },
