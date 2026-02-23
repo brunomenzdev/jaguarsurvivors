@@ -33,7 +33,7 @@ export const pickupsConfig = {
             color: 0x00FF00,
             scale: 1.0,
             spriteKey: 'pickup_cure',
-            image: 'src/assets/images/pickup_cure.png',
+            image: 'assets/images/pickup_cure.png',
             shape: 'square',
             effect: 'heal',
             value: 0.2
@@ -42,7 +42,7 @@ export const pickupsConfig = {
             color: 0x0000FF,
             scale: 1.0,
             spriteKey: 'pickup_ima',
-            image: 'src/assets/images/pickup_ima.png',
+            image: 'assets/images/pickup_ima.png',
             shape: 'circle',
             effect: 'magnet'
         },
@@ -50,7 +50,7 @@ export const pickupsConfig = {
             color: 0x00FFFF,
             scale: 1.0,
             spriteKey: 'pickup_speedboots',
-            image: 'src/assets/images/pickup_speedboots.png',
+            image: 'assets/images/pickup_speedboots.png',
             shape: 'circle',
             effect: 'speed_boost',
             value: 0.5,
@@ -60,7 +60,7 @@ export const pickupsConfig = {
             color: 0xFF0000,
             scale: 1.0,
             spriteKey: 'pickup_bomb',
-            image: 'src/assets/images/pickup_bomb.png',
+            image: 'assets/images/pickup_bomb.png',
             shape: 'star',
             effect: 'bomb'
         },
@@ -68,7 +68,7 @@ export const pickupsConfig = {
             color: 0xFFD700,
             scale: 0.8,
             spriteKey: 'pickup_coin',
-            image: 'src/assets/images/pickup_coin.png',
+            image: 'assets/images/pickup_coin.png',
             shape: 'circle',
             effect: 'coin',
             value: 1
@@ -77,7 +77,7 @@ export const pickupsConfig = {
             color: 0x00AAFF,
             scale: 1.0,
             spriteKey: 'pickup_shield',
-            image: 'src/assets/images/pickup_shield.png',
+            image: 'assets/images/pickup_shield.png',
             shape: 'circle',
             effect: 'shield',
             duration: 8000,   // 8 seconds
@@ -87,7 +87,7 @@ export const pickupsConfig = {
             color: 0xFF4400,
             scale: 1.0,
             spriteKey: 'pickup_rage_orb',
-            image: 'src/assets/images/pickup_rage_orb.png',
+            image: 'assets/images/pickup_rage_orb.png',
             shape: 'circle',
             effect: 'rage',
             duration: 6000,   // 6 seconds
@@ -97,7 +97,7 @@ export const pickupsConfig = {
             color: 0x8800FF,
             scale: 1.0,
             spriteKey: 'pickup_ice',
-            image: 'src/assets/images/pickup_ice.png',
+            image: 'assets/images/pickup_ice.png',
             shape: 'circle',
             effect: 'time_freeze',
             duration: 4000    // 4 seconds

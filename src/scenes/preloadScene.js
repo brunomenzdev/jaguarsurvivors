@@ -79,7 +79,7 @@ export class PreloadScene extends Phaser.Scene {
         if (BASE_CONFIG.legendary) {
             BASE_CONFIG.legendary.forEach(legendary => {
                 if (legendary.sprite) {
-                    this.load.image(legendary.sprite, `src/assets/images/${legendary.sprite}.png`);
+                    this.load.image(legendary.sprite, `assets/images/${legendary.sprite}.png`);
                 }
             });
         }

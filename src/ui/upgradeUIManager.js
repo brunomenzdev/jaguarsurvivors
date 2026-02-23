@@ -70,7 +70,7 @@ export class UpgradeUIManager {
         const iconContainer = document.createElement('div');
         iconContainer.className = 'upgrade-icon';
         if (upgrade.spriteKey) {
-            iconContainer.style.backgroundImage = `url(src/assets/images/${upgrade.spriteKey}.png)`;
+            iconContainer.style.backgroundImage = `url(assets/images/${upgrade.spriteKey}.png)`;
         } else {
             iconContainer.innerText = upgrade.icon || '⭐';
         }
