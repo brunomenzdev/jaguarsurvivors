@@ -6,7 +6,7 @@ export const weaponsConfig = [
         name: 'Espada',
         description: 'Ataques fortes e equilibrados',
         type: 'melee',
-        image: 'src/assets/images/weapon_sword.png',
+        image: 'assets/images/weapon_sword.png',
         slotType: 'primary',
 
         baseStats: {
@@ -50,7 +50,7 @@ export const weaponsConfig = [
         name: 'Katana',
         description: 'Velocidade letal',
         type: 'melee',
-        image: 'src/assets/images/weapon_katana.png',
+        image: 'assets/images/weapon_katana.png',
         slotType: 'primary',
 
         baseStats: {
@@ -94,7 +94,7 @@ export const weaponsConfig = [
         name: 'Martelo Brasileiro',
         description: 'Impacto devastador em área',
         type: 'melee',
-        image: 'src/assets/images/weapon_hammer.png',
+        image: 'assets/images/weapon_hammer.png',
         slotType: 'primary',
 
         baseStats: {
@@ -140,7 +140,7 @@ export const weaponsConfig = [
         name: 'Lança',
         description: 'Dano letal com alcance',
         type: 'melee',
-        image: 'src/assets/images/weapon_spear.png',
+        image: 'assets/images/weapon_spear.png',
         slotType: 'primary',
 
         baseStats: {
@@ -187,7 +187,7 @@ export const weaponsConfig = [
         enabled: false,
         description: 'Dano brutal e knockback massivo',
         type: 'melee',
-        image: 'src/assets/images/weapon_axe.png',
+        image: 'assets/images/weapon_axe.png',
         slotType: 'primary',
 
         baseStats: {
@@ -233,7 +233,7 @@ export const weaponsConfig = [
         enabled: false,
         description: 'Força bruta e destruição',
         type: 'melee',
-        image: 'src/assets/images/weapon_mace.png',
+        image: 'assets/images/weapon_mace.png',
         slotType: 'primary',
 
         baseStats: {
@@ -278,7 +278,7 @@ export const weaponsConfig = [
         enabled: false,
         description: 'Controle elemental com congelamento',
         type: 'melee',
-        image: 'src/assets/images/weapon_magic_staff.png',
+        image: 'assets/images/weapon_magic_staff.png',
         slotType: 'primary',
 
         baseStats: {
@@ -323,7 +323,7 @@ export const weaponsConfig = [
         enabled: false,
         description: 'Dano contínuo com queimadura',
         type: 'melee',
-        image: 'src/assets/images/weapon_flame_sword.png',
+        image: 'assets/images/weapon_flame_sword.png',
         slotType: 'primary',
 
         baseStats: {
@@ -368,7 +368,7 @@ export const weaponsConfig = [
         name: 'Arma Laser',
         description: 'Rajadas rápidas de energia',
         type: 'ranged',
-        image: 'src/assets/images/weapon_laser_gun.png',
+        image: 'assets/images/weapon_laser_gun.png',
         slotType: 'primary',
 
         baseStats: {
@@ -413,7 +413,7 @@ export const weaponsConfig = [
         name: 'Rifle',
         description: 'Tiros precisos de longo alcance',
         type: 'ranged',
-        image: 'src/assets/images/weapon_rifle.png',
+        image: 'assets/images/weapon_rifle.png',
         slotType: 'primary',
 
         baseStats: {
@@ -459,7 +459,7 @@ export const weaponsConfig = [
     //     key: 'weapon_handbag',
     //     name: 'Mala de Dinheiro',
     //     type: 'trail',
-    //     image: 'src/assets/images/weapon_handbag.png',
+    //     image: 'assets/images/weapon_handbag.png',
     //     slotType: 'secondary',
 
     //     baseStats: {
@@ -509,7 +509,7 @@ export const weaponsConfig = [
         key: 'weapon_fire_glass',
         name: 'Rastro de Fogo',
         type: 'trail',
-        image: 'src/assets/images/weapon_fire_glass.png',
+        image: 'assets/images/weapon_fire_glass.png',
         slotType: 'secondary',
 
         baseStats: {
@@ -559,7 +559,7 @@ export const weaponsConfig = [
         key: 'weapon_poison_glass',
         name: 'Rastro Tóxico',
         type: 'trail',
-        image: 'src/assets/images/weapon_poison_glass.png',
+        image: 'assets/images/weapon_poison_glass.png',
         slotType: 'secondary',
 
         baseStats: {
@@ -609,7 +609,7 @@ export const weaponsConfig = [
         key: 'weapon_clt',
         name: 'Carteira de Trabalho',
         type: 'orbital',
-        image: 'src/assets/images/weapon_clt.png',
+        image: 'assets/images/weapon_clt.png',
         slotType: 'secondary',
 
         baseStats: {

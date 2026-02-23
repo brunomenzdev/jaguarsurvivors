@@ -13,22 +13,22 @@ export const xpConfig = {
     gems: [
         {
             key: 'xp_gem',
-            image: 'src/assets/images/xp_small.png',
+            image: 'assets/images/xp_small.png',
             gemValue: 10
         },
         {
             key: 'xp_gem_medium',
-            image: 'src/assets/images/xp_medium.png',
+            image: 'assets/images/xp_medium.png',
             gemValue: 20
         },
         {
             key: 'xp_gem_big',
-            image: 'src/assets/images/xp_big.png',
+            image: 'assets/images/xp_big.png',
             gemValue: 30
         },
         {
             key: 'xp_gem_huge',
-            image: 'src/assets/images/xp_huge.png',
+            image: 'assets/images/xp_huge.png',
             gemValue: 50
         }
     ]

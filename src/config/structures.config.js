@@ -12,7 +12,7 @@ export const structuresConfig = {
         structure_barricada: {
             key: 'structure_barricada',
             spriteKey: 'structure_barricada',
-            image: 'src/assets/images/structure/structure_barricada.png',
+            image: 'assets/images/structure/structure_barricada.png',
             maxHp: 100,
             solid: true,
             hitboxScale: 0.9,
@@ -21,7 +21,7 @@ export const structuresConfig = {
         structure_barricada_grande: {
             key: 'structure_barricada_grande',
             spriteKey: 'structure_barricada_grande',
-            image: 'src/assets/images/structure/structure_barricada_grande.png',
+            image: 'assets/images/structure/structure_barricada_grande.png',
             maxHp: 200,
             solid: true,
             hitboxScale: 0.9,
@@ -30,7 +30,7 @@ export const structuresConfig = {
         structure_barricada_grande2: {
             key: 'structure_barricada_grande2',
             spriteKey: 'structure_barricada_grande2',
-            image: 'src/assets/images/structure/structure_barricada_grande2.png',
+            image: 'assets/images/structure/structure_barricada_grande2.png',
             maxHp: 200,
             solid: true,
             hitboxScale: 0.9,
@@ -39,7 +39,7 @@ export const structuresConfig = {
         structure_barricada2: {
             key: 'structure_barricada2',
             spriteKey: 'structure_barricada2',
-            image: 'src/assets/images/structure/structure_barricada2.png',
+            image: 'assets/images/structure/structure_barricada2.png',
             maxHp: 100,
             solid: true,
             hitboxScale: 0.9,
@@ -48,7 +48,7 @@ export const structuresConfig = {
         structure_cone: {
             key: 'structure_cone',
             spriteKey: 'structure_cone',
-            image: 'src/assets/images/structure/structure_cone.png',
+            image: 'assets/images/structure/structure_cone.png',
             maxHp: 60,
             solid: true,
             hitboxScale: 0.8,
@@ -57,7 +57,7 @@ export const structuresConfig = {
         structure_paredao: {
             key: 'structure_paredao',
             spriteKey: 'structure_paredao',
-            image: 'src/assets/images/structure/structure_som.png',
+            image: 'assets/images/structure/structure_som.png',
             maxHp: 250,
             solid: true,
             hitboxScale: 0.9,

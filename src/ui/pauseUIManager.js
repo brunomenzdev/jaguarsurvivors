@@ -90,7 +90,7 @@ export class PauseUIManager {
 
             if (weapons[i]) {
                 const img = document.createElement('img');
-                img.src = `src/assets/images/${weapons[i]}.png`;
+                img.src = `assets/images/${weapons[i]}.png`;
                 slot.appendChild(img);
 
                 // Try to get level
@@ -129,7 +129,7 @@ export class PauseUIManager {
                 const itemConfig = CONFIG.equipableItems.find(it => it.id === id);
 
                 const img = document.createElement('img');
-                img.src = `src/assets/images/${itemConfig?.spriteKey || 'pickup_bomb'}.png`;
+                img.src = `assets/images/${itemConfig?.spriteKey || 'pickup_bomb'}.png`;
                 slot.appendChild(img);
 
                 const levelDisplay = document.createElement('div');

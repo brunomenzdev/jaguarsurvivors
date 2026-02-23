@@ -11,7 +11,7 @@ export const equipableItemsConfig = [
         id: 'item_medalha',
         name: 'Medalha de Honra',
         spriteKey: 'item_medalha',
-        image: 'src/assets/images/item_medalha.png',
+        image: 'assets/images/item_medalha.png',
         desc: '+20% Move Speed por nível',
         maxLevel: 5,
         levelEffects: [
@@ -22,7 +22,7 @@ export const equipableItemsConfig = [
         id: 'item_luva',
         name: 'Luva do Brasil',
         spriteKey: 'item_luva',
-        image: 'src/assets/images/item_luva.png',
+        image: 'assets/images/item_luva.png',
         desc: '+30% Empurrão por nível',
         maxLevel: 5,
         levelEffects: [
@@ -33,7 +33,7 @@ export const equipableItemsConfig = [
         id: 'item_coroa',
         name: 'Coroa Imperial',
         spriteKey: 'item_coroa',
-        image: 'src/assets/images/item_coroa.png',
+        image: 'assets/images/item_coroa.png',
         desc: '+20% Dano Crítico por nível',
         maxLevel: 5,
         levelEffects: [
@@ -44,7 +44,7 @@ export const equipableItemsConfig = [
         id: 'item_oculos',
         name: 'Óculos do Futuro',
         spriteKey: 'item_oculos',
-        image: 'src/assets/images/item_oculos.png',
+        image: 'assets/images/item_oculos.png',
         desc: '+15% Chance Crítico por nível',
         maxLevel: 5,
         levelEffects: [
@@ -55,7 +55,7 @@ export const equipableItemsConfig = [
         id: 'item_toga',
         name: 'Toga do STF',
         spriteKey: 'item_toga',
-        image: 'src/assets/images/item_toga.png',
+        image: 'assets/images/item_toga.png',
         desc: '+25% HP Máximo por nível',
         maxLevel: 5,
         levelEffects: [
@@ -66,7 +66,7 @@ export const equipableItemsConfig = [
         id: 'item_terno_centrao',
         name: 'Terno do Centrão',
         spriteKey: 'item_terno_centrao',
-        image: 'src/assets/images/item_terno_centrao.png',
+        image: 'assets/images/item_terno_centrao.png',
         desc: '+1.0 HP Regen por nível',
         maxLevel: 5,
         levelEffects: [
@@ -77,7 +77,7 @@ export const equipableItemsConfig = [
         id: 'item_garra',
         name: 'Garra de Jaguar',
         spriteKey: 'item_garra',
-        image: 'src/assets/images/item_garra.png',
+        image: 'assets/images/item_garra.png',
         desc: '+5% Life Steal por nível',
         maxLevel: 5,
         levelEffects: [
@@ -88,7 +88,7 @@ export const equipableItemsConfig = [
         id: 'item_bandeira_missao',
         name: 'Bandeira de Missão',
         spriteKey: 'item_bandeira_missao',
-        image: 'src/assets/images/item_bandeira_missao.png',
+        image: 'assets/images/item_bandeira_missao.png',
         desc: '-25% Recarga Dash por nível',
         maxLevel: 5,
         levelEffects: [
@@ -99,7 +99,7 @@ export const equipableItemsConfig = [
         id: 'item_corrente',
         name: 'Corrente de Ouro',
         spriteKey: 'item_corrente',
-        image: 'src/assets/images/item_corrente.png',
+        image: 'assets/images/item_corrente.png',
         desc: '+10 Espinhos por nível',
         maxLevel: 5,
         levelEffects: [
@@ -110,7 +110,7 @@ export const equipableItemsConfig = [
         id: 'item_soco_ingles',
         name: 'Soco Inglês',
         spriteKey: 'item_soco_ingles',
-        image: 'src/assets/images/item_soco_ingles.png',
+        image: 'assets/images/item_soco_ingles.png',
         desc: '+15% Dano por nível',
         maxLevel: 5,
         levelEffects: [
@@ -121,7 +121,7 @@ export const equipableItemsConfig = [
         id: 'item_cinto',
         name: 'Cinto da Missão',
         spriteKey: 'item_cinto',
-        image: 'src/assets/images/item_cinto.png',
+        image: 'assets/images/item_cinto.png',
         desc: '+40 Raio de Coleta por nível',
         maxLevel: 5,
         levelEffects: [
@@ -132,7 +132,7 @@ export const equipableItemsConfig = [
         id: 'item_boots',
         name: 'Botas Voadoras',
         spriteKey: 'item_boots',
-        image: 'src/assets/images/item_boots.png',
+        image: 'assets/images/item_boots.png',
         desc: '+25% Move Speed por nível',
         maxLevel: 5,
         levelEffects: [
@@ -143,7 +143,7 @@ export const equipableItemsConfig = [
         id: 'item_bracelete',
         name: 'Bracelete de Força',
         spriteKey: 'item_bracelete',
-        image: 'src/assets/images/item_bracelete.png',
+        image: 'assets/images/item_bracelete.png',
         desc: '+25% Vel. Ataque por nível',
         maxLevel: 5,
         levelEffects: [

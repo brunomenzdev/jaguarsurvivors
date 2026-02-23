@@ -114,7 +114,7 @@ export class LoadoutUIManager {
 
 
         const img = document.createElement('img');
-        img.src = 'src/assets/images/pickup_bomb.png';
+        img.src = 'assets/images/pickup_bomb.png';
         img.style.display = 'none';
 
         const level = document.createElement('div');
@@ -171,7 +171,7 @@ export class LoadoutUIManager {
 
         if (!slotToFill) return;
 
-        slotToFill.img.src = `src/assets/images/${key}.png`;
+        slotToFill.img.src = `assets/images/${key}.png`;
         slotToFill.img.style.display = 'block';
         slotToFill.level.innerText = '1';
         slotToFill.isEmpty = false;
@@ -198,7 +198,7 @@ export class LoadoutUIManager {
         if (!slot) return;
 
         const item = CONFIG.equipableItems.find(i => i.id === id);
-        slot.img.src = `src/assets/images/${item?.spriteKey || 'pickup_bomb'}.png`;
+        slot.img.src = `assets/images/${item?.spriteKey || 'pickup_bomb'}.png`;
         slot.img.style.display = 'block';
         slot.level.innerText = '1';
         slot.isEmpty = false;
@@ -228,7 +228,7 @@ export class LoadoutUIManager {
         }
 
         // Fill the slot with the legendary
-        emptySlot.img.src = `src/assets/images/${config.sprite || config.id}.png`;
+        emptySlot.img.src = `assets/images/${config.sprite || config.id}.png`;
         emptySlot.img.style.display = 'block';
         emptySlot.img.alt = config.name;
 

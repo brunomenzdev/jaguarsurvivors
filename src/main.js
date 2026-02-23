@@ -1,9 +1,13 @@
+import 'phaser';
 import { PreloadScene } from './scenes/preloadScene.js';
 import { BootScene } from './scenes/bootScene.js';
 import { GameScene } from './scenes/gameScene.js';
 import { CONFIG } from './config/config.js';
 import { SaveManager } from './managers/saveManager.js';
 import { AchievementManager } from './managers/achievementManager.js';
+
+// Attach Phaser to window for backward compatibility with global script usage
+window.Phaser = Phaser;
 
 export const GameEvents = {
     gameInstance: null,
@@ -317,7 +321,7 @@ export const GameEvents = {
             let typeName = weapon.type === 'melee' ? 'CORPO A CORPO' : (weapon.type === 'ranged' ? 'À DISTÂNCIA' : 'RASTRO');
 
             miniCard.innerHTML = `
-                <img src="${weapon.image}" onerror="this.src='src/assets/images/weapon_sword.png'">
+                <img src="${weapon.image}" onerror="this.src='assets/images/weapon_sword.png'">
                 <div class="mini-info">
                     <h4>${weapon.name} ${!isEnabled ? '<span class="beta-tag">(BETA)</span>' : ''}</h4>
                     <span class="mini-type">${emoji} ${typeName}</span>
@@ -362,7 +366,7 @@ export const GameEvents = {
             <div class="detail-header">
                 <div class="detail-visual-bg"></div>
                 <div class="detail-visual">
-                    <img src="${weapon.image}" onerror="this.src='src/assets/images/weapon_sword.png'">
+                    <img src="${weapon.image}" onerror="this.src='assets/images/weapon_sword.png'">
                 </div>
             </div>
             <div class="detail-info">

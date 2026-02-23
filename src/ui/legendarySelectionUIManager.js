@@ -71,7 +71,7 @@ export class LegendarySelectionUIManager {
 
         // Use sprite if available, otherwise use emoji
         if (reward.sprite) {
-            iconContainer.style.backgroundImage = `url(src/assets/images/${reward.sprite}.png)`;
+            iconContainer.style.backgroundImage = `url(assets/images/${reward.sprite}.png)`;
         } else {
             iconContainer.innerHTML = `<span class="legendary-emoji">${reward.icon || '⭐'}</span>`;
         }

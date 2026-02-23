@@ -11,8 +11,8 @@ export const mapsConfig = [
         name: 'Favela',
         description: 'A desfavelização do Brasil.',
         background: {
-            inner: 'src/assets/images/bg_favela.png',
-            outside: 'src/assets/images/bg_favela_outside.png'
+            inner: 'assets/images/bg_favela.png',
+            outside: 'assets/images/bg_favela_outside.png'
         },
         allowedStructures: ['structure_barricada', 'structure_barricada_grande', 'structure_barricada_grande2', 'structure_barricada2', 'structure_cone', 'structure_paredao'],
         music: 'cinematic1',
@@ -96,8 +96,8 @@ export const mapsConfig = [
         enabled: false,
         description: 'A luta contra o centrão.',
         background: {
-            inner: 'src/assets/images/bg_congresso.png',
-            outside: 'src/assets/images/bg_congresso_outside.png'
+            inner: 'assets/images/bg_congresso.png',
+            outside: 'assets/images/bg_congresso_outside.png'
         },
         allowedStructures: ['barrel_explosive', 'structure_rock_2'],
         music: 'cinematic2',
@@ -122,8 +122,8 @@ export const mapsConfig = [
         enabled: false,
         description: 'A desalienação do povo.',
         background: {
-            inner: 'src/assets/images/bg_avenida.png',
-            outside: 'src/assets/images/bg_avenida_outside.png'
+            inner: 'assets/images/bg_avenida.png',
+            outside: 'assets/images/bg_avenida_outside.png'
         },
         allowedStructures: ['crate_wood', 'barrel_explosive'],
         music: 'cinematic3',
@@ -148,8 +148,8 @@ export const mapsConfig = [
         enabled: false,
         description: 'A doutrinação do povo.',
         background: {
-            inner: 'src/assets/images/bg_avenida.png',
-            outside: 'src/assets/images/bg_avenida_outside.png'
+            inner: 'assets/images/bg_avenida.png',
+            outside: 'assets/images/bg_avenida_outside.png'
         },
         allowedStructures: ['structure_crystal'],
         music: 'cinematic4',
